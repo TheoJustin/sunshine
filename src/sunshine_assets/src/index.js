@@ -1,4 +1,4 @@
-import { sunshine } from "../../declarations/sunshine";
+import { sunshine_backend } from "../../declarations/sunshine_backend";
 
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -9,7 +9,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
   button.setAttribute("disabled", true);
 
   // Interact with foo actor, calling the greet method
-  const greeting = await sunshine.greet(name);
+  const greeting = await sunshine_backend.greet(name);
 
   button.removeAttribute("disabled");
 

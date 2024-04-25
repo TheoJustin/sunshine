@@ -1,12 +1,12 @@
 {
   "canisters": {
-    "sunshine": {
+    "sunshine_backend": {
       "main": "src/sunshine/main.mo",
       "type": "motoko"
     },
-    "sunshine_assets": {
+    "sunshine_frontend": {
       "dependencies": [
-        "sunshine"
+        "sunshine_backend"
       ],
       "frontend": {
         "entrypoint": "src/sunshine_assets/src/index.html"
