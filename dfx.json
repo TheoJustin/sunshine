@@ -1,0 +1,33 @@
+{
+  "canisters": {
+    "sunshine_backend": {
+      "main": "src/sunshine_backend/main.mo",
+      "type": "motoko"
+    },
+    "sunshine_frontend": {
+      "dependencies": [
+        "sunshine_backend"
+      ],
+      "source": [
+        "src/sunshine_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "sunshine_frontend"
+    }
+  },
+  "defaults": {
+    "bitcoin": {
+      "enabled": true,
+      "log_level": "info",
+      "nodes": [
+        "127.0.0.1:18444"
+      ]
+    },
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
