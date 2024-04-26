@@ -1,80 +1,49 @@
 import { useState } from 'react';
+import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom";
 import { sunshine_backend } from 'declarations/sunshine_backend';
-import { canisterId } from "../../../declarations/HireVerse_frontend";
+import HomePage from './pages/HomePage';
+import LandingPage from './pages/LandingPage';
+import AboutPage from './pages/AboutPage';
 
-function canisterInjector(url) {
-    return `${url}?canisterId=${canisterId}`;
-}
-
-const fonts = [
+const routes = [
   {
-      fontFamily: "Bebas Neue",
-      src: `url(${canisterInjector("/fonts/Bebas_Neue/BebasNeue-Regular.ttf")}) format("truetype")`,
+    path: "/",
+    element: <LandingPage />,
   },
   {
-      fontFamily: "Lato",
-      src: `url(${canisterInjector("/fonts/Lato/Lato-Regular.ttf")}) format("truetype")`,
+    path: "/home",
+    element: <HomePage />,
   },
   {
-      fontFamily: "Lato",
-      fontWeight: "bold",
-      src: `url(${canisterInjector("/fonts/Lato/Lato-Bold.ttf")}) format("truetype")`,
-  },
-  {
-      fontFamily: "Lato",
-      fontWeight: 300,
-      src: `url(${canisterInjector("/fonts/Lato/Lato-Light.ttf")}) format("truetype")`,
-  },
-  {
-      fontFamily: "Lato",
-      fontWeight: 400,
-      src: `url(${canisterInjector("/fonts/Lato/Lato-Regular.ttf")}) format("truetype")`,
+    path: "/about",
+    element: <AboutPage />,
   },
 ];
 
-const fontLoader = () => {
-  for (const font of fonts) {
-      const style = document.createElement("style");
-      style.innerHTML = `
-          @font-face {
-              font-family: '${font.fontFamily}';
-              src: ${font.src};
-              font-weight: ${font.fontWeight || 400};
-              font-style: normal;
-          }
-      `;
-      document.head.appendChild(style);
-  }
-};
+const activeStyle = ({ isActive }) => ({
+  color: isActive ? 'red' : 'blue',
+  textDecoration: isActive ? 'none' : 'underline'
+});
+
+
 
 function App() {
   const [greeting, setGreeting] = useState('');
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    sunshine_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
-
-  useLayoutEffect(() => {
-    fontLoader();
-  }, []);
-
   return (
-    <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-    </main>
+    <BrowserRouter>
+      <main>
+        <nav>
+          <NavLink style={activeStyle} to="/home">Home</NavLink> | 
+          <NavLink style={activeStyle} to="/about">About</NavLink> | 
+        </nav>
+        <Routes>
+          {routes.map((route, index) => (
+            <Route key={index} path={route.path} element={route.element} />
+          ))}
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 }
 

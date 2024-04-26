@@ -14,5 +14,11 @@
   "type": "module",
   "workspaces": [
     "src/sunshine_frontend"
-  ]
+  ],
+  "dependencies": {
+    "react-router-dom": "^6.23.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.3"
+  }
 }
