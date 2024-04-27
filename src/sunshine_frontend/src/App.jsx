@@ -6,8 +6,8 @@ import LandingPage from "./pages/LandingPage";
 import AboutPage from "./pages/AboutPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import Navbar from "./components/navbar";
 import NotFoundPage from "./pages/NotFoundPage";
+import Navbar from "./components/Navbar";
 
 const routes = [
   {
@@ -45,7 +45,7 @@ function App() {
   return (
     <BrowserRouter>
       <main>
-        <Navbar/>
+        {/* <Navbar/> */}
         <Routes>
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />
