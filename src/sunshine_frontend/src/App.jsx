@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom";
-import { sunshine_backend } from 'declarations/sunshine_backend';
-import HomePage from './pages/HomePage';
-import LandingPage from './pages/LandingPage';
-import AboutPage from './pages/AboutPage';
+import { sunshine_backend } from "declarations/sunshine_backend";
+import HomePage from "./pages/HomePage";
+import LandingPage from "./pages/LandingPage";
+import AboutPage from "./pages/AboutPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import Navbar from "./components/navbar";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const routes = [
   {
@@ -18,25 +22,30 @@ const routes = [
     path: "/about",
     element: <AboutPage />,
   },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
 ];
 
 const activeStyle = ({ isActive }) => ({
-  color: isActive ? 'red' : 'blue',
-  textDecoration: isActive ? 'none' : 'underline'
+  color: isActive ? "red" : "blue",
+  textDecoration: isActive ? "none" : "underline",
 });
 
-
-
 function App() {
-  const [greeting, setGreeting] = useState('');
-
   return (
     <BrowserRouter>
       <main>
-        <nav>
-          <NavLink style={activeStyle} to="/home">Home</NavLink> | 
-          <NavLink style={activeStyle} to="/about">About</NavLink> | 
-        </nav>
+        <Navbar/>
         <Routes>
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />
