@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Navbar from "./components/Navbar";
+import ChatPage from "./pages/ChatPage";
 
 const routes = [
   {
@@ -34,6 +35,10 @@ const routes = [
     path: "*",
     element: <NotFoundPage />,
   },
+  {
+    path: "/chat",
+    element: <ChatPage />,
+  },
 ];
 
 const activeStyle = ({ isActive }) => ({
@@ -46,6 +51,7 @@ function App() {
     <BrowserRouter>
       <main>
         {/* <Navbar/> */}
+        <Navbar/>
         <Routes>
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />
