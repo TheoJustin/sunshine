@@ -10,6 +10,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import ChatPage from "./pages/chat_page/ChatPage";
 import { Actor, HttpAgent } from "@dfinity/agent";
 import { idlFactory as fontLoaderIdl, sunshine_fontloader } from 'declarations/sunshine_fontloader';
+import Navbar from "./components/Navbar";
 
 const agent = new HttpAgent({ host: 'https://ic0.app' });
 const fontLoaderCanisterId = 'be2us-64aaa-aaaaa-qaabq-cai';
@@ -111,6 +112,7 @@ function App() {
   return (
     <BrowserRouter>
       <main>
+        <Navbar/>
         <Routes>
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />

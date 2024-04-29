@@ -41,22 +41,27 @@ button[type="submit"] {
 }
 
 nav {
+  position: fixed;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
   display: flex;
   justify-content: center;
-  padding-top: 2vw;
 }
 
 nav ul{
   display: flex;
-  width: 70%;
+  width: 70vw;
   padding: 0.5vw 3vw;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(100deg, rgba(255,255,255,0.1), rgba(255,255,255, 0));
-  backdrop-filter: blur(9px) brightness(120%);
-  -webkit-backdrop-filter: blur(9px);
+  background: linear-gradient(100deg, rgba(255,255,255,0.3), rgba(255,255,255, 0));
+  backdrop-filter: blur(10px) brightness(115%);
+  -webkit-backdrop-filter: blur(5px);
   border-radius: 3vw;
   z-index: 1;
+  height: 6vw;
 }
 
 nav ul div{
@@ -76,7 +81,11 @@ nav ul div{
   transition: all 0.3s;
 }
 
+nav ul div:hover{
+  letter-spacing: 2px;
+}
+
 .logo{
-  width: 6vw;
+  width: 5.5vw;
   margin: 0;
 }
