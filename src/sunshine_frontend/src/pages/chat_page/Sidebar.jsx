@@ -8,7 +8,7 @@ export default function Sidebar() {
   return (
     <>
       {/* The left nav */}
-      <div className="flex flex-col justify-between h-screen w-24 py-3 bg-gray-800">
+      <div className="flex flex-col justify-between h-screen w-[7%] py-3 bg-gray-800">
         <div>
           <img className="w-16" src={logoImg} alt="" />
           {/* icons */}
