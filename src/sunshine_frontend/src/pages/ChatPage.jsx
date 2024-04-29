@@ -2,6 +2,10 @@ import React from 'react'
 
 export default function ChatPage() {
   return (
-    <div>ChatPage</div>
+    <>
+        <div>ChatPage</div>
+
+        <div>halo chat</div>
+    </>
   )
 }
