@@ -39,3 +39,44 @@ button[type="submit"] {
 #greeting:empty {
   display: none;
 }
+
+nav {
+  display: flex;
+  justify-content: center;
+  padding-top: 2vw;
+}
+
+nav ul{
+  display: flex;
+  width: 70%;
+  padding: 0.5vw 3vw;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(100deg, rgba(255,255,255,0.1), rgba(255,255,255, 0));
+  backdrop-filter: blur(9px) brightness(120%);
+  -webkit-backdrop-filter: blur(9px);
+  border-radius: 3vw;
+  z-index: 1;
+}
+
+nav ul div{
+  width: 11vw;
+  text-align: center;
+  align-items: center;
+  padding: 0vw 1.7vw;
+  border-radius: 1vw;
+  transition: all 0.3s;
+}
+
+.navIndicator{
+  position: absolute;
+  background-color: #ff9f1c;
+  z-index: -1 ;
+  box-shadow: 0 0 15px #ff9f1c;
+  transition: all 0.3s;
+}
+
+.logo{
+  width: 6vw;
+  margin: 0;
+}
