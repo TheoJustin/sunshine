@@ -7,7 +7,7 @@ import AboutPage from "./pages/AboutPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import ChatPage from "./pages/ChatPage";
+import ChatPage from "./pages/chat_page/ChatPage";
 
 const routes = [
   {

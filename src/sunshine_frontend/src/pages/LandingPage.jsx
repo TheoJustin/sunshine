@@ -1,9 +1,10 @@
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
+
 
 function LandingPage(){
     return (
         <>
-            <Navbar/>
+            <Navbar />
             <h2>Landing Page</h2>
             <p className="text-blue-600">The quick brown fox...</p>
         </>
