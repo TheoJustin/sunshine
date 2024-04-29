@@ -8,7 +8,9 @@ function LandingPage() {
       <Navbar />
       <h2 className="">Landing Page</h2>
       <p className="text-blue-600">The quick brown fox...</p>
-
+      <p style={{ fontFamily: 'Product Sans', fontSize: '18px' }}>
+        This is a test paragraph using Product Sans Regular.
+      </p>
       <div className="flex flex-row">
         <div className="m-5">
           <PhotoTilt />

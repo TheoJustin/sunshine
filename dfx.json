@@ -4,6 +4,10 @@
       "main": "src/sunshine_backend/main.mo",
       "type": "motoko"
     },
+    "sunshine_fontloader": {
+      "main": "src/sunshine_fontloader/main.mo",
+      "type": "motoko"
+    },
     "sunshine_frontend": {
       "dependencies": [
         "sunshine_backend"

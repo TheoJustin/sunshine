@@ -1,7 +1,5 @@
-import { sunshine_fontloader } from 'declarations/fontLoader';
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom";
-import { sunshine_backend } from "declarations/sunshine_backend";
 import './index.css';
 import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
@@ -10,6 +8,12 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ChatPage from "./pages/chat_page/ChatPage";
+import { Actor, HttpAgent } from "@dfinity/agent";
+import { idlFactory as fontLoaderIdl, sunshine_fontloader } from 'declarations/sunshine_fontloader';
+
+const agent = new HttpAgent({ host: 'https://ic0.app' });
+const fontLoaderCanisterId = 'be2us-64aaa-aaaaa-qaabq-cai';
+const fontLoader = Actor.createActor(fontLoaderIdl, { agent, canisterId: fontLoaderCanisterId });
 
 const routes = [
   {
@@ -28,60 +32,15 @@ const routes = [
     path: "/register",
     element: <RegisterPage />,
   },
-  {
-    path: "*",
-    element: <NotFoundPage />,
-  },
+  // {
+  //   path: "*",
+  //   element: <NotFoundPage />,
+  // },
   {
     path: "/chat",
     element: <ChatPage />,
   },
 ];
-
-useEffect(() => {
-  const uploadFonts = async () => {
-      try {
-          const fontsFolder = '/fonts';
-          const fontFiles = await fetch(fontsFolder).then(response => response.json());
-
-          // Iterate through each font file
-          for (const fontFile of fontFiles) {
-              const fontName = fontFile.name.replace(/\.[^/.]+$/, ''); // Extract font name without extension
-              const fontData = await fetch(`${fontsFolder}/${fontFile.name}`).then(response => response.blob());
-              await sunshine_fontloader.uploadFont(fontName, fontData);
-              console.log('Font uploaded successfully:', fontName);
-          }
-      } catch (error) {
-          console.error('Failed to upload fonts:', error);
-      }
-  };
-  uploadFonts();
-
-  const loadFonts = async () => {
-    try {
-        // Get the list of font names from the font loader
-        // const fontNames = /* Call a function to get the list of font names */;
-        
-        // Generate CSS rules for each font
-        const fontStyles = fontNames.map(fontName => `
-            @font-face {
-                font-family: '${fontName}';
-                src: local('${fontName}'), url('/fonts/${fontName}.woff2') format('woff2'), url('/fonts/${fontName}.woff') format('woff');
-                /* Add more font formats if needed */
-            }
-        `).join('\n');
-        
-        // Append the generated CSS rules to the document's style element
-        const styleElement = document.createElement('style');
-        styleElement.innerHTML = fontStyles;
-        document.head.appendChild(styleElement);
-    } catch (error) {
-        console.error('Failed to load fonts:', error);
-    }
-  };
-
-  loadFonts();
-}, []);
 
 const activeStyle = ({ isActive }) => ({
   color: isActive ? "red" : "blue",
@@ -89,6 +48,66 @@ const activeStyle = ({ isActive }) => ({
 });
 
 function App() {
+  useEffect(() => {
+    const uploadFonts = async () => {
+      try {
+        const fontsFolder = '/fonts';
+        const fontFileNames = ['Product_Sans_Bold.ttf', 'Product_Sans_Italic.ttf', 'Product_Sans_Bold_Italic.ttf', 'Product_Sans_Regular.ttf'];
+    
+        for (const fontFileName of fontFileNames) {
+          const fontName = fontFileName.replace(/\.[^/.]+$/, '');
+          const fontDataResponse = await fetch(`${fontsFolder}/${fontFileName}`);
+          const fontArrayBuffer = await fontDataResponse.arrayBuffer();
+          const fontData = new Blob([new Uint8Array(fontArrayBuffer)]);
+          
+          await sunshine_fontloader.uploadFont(fontName, fontData);
+          console.log('Font uploaded successfully:', fontName);
+        }
+      } catch (error) {
+        console.error('Failed to upload fonts:', error);
+      }
+    };
+    
+
+    const loadFonts = async () => {
+      try {
+        const fontNames = await sunshine_fontloader.getFontName();  // Assuming getFontName is available
+        const fontStyles = fontNames.map(fontName => {
+          let fontWeight = 'normal';
+          let fontStyle = 'normal';
+
+          if (fontName.includes('Bold') && fontName.includes('Italic')) {
+            fontWeight = 'bold';
+            fontStyle = 'italic';
+          } else if (fontName.includes('Bold')) {
+            fontWeight = 'bold';
+          } else if (fontName.includes('Italic')) {
+            fontStyle = 'italic';
+          }
+
+          const fontFamily = 'Product Sans'; // Simplify the family name for CSS
+
+          return `
+            @font-face {
+              font-family: '${fontFamily}';
+              src: local('${fontName}'), url('/fonts/${fontName}.ttf') format('truetype');
+              font-style: ${fontStyle};
+              font-weight: ${fontWeight};
+            }
+          `;
+        }).join('\n');
+
+        const styleElement = document.createElement('style');
+        styleElement.innerHTML = fontStyles;
+        document.head.appendChild(styleElement);
+      } catch (error) {
+        console.error('Failed to load fonts:', error);
+      }
+    };
+
+    uploadFonts().then(loadFonts);
+  }, []);
+
   return (
     <BrowserRouter>
       <main>
