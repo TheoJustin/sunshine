@@ -41,7 +41,6 @@ button[type="submit"] {
 }
 
 nav {
-  /* position: fixed; */
   display: flex;
   justify-content: center;
   padding-top: 2vw;

@@ -185,7 +185,6 @@ function Navbar(){
     setSquareStyle(activeSquareStyle(window.location.pathname));
   }
 
-
   return (
     // <BrowserRouter>
     //   <main>

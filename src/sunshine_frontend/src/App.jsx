@@ -50,8 +50,7 @@ function App() {
   return (
     <BrowserRouter>
       <main>
-        {/* <Navbar/> */}
-        <Navbar/>
+        <Navbar />
         <Routes>
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />
