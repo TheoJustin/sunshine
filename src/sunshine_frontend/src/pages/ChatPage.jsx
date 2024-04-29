@@ -6,6 +6,7 @@ export default function ChatPage() {
         <div>ChatPage</div>
 
         <div>halo chat</div>
+        <div>ChatPage bekas gw edit misalnya</div>
     </>
   )
 }
