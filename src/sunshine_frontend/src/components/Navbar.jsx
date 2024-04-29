@@ -192,7 +192,7 @@ function Navbar(){
         <nav>
           <ul>
             <div>
-              <NavLink style={activeStyle}  to="/home" onClick={refreshSquare} >Home</NavLink>
+              <NavLink style={activeStyle}  to="/" onClick={refreshSquare} >Home</NavLink>
             </div>
             <div>
               <NavLink style={activeStyle} to="/about"  onClick={refreshSquare} >About</NavLink> 

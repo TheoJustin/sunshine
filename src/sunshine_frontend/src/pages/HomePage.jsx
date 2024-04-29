@@ -1,11 +1,14 @@
-import MainTemplate from "../template/MainTemplate";
+import Navbar from "../components/navbar";
 
 function HomePage(){
     return (
-        <MainTemplate>
+        <>
+            <Navbar/>
             <h1>Home Page</h1>
             <h2>Halo Semuanya</h2>
-        </MainTemplate>
+
+            
+        </>
     )
 }
 

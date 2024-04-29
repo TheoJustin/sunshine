@@ -7,17 +7,12 @@ import AboutPage from "./pages/AboutPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import Navbar from "./components/Navbar";
 import ChatPage from "./pages/ChatPage";
 
 const routes = [
   {
     path: "/",
     element: <LandingPage />,
-  },
-  {
-    path: "/home",
-    element: <HomePage />,
   },
   {
     path: "/about",
@@ -50,7 +45,6 @@ function App() {
   return (
     <BrowserRouter>
       <main>
-        <Navbar />
         <Routes>
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />

@@ -1,11 +1,12 @@
-import MainTemplate from "../template/MainTemplate";
+import Navbar from "../components/navbar";
 
 function LandingPage(){
     return (
-        <MainTemplate>
+        <>
+            <Navbar/>
             <h2>Landing Page</h2>
             <p className="text-blue-600">The quick brown fox...</p>
-        </MainTemplate>
+        </>
     )
 }
 
