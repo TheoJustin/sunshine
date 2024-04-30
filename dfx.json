@@ -1,5 +1,22 @@
 {
   "canisters": {
+    "internet_identity": {
+      "type": "custom",
+      "candid": "https://github.com/dfinity/internet-identity/releases/download/release-2024-02-26/internet_identity.did",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/download/release-2024-02-26/internet_identity_dev.wasm.gz",
+      "remote": {
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      }
+    },
+    "sunshine_whoami": {
+      "main": "src/sunshine_whoami/main.mo",
+      "type": "motoko",
+      "declarations": {
+        "node_compatibility": true
+      }
+    },
     "sunshine_backend": {
       "main": "src/sunshine_backend/main.mo",
       "type": "motoko"
@@ -10,7 +27,7 @@
     },
     "sunshine_frontend": {
       "dependencies": [
-        "sunshine_backend"
+        "sunshine_backend", "sunshine_whoami", "sunshine_fontloader", "internet_identity"
       ],
       "source": [
         "src/sunshine_frontend/dist"

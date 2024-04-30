@@ -12,9 +12,9 @@ import { Actor, HttpAgent } from "@dfinity/agent";
 import { idlFactory as fontLoaderIdl, sunshine_fontloader } from 'declarations/sunshine_fontloader';
 import Navbar from "./components/Navbar";
 
-const agent = new HttpAgent({ host: 'https://ic0.app' });
-const fontLoaderCanisterId = 'be2us-64aaa-aaaaa-qaabq-cai';
-const fontLoader = Actor.createActor(fontLoaderIdl, { agent, canisterId: fontLoaderCanisterId });
+// const agent = new HttpAgent({ host: 'https://ic0.app' });
+// const fontLoaderCanisterId = 'be2us-64aaa-aaaaa-qaabq-cai';
+// const fontLoader = Actor.createActor(fontLoaderIdl, { agent, canisterId: fontLoaderCanisterId });
 
 const routes = [
   {
@@ -108,6 +108,7 @@ function App() {
 
   //   uploadFonts().then(loadFonts);
   // }, []);
+
 
   return (
     <BrowserRouter>
