@@ -17,9 +17,10 @@ const activeSquareStyle = (pathname) => ({
 });
 
 const navStyle = (pathname) => ({
-  display: pathname == '/chat' ? 'none' : 'flex'
+  display: pageWithoutNavbar.includes(pathname) ? 'none' : 'flex'
 })
 
+const pageWithoutNavbar = ['/chat', '/friend']
 
 function Navbar() {
   const [squareStyle, setSquareStyle] = useState(activeSquareStyle('/home'));

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function SidebarIcon({ icon }) {
+export default function SidebarIcon({ icon, onClick }) {
   const [active, setActive] = useState(false);
 
   return (
@@ -8,6 +8,7 @@ export default function SidebarIcon({ icon }) {
       className="relative flex justify-center place-content-center w-full h-12 mt-5 cursor-pointer"
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
+      onClick={onClick}
     >
       <Hover active={active} />
       <div>{icon}</div>
@@ -23,3 +24,4 @@ function Hover({ active }) {
     ></div>
   );
 }
+

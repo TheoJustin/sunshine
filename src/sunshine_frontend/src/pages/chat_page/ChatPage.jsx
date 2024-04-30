@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import FriendList from "./FriendList";
+import ChatPageTemplate from "../../templates/ChatPageTemplate";
 
 export default function ChatPage() {
-  const [active, setActive] = useState("");
   return (
-    <>
-      <div className="flex w-screen h-screen bg-yellow-50">
-        <Sidebar setActive={setActive}/>
-        <FriendList />
-      </div>
-    </>
+    <ChatPageTemplate>
+      <FriendList />
+    </ChatPageTemplate>
   );
 }
