@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ChatPage from "./pages/chat_page/ChatPage";
+import FriendPage from "./pages/chat_page/FriendPage";
 import { Actor, HttpAgent } from "@dfinity/agent";
 import { idlFactory as fontLoaderIdl, sunshine_fontloader } from 'declarations/sunshine_fontloader';
 import Navbar from "./components/Navbar";
@@ -40,6 +41,10 @@ const routes = [
   {
     path: "/chat",
     element: <ChatPage />,
+  },
+  {
+    path: "/friend",
+    element: <FriendPage />,
   },
 ];
 
