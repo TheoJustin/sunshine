@@ -4,11 +4,11 @@ import { UserIcon } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
 import SidebarIcon from "./SidebarIcon";
 
-export default function Sidebar() {
+export default function Sidebar({ setActive }) {
   return (
     <>
       {/* The left nav */}
-      <div className="flex flex-col justify-between h-screen w-[7%] py-3 bg-gray-800">
+      <div className="flex flex-col justify-between h-screen w-[6%] py-3 bg-gray-800">
         <div>
           <img className="w-16" src={logoImg} alt="" />
           {/* icons */}
