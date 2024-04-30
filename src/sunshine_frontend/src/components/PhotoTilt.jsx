@@ -33,7 +33,7 @@ export default function PhotoTilt() {
           transformStyle: 'preserve-3d',
           transition: 'transform 0.2s'
         }}>
-          <img src={logo} alt="Sunshine Logo" />
+          <img src={logo} className='w-48' alt="Sunshine Logo" />
       </pre>
     </div>
   );
