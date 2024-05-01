@@ -1,4 +1,4 @@
-import WavyBackground from "../components/background/WavyBackground";
+
 import { useAuth, AuthProvider } from "./../use-auth-client";
 import LoggedIn from "../components/login/LoggedIn";
 import LoggedOut from "../components/login/LoggedOut";

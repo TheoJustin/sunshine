@@ -13,8 +13,6 @@ import parallax6 from "../../../../assets/parallax/parallax-6.png";
 import parallax7 from "../../../../assets/parallax/parallax-7.png";
 import parallax8 from "../../../../assets/parallax/parallax-8.png";
 import sun1 from "../../../../assets/parallax/sun-1.png";
-import { MacbookScroll } from '../components/Macbook';
-import logo from "../../../../assets/motoko.jpg"
 
 // style for parallax images
 const imageStyle = ({
@@ -96,7 +94,10 @@ function LandingPage() {
                       <div className="animate-slide-in-left p-4 pl-8 text-3xl">Feature 3</div>
                     </div>
                   </div>
+
+                  
                 </ParallaxLayer>
+
                 
                 {/* 3rd part include sliding animation + footer? */}
                 <ParallaxLayer offset={1} speed={3.5} factor={1}  style={{ 
@@ -124,6 +125,7 @@ function LandingPage() {
                   marginTop: '-31rem'
                   }}>
                 </ParallaxLayer>
+
                 <ParallaxLayer offset={1} speed={3} factor={1} className='border' style={{ 
                   backgroundColor: '#FFFFFF',
                   marginTop: '-26rem'
@@ -132,12 +134,7 @@ function LandingPage() {
                 </ParallaxLayer>
             </Parallax>
 
-            <MacbookScroll
-              src={logo}
-              showGradient={true}
-              title="Sunshine"
-              badge={<span>Badge Text</span>}
-            />
+            
     </>
   );
 }
