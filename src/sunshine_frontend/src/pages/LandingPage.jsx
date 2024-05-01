@@ -13,6 +13,8 @@ import parallax6 from "../../../../assets/parallax/parallax-6.png";
 import parallax7 from "../../../../assets/parallax/parallax-7.png";
 import parallax8 from "../../../../assets/parallax/parallax-8.png";
 import sun1 from "../../../../assets/parallax/sun-1.png";
+import { MacbookScroll } from '../components/Macbook';
+import logo from "../../../../assets/motoko.jpg"
 
 // style for parallax images
 const imageStyle = ({
@@ -129,6 +131,13 @@ function LandingPage() {
                     Footer
                 </ParallaxLayer>
             </Parallax>
+
+            <MacbookScroll
+              src={logo}
+              showGradient={true}
+              title="Sunshine"
+              badge={<span>Badge Text</span>}
+            />
     </>
   );
 }
