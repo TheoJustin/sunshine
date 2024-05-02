@@ -15,6 +15,9 @@ export default {
       animation: {
         'slide-in-left': 'slideInLeft 2.5s forwards',
       },
+      fontFamily: {
+        'productsans': ['ProductSans', 'sans-serif']
+      },
       keyframes: {
         slideInLeft: {
           '0%': {

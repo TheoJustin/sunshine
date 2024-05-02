@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom";
 import './index.css';
+import './fonts.css';
 import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
 import AboutPage from "./pages/AboutPage";
