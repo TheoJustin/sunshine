@@ -23,6 +23,7 @@ You can see the following documentation available online:
 To get it running, you can follow these instructions :
 Go to visual studio code, create a new folder, and view terminal.
 
+```
 Make Sure to have Git installed.
 > git clone https://github.com/TheoJustin/sunshine.git
 
@@ -38,3 +39,4 @@ DFX Version : dfx 0.19.0
 > dfx start
 > dfx deploy
 > npm start
+```
