@@ -1,4 +1,4 @@
-# sunshine
+# Sunshine
 
 Sunshine is a project made by Internet Computer (With the use of Motoko Programming Language). By Sunshine is a chat app that is made to have chats between users and integrating it with internet identity. Sunshine can also provide you to make bitcoin transactions using bitcoin regtest. Not only that, the chat system allows you to play games with others and have fun!
 
