@@ -39,7 +39,7 @@ function Navbar() {
       <nav style={navStyle(locationName)}>
         <ul>
           <div>
-            <NavLink style={activeStyle} to="/" onClick={refreshSquare} >Home</NavLink>
+            <NavLink style={activeStyle} to="/" onClick={refreshSquare} className="font-productsans font-normal">Home</NavLink>
           </div>
           <div>
             <NavLink style={activeStyle} to="/about" onClick={refreshSquare} >About</NavLink>

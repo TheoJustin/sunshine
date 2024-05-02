@@ -18,7 +18,7 @@ function AboutPage() {
         waveOpacity={0.6} // Wave opacity
       >
         <div style={{ backgroundColor: '#2EC4B6' }} className="container mx-auto py-12 px-4 rounded-lg">
-          <h1 className="text-3xl font-bold mb-6">Our Members</h1>
+          <h1 className="text-3xl font-bold mb-6 font-productsans">Our Members</h1>
           <p className="text-lg text-gray-700 mb-8">Meet our team members who contributed to this project.</p>
           
           {/* Cards Section */}
