@@ -44,7 +44,7 @@ export default function Sidebar() {
     <>
       <div className="flex flex-col justify-between h-screen w-[6%] py-3 bg-gray-800">
         <div>
-          <img className="w-16" src={logoImg} alt="" />
+          <img className="w-16 cursor-pointer" src={logoImg} alt="logo" onClick={() => {navigate(`/`)}} />
           {/* icons */}
           <div className="flex-col place-content-center justify-center mt-16 gap-5">
             <SidebarIcon
