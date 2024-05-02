@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../use-auth-client";
+
+import { sunshine_backend } from "../../../../declarations/sunshine_backend"
 
 
 const whoamiStyles = {
@@ -8,9 +10,15 @@ const whoamiStyles = {
 };
 
 function LoggedIn() {
-  const [result, setResult] = React.useState("");
-
+  const [result, setResult] = useState("");
+  const [name, setName] = useState("");
+  const [dob, setDOB] = useState("");
   const { whoamiActor, logout } = useAuth();
+  
+  function handleRegister(){
+    console.log(name);
+    sunshine_backend.tryFuzz();
+  }
 
   const handleClick = async () => {
     const whoami = await whoamiActor.whoami();
@@ -42,6 +50,19 @@ function LoggedIn() {
       <button id="logout" onClick={logout}>
         log out
       </button>
+      <div>
+        <div id="regisForm">
+          <label htmlFor="username">Name: </label>
+          <input id="username" type="text" onChange={(event) => setName(event.target.value)}/>
+          <label htmlFor="dob">Date of Birth: </label>
+          <input id="dob"  type="date" onChange={(event) => setName(event.target.value)}/>
+          <label htmlFor="email">E-mail Address: </label>
+          <input id="email"  type="email" />
+          <button onClick={handleRegister}>
+            Add Data
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
