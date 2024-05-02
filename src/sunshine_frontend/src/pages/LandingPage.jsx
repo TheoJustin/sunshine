@@ -1,6 +1,7 @@
 import React from 'react';
 import PhotoTilt from "../components/PhotoTilt";
 import Navbar from "../components/Navbar";
+import Feature from '../components/Feature';
 import { Parallax, ParallaxLayer } from "@react-spring/parallax";
 import { Typewriter } from "react-simple-typewriter";
 import homeBackgroundSky from "../../../../assets/parallax/background_home_sky.png";
@@ -17,8 +18,6 @@ import sun1 from "../../../../assets/parallax/sun-1.png";
 // style for parallax images
 const imageStyle = ({
   width: '100%',
-  // height: '100%',
-  // objectFit: 'cover'
 })
 
 
@@ -33,7 +32,7 @@ function LandingPage() {
                     objectFit: 'contain',
                     zIndex: '-130'
                 }} >
-                    <div className="absolute" style={{top: '40%',left: '50%', transform: 'translate(-50%, -50%)'}}>
+                    <div className="absolute font-productsans font-bold" style={{top: '40%',left: '50%', transform: 'translate(-50%, -50%)'}}>
                         You are my <Typewriter
                             words={["sunshine!", "only sunshine!"]}
                             loop={0}
@@ -85,17 +84,17 @@ function LandingPage() {
                     This is a test paragraph using Product Sans Regular.
                   </p>
                   <div className="flex flex-row">
-                    <div className="m-5">
+                    <div className="ml-20 mr-20 w-2/5 flex justify-center">
                       <PhotoTilt />
                     </div>
                     <div className="flex flex-col">
-                      <div className="animate-slide-in-left p-4 text-3xl">Feature 1</div>
-                      <div className="animate-slide-in-left p-4 pl-6 text-3xl">Feature 2</div>
-                      <div className="animate-slide-in-left p-4 pl-8 text-3xl">Feature 3</div>
+                    <Feature title="Decentralized Authentication" description="Utilize Internet Identity for decentralized authentication to ensure secure and private access to the application. This will leverage blockchain technology to verify user identities without relying on traditional centralized servers." />
+                    <Feature title="Scalable Real-Time Messaging" description="Implement a scalable real-time messaging system built on the Internet Computer, benefiting from its high throughput and low latency. This system can handle massive amounts of data and a high number of users without compromising speed or efficiency." />
+                    <Feature title="Blockchain-Enabled Bitcoin Transactions" description="Enable Bitcoin transactions through the app using a blockchain-based approach, possibly through a regtest environment for safe testing and demonstrations. This will allow users to perform secure and verifiable transactions within their chats." />
+                    <Feature title="Distributed Game Logic" description="Games integrated into the chat can run their backend logic directly on the Internet Computer, ensuring transparent and verifiable game mechanics. This decentralized approach prevents cheating and enhances performance." />
+                    <Feature title="Immutable Chat History" description="Store chat histories on the blockchain, providing users with immutable records of their conversations. This feature not only enhances security but also allows for easy retrieval and verification of past interactions." />
                     </div>
                   </div>
-
-                  
                 </ParallaxLayer>
 
                 

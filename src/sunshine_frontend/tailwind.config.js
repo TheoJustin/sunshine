@@ -12,23 +12,11 @@ export default {
         'orange-custom' : '#FF9F1C',
         'cream-custom' : '#FFBF69',
       },
-      animation: {
-        'slide-in-left': 'slideInLeft 2.5s forwards',
-      },
       fontFamily: {
         'productsans': ['ProductSans', 'sans-serif']
       },
       keyframes: {
-        slideInLeft: {
-          '0%': {
-            opacity: 0,
-            transform: 'translateX(-100%)',
-          },
-          '100%': {
-            opacity: 1,
-            transform: 'translateX(0)',
-          },
-        },
+        
       },
     },
   },
