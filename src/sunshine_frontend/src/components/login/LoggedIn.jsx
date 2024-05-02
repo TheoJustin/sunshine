@@ -38,6 +38,7 @@ function LoggedIn() {
         placeholder="your Identity"
         style={whoamiStyles}
       />
+      {/* <p>{result}</p> */}
       <button id="logout" onClick={logout}>
         log out
       </button>

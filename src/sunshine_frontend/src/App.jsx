@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom";
-import './index.css';
+import "./index.css";
 import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
 import AboutPage from "./pages/AboutPage";
@@ -10,8 +10,12 @@ import NotFoundPage from "./pages/NotFoundPage";
 import ChatPage from "./pages/chat_page/ChatPage";
 import FriendPage from "./pages/chat_page/FriendPage";
 import { Actor, HttpAgent } from "@dfinity/agent";
-import { idlFactory as fontLoaderIdl, sunshine_fontloader } from 'declarations/sunshine_fontloader';
+import {
+  idlFactory as fontLoaderIdl,
+  sunshine_fontloader,
+} from "declarations/sunshine_fontloader";
 import Navbar from "./components/Navbar";
+import { AuthProvider } from "./use-auth-client";
 
 // const agent = new HttpAgent({ host: 'https://ic0.app' });
 // const fontLoaderCanisterId = 'be2us-64aaa-aaaaa-qaabq-cai';
@@ -59,13 +63,13 @@ function App() {
   //     try {
   //       const fontsFolder = '/fonts';
   //       const fontFileNames = ['Product_Sans_Bold.ttf', 'Product_Sans_Italic.ttf', 'Product_Sans_Bold_Italic.ttf', 'Product_Sans_Regular.ttf'];
-    
+
   //       for (const fontFileName of fontFileNames) {
   //         const fontName = fontFileName.replace(/\.[^/.]+$/, '');
   //         const fontDataResponse = await fetch(`${fontsFolder}/${fontFileName}`);
   //         const fontArrayBuffer = await fontDataResponse.arrayBuffer();
   //         const fontData = new Blob([new Uint8Array(fontArrayBuffer)]);
-          
+
   //         await sunshine_fontloader.uploadFont(fontName, fontData);
   //         console.log('Font uploaded successfully:', fontName);
   //       }
@@ -73,7 +77,6 @@ function App() {
   //       console.error('Failed to upload fonts:', error);
   //     }
   //   };
-    
 
   //   const loadFonts = async () => {
   //     try {
@@ -114,18 +117,19 @@ function App() {
   //   uploadFonts().then(loadFonts);
   // }, []);
 
-
   return (
-    <BrowserRouter>
-      <main>
-        <Navbar/>
-        <Routes>
-          {routes.map((route, index) => (
-            <Route key={index} path={route.path} element={route.element} />
-          ))}
-        </Routes>
-      </main>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <main>
+          {/* <Navbar /> */}
+          <Routes>
+            {routes.map((route, index) => (
+              <Route key={index} path={route.path} element={route.element} />
+            ))}
+          </Routes>
+        </main>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

@@ -1,6 +1,7 @@
 import { AuthClient } from "@dfinity/auth-client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { canisterId, createActor } from "../../declarations/sunshine_whoami";
+import { canisterId as internetIdentityCanisterId } from "../../declarations/internet_identity";
 
 const AuthContext = createContext();
 
@@ -21,7 +22,7 @@ const defaultOptions = {
     identityProvider:
       process.env.DFX_NETWORK === "ic"
         ? "https://identity.ic0.app/#authorize"
-        : `http://localhost:4943?canisterId=rdmx6-jaaaa-aaaaa-aaadq-cai#authorize`,
+        : `http://${internetIdentityCanisterId}.localhost:4943/`,
   },
 };
 
@@ -38,6 +39,7 @@ export const useAuthClient = (options = defaultOptions) => {
   const [identity, setIdentity] = useState(null);
   const [principal, setPrincipal] = useState(null);
   const [whoamiActor, setWhoamiActor] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     // Initialize AuthClient
@@ -47,6 +49,7 @@ export const useAuthClient = (options = defaultOptions) => {
   }, []);
 
   const login = () => {
+    console.log(internetIdentityCanisterId)
     authClient.login({
       ...options.loginOptions,
       onSuccess: () => {
@@ -89,6 +92,7 @@ export const useAuthClient = (options = defaultOptions) => {
     identity,
     principal,
     whoamiActor,
+    user
   };
 };
 
