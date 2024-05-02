@@ -67,7 +67,7 @@ function AboutPage() {
           src={logo}
           showGradient={true}
           title="Made Using Internet Computer Web 3.0"
-          badge={<span>Internet Computer</span>}
+          badge=""
         />
     </>
   );

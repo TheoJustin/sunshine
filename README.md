@@ -4,16 +4,12 @@ Sunshine is a project made by Internet Computer (With the use of Motoko Programm
 
 # Features
 - Decentralized Authentication: Utilize Internet Identity for decentralized authentication to ensure secure and private access to the application. This will leverage blockchain technology to verify user identities without relying on traditional centralized servers.
-
 - Scalable Real-Time Messaging: Implement a scalable real-time messaging system built on the Internet Computer, benefiting from its high throughput and low latency. This system can handle massive amounts of data and a high number of users without compromising speed or efficiency.
-
 - Blockchain-Enabled Bitcoin Transactions: Enable Bitcoin transactions through the app using a blockchain-based approach, possibly through a regtest environment for safe testing and demonstrations. This will allow users to perform secure and verifiable transactions within their chats.
-
 - Distributed Game Logic: Games integrated into the chat can run their backend logic directly on the Internet Computer, ensuring transparent and verifiable game mechanics. This decentralized approach prevents cheating and enhances performance.
-
 - Immutable Chat History: Store chat histories on the blockchain, providing users with immutable records of their conversations. This feature not only enhances security but also allows for easy retrieval and verification of past interactions.
 
-You can see the following documentation available online:
+You can see the following documentation for Internet Computer online:
 
 - [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
 - [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
