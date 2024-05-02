@@ -6,16 +6,17 @@ import Text "mo:base/Text";
 import Debug "mo:base/Debug";
 import Nat "mo:base/Nat";
 import None "mo:base/None";
+import Bool "mo:base/Bool";
 import Vector "mo:vector/Class";
 import Fuzz "mo:fuzz";
 
-actor Database{
-  // lg mencoba bikin data user :(
-  public query func greet(name : Text) : async Text {
-    return "Hello, " # name # "!";
-  };
-  // let fuzz = Fuzz.Fuzz();
-  // let generateAmount = fuzz.nat.randomRange(4, 11);
+actor Database {
+   // lg mencoba bikin data user :(
+   public query func greet(name : Text) : async Text {
+      return "Hello, " # name # "!";
+   };
+   // let fuzz = Fuzz.Fuzz();
+   // let generateAmount = fuzz.nat.randomRange(4, 11);
    type User = {
       internet_identity : Principal;
       name : Text;
@@ -23,26 +24,76 @@ actor Database{
       birth_date : Text;
       timestamp : Time.Time;
    };
-  let users = TrieMap.TrieMap<Principal, User>(Principal.equal, Principal.hash);
+   let users = TrieMap.TrieMap<Principal, User>(Principal.equal, Principal.hash);
 
-  public query func tryFuzz(): async (){
-    let fuzz = Fuzz.Fuzz();
-    let generateAmount = fuzz.nat.randomRange(4, 11);
-    Debug.print(debug_show(generateAmount));
-    // return "test";
-  };
+   public query func tryFuzz() : async () {
+      let fuzz = Fuzz.Fuzz();
+      let generateAmount = fuzz.nat.randomRange(4, 11);
+      Debug.print(debug_show (generateAmount));
+      // return "test";
+   };
 
-  public shared (msg) func register(name : Text, email : Text, birth_date : Text) : async Result.Result<User, Text> {
+   // get current user's name
+   public shared query (msg) func getName() : async Text {
+      Debug.print(debug_show (msg.caller));
+      let user = users.get(msg.caller);
+      switch (user) {
+         case (?user) {
+            return user.name;
+         };
+         case (null) {
+            return "Not Found";
+         };
+
+      };
+      // return getUsername(user_id).name;
+   };
+
+   // ambil principal /user ID basically
+   public shared query (msg) func whoami() : async Principal {
+      msg.caller;
+   };
+
+   // public shared (msg) func register(name : Text, email : Text, birth_date : Text) : async Result.Result<User, Text> {
+
+   //    let user_id = msg.caller;
+
+   //    if (users.get(user_id) != null) {
+   //       return #err("User already exists");
+   //    };
+
+   //    for (user in users.vals()) {
+   //       if (user.email == email) {
+   //          return #err("Email already exists");
+   //       };
+   //    };
+
+   //    let user = {
+   //       internet_identity = user_id;
+   //       name = name;
+   //       email = email;
+   //       birth_date = birth_date;
+   //       selected_company_id = null;
+   //       timestamp = Time.now();
+   //    };
+
+   //    users.put(user.internet_identity, user);
+
+   //    return #ok(user);
+   // };
+
+   // inserting data into array
+   public shared (msg) func register(name : Text, email : Text, birth_date : Text) : async Bool {
 
       let user_id = msg.caller;
 
       if (users.get(user_id) != null) {
-         return #err("User already exists");
+         return false;
       };
 
       for (user in users.vals()) {
          if (user.email == email) {
-            return #err("Email already exists");
+            return false;
          };
       };
 
@@ -57,17 +108,19 @@ actor Database{
 
       users.put(user.internet_identity, user);
 
-      return #ok(user);
+      return true;
    };
-  public shared query func getAllUsers() : async Result.Result<[User], Text> {
 
-      var allUsers = Vector.Vector<User>();
+   // masih cacat :)
+   // public shared query func getAllUsers() : async Result.Result<[User], Text> {
 
-      for (user in users.vals()) {
-         allUsers.add(user);
-      };
+   //    var allUsers = Vector.Vector<User>();
 
-      return #ok(Vector.toArray(allUsers));
-   };
+   //    for (user in users.vals()) {
+   //       allUsers.add(user);
+   //    };
+
+   //    return #ok(Vector.toArray(allUsers));
+   // };
 
 };

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../use-auth-client";
+import { Navigate, useNavigate } from "react-router-dom";
 
-import { sunshine_backend } from "../../../../declarations/sunshine_backend"
+// import { sunshine_backend } from "../../../../declarations/sunshine_backend"
 
 
 const whoamiStyles = {
@@ -13,16 +14,37 @@ function LoggedIn() {
   const [result, setResult] = useState("");
   const [name, setName] = useState("");
   const [dob, setDOB] = useState("");
-  const { whoamiActor, logout } = useAuth();
-  
-  function handleRegister(){
+  const { user, logout } = useAuth();
+  const [currentName, setcurrentName] = useState("Hai");
+  const [email, setEmail] = useState("");
+
+  function handleRegister() {
     console.log(name);
-    sunshine_backend.tryFuzz();
+    // sunshine_backend.tryFuzz();
+
+    // klo bisa register
+    if (user.register(name, email, dob) == true) {
+      // Navigate("/");
+    };
   }
 
+  useEffect(() => {
+    async function getUser() {
+      // getting user's name
+      const name = await user.getName();
+      if (name != "Not Found") {
+        // Navigate("/");
+      }
+    }
+    getUser();
+  }, [])
+
   const handleClick = async () => {
-    const whoami = await whoamiActor.whoami();
-    setResult(whoami);
+    const userPrincipal = await user.whoami();
+    setResult(userPrincipal);
+    user.getName().then(currName => {
+      setcurrentName(currName);
+    })
   };
 
   return (
@@ -53,15 +75,16 @@ function LoggedIn() {
       <div>
         <div id="regisForm">
           <label htmlFor="username">Name: </label>
-          <input id="username" type="text" onChange={(event) => setName(event.target.value)}/>
+          <input id="username" type="text" onChange={(event) => setName(event.target.value)} />
           <label htmlFor="dob">Date of Birth: </label>
-          <input id="dob"  type="date" onChange={(event) => setName(event.target.value)}/>
+          <input id="dob" type="date" onChange={(event) => setDOB(event.target.value)} />
           <label htmlFor="email">E-mail Address: </label>
-          <input id="email"  type="email" />
-          <button onClick={handleRegister}>
+          <input id="email" type="email" onChange={(event) => setEmail(event.target.value)} />
+          <button onClick={handleRegister} >
             Add Data
           </button>
         </div>
+        {currentName}
       </div>
     </div>
   );

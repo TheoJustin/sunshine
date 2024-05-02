@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PhotoTilt from "../components/PhotoTilt";
 import Navbar from "../components/Navbar";
 import Feature from '../components/Feature';
@@ -14,6 +14,8 @@ import parallax6 from "../../../../assets/parallax/parallax-6.png";
 import parallax7 from "../../../../assets/parallax/parallax-7.png";
 import parallax8 from "../../../../assets/parallax/parallax-8.png";
 import sun1 from "../../../../assets/parallax/sun-1.png";
+import { AuthProvider, useAuth } from '../use-auth-client';
+// import { sunshine_backend } from "../../.././declarations/sunshine_backend"
 
 // style for parallax images
 const imageStyle = ({
@@ -22,6 +24,16 @@ const imageStyle = ({
 
 
 function LandingPage() {
+  const {user} = useAuth();
+  const [currentName, setCurrentName] = useState("Hi");
+  useEffect(()=>{
+    if(user!=null){
+      user.getName().then(name =>{
+        setCurrentName(name);
+      })
+
+    }
+  })
   return (
     <>
       {/* parallax of mountains and sun for landing page */}
@@ -33,6 +45,8 @@ function LandingPage() {
                     zIndex: '-130'
                 }} >
                     <div className="absolute font-productsans font-bold" style={{top: '40%',left: '50%', transform: 'translate(-50%, -50%)'}}>
+                      Hello {currentName}!
+                      <br />
                         You are my <Typewriter
                             words={["sunshine!", "only sunshine!"]}
                             loop={0}
@@ -138,4 +152,8 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default () => (
+  <AuthProvider>
+    <LandingPage />
+  </AuthProvider>
+);

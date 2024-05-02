@@ -19,7 +19,10 @@
     },
     "sunshine_backend": {
       "main": "src/sunshine_backend/main.mo",
-      "type": "motoko"
+      "type": "motoko",
+      "declarations": {
+        "node_compatibility": true
+      }
     },
     "sunshine_fontloader": {
       "main": "src/sunshine_fontloader/main.mo",

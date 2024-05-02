@@ -1,6 +1,6 @@
 import { AuthClient } from "@dfinity/auth-client";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { canisterId, createActor } from "../../declarations/sunshine_whoami";
+import { canisterId, createActor } from "../../declarations/sunshine_backend";
 import { canisterId as internetIdentityCanisterId } from "../../declarations/internet_identity";
 
 const AuthContext = createContext();
@@ -76,7 +76,7 @@ export const useAuthClient = (options = defaultOptions) => {
       },
     });
 
-    setWhoamiActor(actor);
+    setUser(actor);
   }
 
   async function logout() {
