@@ -8,7 +8,7 @@ import Result "mo:base/Result";
 import Text "mo:base/Text";
 import Int "mo:base/Int";
 import Vector "mo:vector/Class";
-import Types "mo:fuzz/types";
+// import Types "mo:fuzz/types";
 
 actor {
     type Chat = {
@@ -28,10 +28,10 @@ actor {
     };
 
     // Create Chat with user inputs
-    public shared (msg) func createChat(newChat : Text) : async Result.Result<Chat, Text> {
+    public shared func createChat(newChat : Text, userId: Principal) : async Result.Result<Chat, Text> {
         let newId = await generateUUID();
 
-        let user_id = msg.caller;
+        let user_id = userId;
 
         if (Principal.isAnonymous(user_id)) {
             return #err("Unauthorized");

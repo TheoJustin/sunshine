@@ -16,6 +16,7 @@ import {
   sunshine_fontloader,
 } from "declarations/sunshine_fontloader";
 import { AuthProvider } from "./use-auth-client";
+// import { CardWithForm } from "./components/login/LoginCardTest";
 
 // const agent = new HttpAgent({ host: 'https://ic0.app' });
 // const fontLoaderCanisterId = 'be2us-64aaa-aaaaa-qaabq-cai';
@@ -50,6 +51,10 @@ const routes = [
     path: "/friend",
     element: <FriendPage />,
   },
+  // {
+  //   path: "/testCard",
+  //   element: <CardWithForm />,
+  // },
 ];
 
 function App() {

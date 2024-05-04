@@ -21,6 +21,7 @@ actor {
       email : Text;
       birth_date : Text;
       timestamp : Time.Time;
+      money : Nat;
    };
    let users = TrieMap.TrieMap<Principal, User>(Principal.equal, Principal.hash);
 
@@ -86,8 +87,8 @@ actor {
          name = name;
          email = email;
          birth_date = birth_date;
-         selected_company_id = null;
          timestamp = Time.now();
+         money = 50000;
       };
 
       users.put(user.internet_identity, user);
