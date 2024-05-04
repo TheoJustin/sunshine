@@ -37,7 +37,7 @@ function LoginPage() {
 }
 
 export default () => (
-  <AuthProvider>
-    <LoginPage />
-  </AuthProvider>
+  // <AuthProvider>
+  <LoginPage />
+  // </AuthProvider>
 );

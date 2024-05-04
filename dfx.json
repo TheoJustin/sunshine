@@ -25,13 +25,17 @@
         "node_compatibility": true
       }
     },
+    "sunshine_chat": {
+      "main": "src/sunshine_chat/main.mo",
+      "type": "motoko"
+    },
     "sunshine_fontloader": {
       "main": "src/sunshine_fontloader/main.mo",
       "type": "motoko"
     },
     "sunshine_frontend": {
       "dependencies": [
-        "sunshine_backend", "sunshine_whoami", "sunshine_fontloader", "internet_identity"
+        "sunshine_backend", "sunshine_whoami", "sunshine_fontloader", "internet_identity", "sunshine_chat"
       ],
       "source": [
         "src/sunshine_frontend/dist"
