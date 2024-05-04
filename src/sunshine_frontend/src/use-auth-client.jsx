@@ -54,7 +54,7 @@ export const useAuthClient = (options = defaultOptions) => {
       ...options.loginOptions,
       onSuccess: () => {
         updateClient(authClient);
-      },
+      }
     });
   };
 

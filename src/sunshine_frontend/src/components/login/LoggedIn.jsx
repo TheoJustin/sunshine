@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../use-auth-client";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // import { sunshine_backend } from "../../../../declarations/sunshine_backend"
 
@@ -17,15 +17,21 @@ function LoggedIn() {
   const { user, logout } = useAuth();
   const [currentName, setcurrentName] = useState("Hai");
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   function handleRegister() {
     console.log(name);
     // sunshine_backend.tryFuzz();
-
-    // klo bisa register
-    if (user.register(name, email, dob) == true) {
-      // Navigate("/");
-    };
+    async function tryRegister(){
+      const registerFlag = await user.register(name, email, dob);
+      console.log(registerFlag);
+      if(registerFlag == true){
+        console.log("success!");
+        // console.log(isAuthenticated);
+        // navigate("/");
+      }
+    }
+    tryRegister();
   }
 
   useEffect(() => {
@@ -37,7 +43,7 @@ function LoggedIn() {
       }
     }
     getUser();
-  }, [])
+  }, [user])
 
   const handleClick = async () => {
     const userPrincipal = await user.whoami();

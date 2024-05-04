@@ -36,7 +36,7 @@ actor Database {
    // get current user's name
    public shared query (msg) func getName() : async Text {
       Debug.print(debug_show (msg.caller));
-      let user = users.get(msg.caller);
+      let user: ?User = users.get(msg.caller);
       switch (user) {
          case (?user) {
             return user.name;
@@ -46,7 +46,6 @@ actor Database {
          };
 
       };
-      // return getUsername(user_id).name;
    };
 
    // ambil principal /user ID basically
