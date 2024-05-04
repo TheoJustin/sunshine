@@ -14,7 +14,7 @@ import parallax6 from "../../../../assets/parallax/parallax-6.png";
 import parallax7 from "../../../../assets/parallax/parallax-7.png";
 import parallax8 from "../../../../assets/parallax/parallax-8.png";
 import sun1 from "../../../../assets/parallax/sun-1.png";
-import { AuthProvider, useAuth } from '../use-auth-client';
+import { useAuth } from '../use-auth-client';
 // import { sunshine_backend } from "../../.././declarations/sunshine_backend"
 
 // style for parallax images
@@ -149,7 +149,7 @@ function LandingPage() {
 }
 
 export default () => (
-  <AuthProvider>
+  // <AuthProvider>
     <LandingPage />
-  </AuthProvider>
+  // </AuthProvider>
 );

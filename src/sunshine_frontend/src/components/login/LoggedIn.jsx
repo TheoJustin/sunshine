@@ -22,13 +22,13 @@ function LoggedIn() {
   function handleRegister() {
     console.log(name);
     // sunshine_backend.tryFuzz();
-    async function tryRegister(){
+    async function tryRegister() {
       const registerFlag = await user.register(name, email, dob);
       console.log(registerFlag);
-      if(registerFlag == true){
+      if (registerFlag == true) {
         console.log("success!");
         // console.log(isAuthenticated);
-        // navigate("/");
+        navigate("/");
       }
     }
     tryRegister();
