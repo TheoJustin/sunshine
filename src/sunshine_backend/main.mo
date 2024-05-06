@@ -15,7 +15,7 @@ actor {
    };
    // let fuzz = Fuzz.Fuzz();
    // let generateAmount = fuzz.nat.randomRange(4, 11);
-   public type User = {
+   type User = {
       internet_identity : Principal;
       name : Text;
       email : Text;
@@ -23,6 +23,7 @@ actor {
       timestamp : Time.Time;
       money : Nat;
    };
+
    let users = TrieMap.TrieMap<Principal, User>(Principal.equal, Principal.hash);
 
    public query func tryFuzz() : async () {
@@ -35,7 +36,7 @@ actor {
    // get current user's name
    public shared query (msg) func getName() : async Text {
       Debug.print(debug_show (msg.caller));
-      let user: ?User = users.get(msg.caller);
+      let user : ?User = users.get(msg.caller);
       switch (user) {
          case (?user) {
             return user.name;
@@ -48,13 +49,26 @@ actor {
    };
 
    // get user object by ID
-   public shared query func getUserById(userId: Principal): async Result.Result<User, Text>{
+   public shared query func getUserById(userId : Principal) : async Result.Result<User, Text> {
       let user = users.get(userId);
-      switch(user){
-         case (?user){
+      switch (user) {
+         case (?user) {
             return #ok(user);
          };
-         case (null){
+         case (null) {
+            return #err("User not found!");
+         };
+      };
+   };
+
+   // get username by ID
+   public shared query func getUsernameById(userId : Principal) : async Result.Result<Text, Text> {
+      let user = users.get(userId);
+      switch (user) {
+         case (?user) {
+            return #ok(user.name);
+         };
+         case (null) {
             return #err("User not found!");
          };
       };
@@ -64,8 +78,6 @@ actor {
    public shared query (msg) func whoami() : async Principal {
       msg.caller;
    };
-
-   
 
    // inserting data into array
    public shared (msg) func register(name : Text, email : Text, birth_date : Text) : async Bool {
