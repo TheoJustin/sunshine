@@ -7,7 +7,10 @@ import { useNavigate } from "react-router-dom";
 import ChatBox from "./ChatBox"
 
 export default function ChatPage() {
-  const {user, isAuthenticated} = useAuth();
+  
+
+
+
   return (
     
     <ChatPageTemplate>

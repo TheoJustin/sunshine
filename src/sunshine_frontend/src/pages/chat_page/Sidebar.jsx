@@ -42,7 +42,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="flex flex-col justify-between h-screen w-[6%] py-3 bg-gray-800">
+      <div className="flex flex-col justify-between h-screen w-[6%] py-3 bg-[#0c0c14]">
         <div>
           <img className="w-16 cursor-pointer" src={logoImg} alt="logo" onClick={() => {navigate(`/`)}} />
           {/* icons */}

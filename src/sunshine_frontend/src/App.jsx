@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom";
-import './index.css';
-import './fonts.css';
+import "./index.css";
+import "./fonts.css";
 import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
 import AboutPage from "./pages/AboutPage";
@@ -16,6 +16,7 @@ import {
   sunshine_fontloader,
 } from "declarations/sunshine_fontloader";
 import { AuthProvider } from "./use-auth-client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import { CardWithForm } from "./components/login/LoginCardTest";
 
 // const agent = new HttpAgent({ host: 'https://ic0.app' });
@@ -110,18 +111,22 @@ function App() {
   //   uploadFonts().then(loadFonts);
   // }, []);
 
+  const queryClient = new QueryClient();
+
   return (
-    <AuthProvider>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <main>
-          <Routes>
-            {routes.map((route, index) => (
-              <Route key={index} path={route.path} element={route.element} />
-            ))}
-          </Routes>
-        </main>
+        <AuthProvider>
+          <main>
+            <Routes>
+              {routes.map((route, index) => (
+                <Route key={index} path={route.path} element={route.element} />
+              ))}
+            </Routes>
+          </main>
+        </AuthProvider>
       </BrowserRouter>
-    </AuthProvider>
+    </QueryClientProvider>
   );
 }
 

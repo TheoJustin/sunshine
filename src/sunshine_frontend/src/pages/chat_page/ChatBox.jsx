@@ -15,11 +15,13 @@ export default function ChatBox() {
     const [message, setMessage] = useState("");
     const { user, principal } = useAuth();
 
+    
+
     useEffect(() => {
         // if(user!=null){
         try {
             sunshine_chat.getAllChats().then(chats => {
-                console.log(chats);
+                // console.log(chats);
                 // switch(chats){
                 // new Date()
 
@@ -41,7 +43,7 @@ export default function ChatBox() {
                 // }
                 // setChats(chats);
             })
-            console.log(chats);
+            // console.log(chats);
 
         } catch (error) {
 
