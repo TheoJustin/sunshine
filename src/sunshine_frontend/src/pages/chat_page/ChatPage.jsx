@@ -5,6 +5,7 @@ import ChatPageTemplate from "../../templates/ChatPageTemplate";
 import { useAuth } from "../../use-auth-client";
 import { useNavigate } from "react-router-dom";
 import ChatBox from "./ChatBox"
+import GroupList from "./GroupList";
 
 export default function ChatPage() {
   
@@ -14,7 +15,7 @@ export default function ChatPage() {
   return (
     
     <ChatPageTemplate>
-      <FriendList />
+      <GroupList />
       <ChatBox />
     </ChatPageTemplate>
   );
