@@ -137,7 +137,8 @@ function LandingPage() {
 
         <ParallaxLayer offset={1} speed={3} factor={1} className='z-50' style={{
           backgroundColor: '#B0DDD6',
-          marginTop: '-36rem'
+          // marginTop: '-36rem'
+          bottom: '0'
         }}>
           Footer
         </ParallaxLayer>

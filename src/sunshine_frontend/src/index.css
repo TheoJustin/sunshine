@@ -121,3 +121,17 @@ nav ul div:hover{
   width: 5.5vw;
   margin: 0;
 }
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  opacity: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ff9f1c;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+}

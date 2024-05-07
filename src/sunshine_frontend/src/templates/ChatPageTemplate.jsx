@@ -6,7 +6,6 @@ import { useIsFetching, useQuery } from "@tanstack/react-query";
 
 export default function ChatPageTemplate({ children }) {
   const { checkAuthentication } = useAuth();
-
   const { isLoading, error } = useQuery({
     queryKey: ["checkAuthentication"],
     queryFn: checkAuthentication,

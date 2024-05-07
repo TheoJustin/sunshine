@@ -17,6 +17,8 @@ import {
 } from "declarations/sunshine_fontloader";
 import { AuthProvider } from "./use-auth-client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Navbar from "./components/Navbar";
+import { ChakraProvider } from "@chakra-ui/react";
 // import { CardWithForm } from "./components/login/LoginCardTest";
 
 // const agent = new HttpAgent({ host: 'https://ic0.app' });
@@ -116,15 +118,22 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AuthProvider>
-          <main>
-            <Routes>
-              {routes.map((route, index) => (
-                <Route key={index} path={route.path} element={route.element} />
-              ))}
-            </Routes>
-          </main>
-        </AuthProvider>
+        <ChakraProvider>
+          <AuthProvider>
+            <main>
+              <Navbar />
+              <Routes>
+                {routes.map((route, index) => (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    element={route.element}
+                  />
+                ))}
+              </Routes>
+            </main>
+          </AuthProvider>
+        </ChakraProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );
