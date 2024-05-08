@@ -15,7 +15,7 @@ function LoggedOut() {
         {/* <button type="button" id="loginButton" onClick={login}>
         Log in
       </button> */}
-        <Button colorScheme="teal" size="md" variant="solid">
+        <Button colorScheme="teal" size="md" variant="solid" onClick={login}>
           Log in
         </Button>
       </div>
