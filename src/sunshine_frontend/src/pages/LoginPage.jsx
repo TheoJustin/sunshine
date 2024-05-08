@@ -1,15 +1,18 @@
-
 import { useAuth, AuthProvider } from "./../use-auth-client";
 import LoggedIn from "../components/login/LoggedIn";
 import LoggedOut from "../components/login/LoggedOut";
+import bgImg from "../../../../assets/bg.jpg";
 
 function LoginPage() {
-  
   const { isAuthenticated, identity } = useAuth();
-  
+
   return (
     <>
-      <header id="header">
+      <img className="absolute object-cover w-screen" src={bgImg} alt="" />
+      <main id="pageContent">
+        {isAuthenticated ? <LoggedIn /> : <LoggedOut />}
+      </main>
+      {/* <header id="header">
         <section id="status" className="toast hidden">
           <span id="content"></span>
           <button className="close-button" type="button">
@@ -28,10 +31,7 @@ function LoginPage() {
             </svg>
           </button>
         </section>
-      </header>
-      <main id="pageContent">
-        {isAuthenticated ? <LoggedIn /> : <LoggedOut />}
-      </main>
+      </header> */}
     </>
   );
 }
