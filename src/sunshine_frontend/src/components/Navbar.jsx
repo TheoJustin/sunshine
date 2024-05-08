@@ -52,7 +52,7 @@ function Navbar() {
           </NavLink>
           {/* </div> */}
           <div>
-            <NavLink style={activeStyle} to="/" onClick={refreshSquare} >Etc</NavLink>
+            <NavLink style={activeStyle} to="/login" onClick={refreshSquare} >Profile</NavLink>
           </div>
 
           <div>

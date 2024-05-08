@@ -51,12 +51,12 @@ export const useAuthClient = (options = defaultOptions) => {
   }, []);
 
   const login = () => {
-    console.log(internetIdentityCanisterId)
+    console.log(internetIdentityCanisterId);
     authClient.login({
       ...options.loginOptions,
       onSuccess: () => {
         updateClient(authClient);
-      }
+      },
     });
   };
 
@@ -86,13 +86,18 @@ export const useAuthClient = (options = defaultOptions) => {
     await updateClient(authClient);
   }
 
-  async function checkAuthentication(){
-    const check = await authClient.isAuthenticated()
+  async function checkAuthentication() {
+    const check = await authClient.isAuthenticated();
     // console.log(authClient.isAuthenticated())
-    if(!check){
-      navigate(`/`)
+    if (!check) {
+      navigate(`/`);
     }
     return check;
+  }
+
+  async function getUser() {
+    const loggedInUser = await user.getUserById(principal);
+    return loggedInUser;
   }
 
   return {
@@ -104,7 +109,8 @@ export const useAuthClient = (options = defaultOptions) => {
     principal,
     whoamiActor,
     user,
-    checkAuthentication
+    checkAuthentication,
+    getUser,
   };
 };
 
@@ -117,4 +123,4 @@ export const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };
 
-export const  useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext);

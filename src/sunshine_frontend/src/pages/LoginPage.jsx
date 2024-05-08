@@ -8,7 +8,7 @@ function LoginPage() {
 
   return (
     <>
-      <img className="absolute object-cover w-screen" src={bgImg} alt="" />
+      <img className="absolute object-cover w-full h-screen" src={bgImg} alt="" />
       <main id="pageContent">
         {isAuthenticated ? <LoggedIn /> : <LoggedOut />}
       </main>

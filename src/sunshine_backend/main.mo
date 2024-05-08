@@ -74,6 +74,29 @@ actor {
       };
    };
 
+   // update user
+   public func updateUser(userId : Principal, name : Text, email : Text, birth_date : Text) : async Bool {
+      let user = users.get(userId);
+      switch (user) {
+         case (?user) {
+            let newUser : User = {
+               internet_identity = userId;
+               name = name;
+               email = email;
+               birth_date = birth_date;
+               timestamp = user.timestamp;
+               money = user.money;
+            };
+            users.put(userId, newUser);
+            return true;
+         };
+         case (null) {
+            return false;
+         };
+      };
+
+   };
+
    // ambil principal /user ID basically
    public shared query (msg) func whoami() : async Principal {
       msg.caller;
