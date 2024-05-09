@@ -26,7 +26,7 @@ function Navbar() {
   const locationName = window.location.pathname;
   useEffect(() => {
     refreshSquare();
-  }, [locationName]);
+  }, [locationName, window]);
 
   async function refreshSquare() {
     setSquareStyle(activeSquareStyle(locationName));

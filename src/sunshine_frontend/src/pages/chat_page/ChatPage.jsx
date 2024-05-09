@@ -9,14 +9,10 @@ import GroupList from "./GroupList";
 
 export default function ChatPage() {
   
-
-
-
   return (
-    
     <ChatPageTemplate>
       <GroupList />
-      <ChatBox />
+      {/* <ChatBox /> */}
     </ChatPageTemplate>
   );
 }

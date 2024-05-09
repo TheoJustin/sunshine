@@ -19,10 +19,12 @@ actor {
         user : Principal;
         timestamp : Time.Time;
         status : Text;
+        variant: Text;
     };
 
     type Group = {
         id : Text;
+        description : Text;
         creatorUser : Principal;
         groupName : Text;
         timestamp : Time.Time;
@@ -32,27 +34,27 @@ actor {
 
     let groups = TrieMap.TrieMap<Text, Group>(Text.equal, Text.hash);
     let chats = TrieMap.TrieMap<Text, Chat>(Text.equal, Text.hash);
-    var currGroup = "";
+    // var currGroup = "";
 
     // changing currentGroup
-    public shared func focusGroup(groupId: Text): async Result.Result<Text, Text> {
-        // let group = groups.get(groupId);
-        currGroup := groupId;
-        return #ok("Group Changed");
-    };
+    // public shared func focusGroup(groupId: Text): async Result.Result<Text, Text> {
+    //     // let group = groups.get(groupId);
+    //     currGroup := groupId;
+    //     return #ok("Group Changed");
+    // };
 
     // getting current group
-    public shared func getCurrentGroup(): async Result.Result<Text, Text> {
-        let group = groups.get(currGroup);
-        switch(group){
-            case (?group){
-                return #ok(currGroup);
-            };
-            case (null){
-                return #err("Error fetching current group!");
-            };
-        };
-    };
+    // public shared func getCurrentGroup(): async Result.Result<Text, Text> {
+    //     let group = groups.get(currGroup);
+    //     switch(group){
+    //         case (?group){
+    //             return #ok(currGroup);
+    //         };
+    //         case (null){
+    //             return #err("Error fetching current group!");
+    //         };
+    //     };
+    // };
 
     // generate UUID
     public shared func generateUUID() : async Text {
@@ -63,7 +65,7 @@ actor {
     
 
     // bikin group
-    public shared func createGroup(groupName : Text, userCreator : Principal) : async Result.Result<(), Text> {
+    public shared func createGroup(groupName : Text, userCreator : Principal, description : Text) : async Result.Result<(), Text> {
         let newId = await generateUUID();
         let user = await User.getUserById(userCreator);
         if (Principal.isAnonymous(userCreator)) {
@@ -77,6 +79,7 @@ actor {
                     id = newId;
                     creatorUser = userCreator;
                     groupName = groupName;
+                    description = description;
                     timestamp = Time.now();
                     groupMembers = Vector.toArray(groupMem);
                     messages = [];
@@ -116,11 +119,11 @@ actor {
             return #err("Unauthorized");
         };
         ignore await deleteAllGroup();
-        var test = await createGroup("Nihility", userCreator);
+        var test = await createGroup("Nihility", userCreator, "Nihility Group");
         if (await checkResult(test)){
-            test := await createGroup("Erudition", userCreator);
+            test := await createGroup("Erudition", userCreator, "Erudition Group");
             if(await checkResult(test)){
-                test := await createGroup("Abundance", userCreator);
+                test := await createGroup("Abundance", userCreator, "Abundance Group");
                 if(await checkResult(test)){
                     return #ok();
                 } else{
@@ -149,7 +152,7 @@ actor {
     };
 
     // Create Chat with user inputs
-    public shared func createChat(newChat : Text, userId : Principal) : async Result.Result<Chat, Text> {
+    public shared func createChat(newChat : Text, userId : Principal, currGroup: Text) : async Result.Result<Chat, Text> {
         let newId = await generateUUID();
         let groupId = currGroup;
         let user_id = userId;
@@ -168,6 +171,7 @@ actor {
                     timestamp = Time.now();
                     status = "delivered";
                     user = userId;
+                    variant = "chat";
                     message = newChat;
                 };
                 let group = await getGroupById(groupId);
@@ -179,6 +183,7 @@ actor {
                             id = group.id;
                             creatorUser = group.creatorUser;
                             groupName = group.groupName;
+                            description = group.description;
                             timestamp = group.timestamp;
                             groupMembers = group.groupMembers;
                             messages = newChat;
@@ -200,33 +205,77 @@ actor {
 
     };
 
+    public shared func addGroupMember(newUser : Principal, groupId: Text) : async Result.Result<Text, Text> {
+        // let newId = await generateUUID();
+        // let user_id = userId;
+
+        if (Principal.isAnonymous(newUser)) {
+            return #err("Unauthorized");
+        };
+
+        // get user
+        let currUser = await User.getUserById(newUser);
+        // let currGroup = await getGroupById(groupId);
+        switch (currUser) {
+            case (#ok(currUser)) {
+                let group = await getGroupById(groupId);
+                switch(group){
+                    case (#ok(group)){
+                        let oldUsers = group.groupMembers;
+                        let newUsers = Array.append<Principal>(oldUsers, [newUser]);
+                        let newGroup : Group = {
+                            id = group.id;
+                            creatorUser = group.creatorUser;
+                            groupName = group.groupName;
+                            description = group.description;
+                            timestamp = group.timestamp;
+                            groupMembers = newUsers;
+                            messages = group.messages;
+                        };
+                        groups.put(groupId, newGroup);
+                    };
+                    case (#err(msg)){
+                        return #err("Group error");
+                    };
+                };
+                // chats.put(newId, chat);
+                return #ok("Joined successfully");
+
+            };
+            case (#err(error)) {
+                return #err("not found!");
+            };
+        };
+
+    };
+
     public shared query (msg) func whoami() : async Principal {
         msg.caller;
     };
 
     // buat ambil chat semua
-    public shared func getAllChats() : async Result.Result<[(Text, Text, Int)], Text> {
-        var allChats = Vector.Vector<(Text, Text, Int)>();
+    // public shared func getAllChats() : async Result.Result<[(Text, Text, Int)], Text> {
+    //     var allChats = Vector.Vector<(Text, Text, Int)>();
 
-        for (chat in chats.vals()) {
-            let sender = await User.getUserById(chat.user);
-                var senderName = "";
-                switch(sender){
-                    case (#ok(sender)){
-                        senderName := sender.name;
-                    };
-                    case (#err(msg)){
-                        senderName := "Not found!";
-                    };
-                };
-            allChats.add(senderName, chat.message, chat.timestamp);
-        };
+    //     for (chat in chats.vals()) {
+    //         let sender = await User.getUserById(chat.user);
+    //             var senderName = "";
+    //             switch(sender){
+    //                 case (#ok(sender)){
+    //                     senderName := sender.name;
+    //                 };
+    //                 case (#err(msg)){
+    //                     senderName := "Not found!";
+    //                 };
+    //             };
+    //         allChats.add(senderName, chat.message, chat.timestamp);
+    //     };
 
-        return #ok(Vector.toArray(allChats));
-    };
+    //     return #ok(Vector.toArray(allChats));
+    // };
 
     // buat ambil chat per group
-    public shared func getAllChatsAccordingToGroup() : async Result.Result<[(Text, Text, Int)], Text> {
+    public shared func getAllChatsAccordingToGroup(currGroup: Text) : async Result.Result<[(Text, Text, Int)], Text> {
         let groupId = currGroup;
         var allChats = Vector.Vector<(Text, Text, Int)>();
         let group = groups.get(groupId);
@@ -255,23 +304,76 @@ actor {
 
         return #ok(Vector.toArray(allChats));
     };
-    public shared query func getAllGroups() : async Result.Result<[(Text, Text, Text)], Text> {
-        var allGroups = Vector.Vector<(Text, Text, Text)>();
 
+    func isJoinedGroup(group: Group, currUser: Principal): Bool {
+        let joinedUsers: Vector.Vector<Principal> = Vector.fromArray(group.groupMembers);
+        let isJoined = Vector.indexOf<Principal>(currUser, joinedUsers, Principal.equal);
+        switch(isJoined){
+            case (null){
+                return false;
+            };
+            case (?isJoined){
+                return true;
+            };
+        };
+    };
+    
+    public shared query func getAllGroups(groupName: Text, currUser: Principal) : async Result.Result<[(Text, Text, Text)], Text> {
+        var allGroups = Vector.Vector<(Text, Text, Text)>();
         for (group in groups.vals()) {
             // if (group.groupId == groupId) {
-            let size = Array.size(group.messages);
-            if(size != 0){
-                let msg = group.messages[0].message;
-                allGroups.add(group.groupName, msg, group.id);
+            let joined = isJoinedGroup(group, currUser);
+            let contains = containsInsensitive(group.groupName, groupName);
+            if(contains and joined){
+                let size = Array.size(group.messages);
+                if(size != 0){
+                    let msg = group.messages[size-1].message;
+                    allGroups.add(group.groupName, msg, group.id);
+                }
+                else{
+                    let msg = "";
+                    allGroups.add(group.groupName, msg, group.id);
+                };
             }
-            else{
-                let msg = "";
-                allGroups.add(group.groupName, msg, group.id);
-            };
             // };
         };
 
         return #ok(Vector.toArray(allGroups));
     };
+
+    func containsInsensitive(text: Text, pattern: Text) : Bool {
+        let lowerText = Text.toLowercase(text);
+        let lowerPattern = Text.toLowercase(pattern);
+        return Text.contains(lowerText, #text lowerPattern);
+    };
+
+    
+
+    public shared query func getAllUnjoinedGroups(groupSearched: Text, currUser: Principal) : async Result.Result<[(Text, Text, Text)], Text> {
+        var allGroups = Vector.Vector<(Text, Text, Text)>();
+        if(groupSearched == ""){
+            return #err("No group searched");
+        };
+        for (group in groups.vals()) {
+            // if (group.groupId == groupId) {
+            let contains = containsInsensitive(group.groupName, groupSearched) or containsInsensitive(group.description, groupSearched);
+            let joined = isJoinedGroup(group, currUser);
+            if(contains and (not joined)){
+                // let size = Array.size(group.messages);
+                // if(size != 0){
+                //     let msg = group.messages[size-1].message;
+                    allGroups.add(group.groupName, group.description, group.id);
+                // }
+                // else{
+                //     let msg = "";
+                //     allGroups.add(group.groupName, msg, group.id);
+                // };
+            }
+            // };
+        };
+
+        return #ok(Vector.toArray(allGroups));
+    };
+
+    
 };
