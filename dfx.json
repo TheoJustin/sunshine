@@ -33,9 +33,13 @@
       "main": "src/sunshine_fontloader/main.mo",
       "type": "motoko"
     },
+    "sunshine_game": {
+      "main": "src/sunshine_game/main.mo",
+      "type": "motoko"
+    },
     "sunshine_frontend": {
       "dependencies": [
-        "sunshine_backend", "sunshine_whoami", "sunshine_fontloader", "internet_identity", "sunshine_chat"
+        "sunshine_backend", "sunshine_whoami", "sunshine_fontloader", "internet_identity", "sunshine_chat", "sunshine_game"
       ],
       "source": [
         "src/sunshine_frontend/dist"
