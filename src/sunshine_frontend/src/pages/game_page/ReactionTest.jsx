@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BackToChat from '../../components/game/BackToChat';
 
 function ReactionTest() {
-    const [status, setStatus] = useState('waiting'); // Status can be 'waiting', 'ready', 'tooSoon', 'clicked', or 'initiating'
+    const [status, setStatus] = useState('waiting');
     const [startTime, setStartTime] = useState(0);
     const [reactionTime, setReactionTime] = useState(null);
 
@@ -14,7 +14,7 @@ function ReactionTest() {
                     alert("Too slow! Try again.");
                     setReactionTime(null);
                 }
-            }, 5000); // 5 seconds to respond
+            }, 5000);
             return () => clearTimeout(timer);
         }
     }, [status]);
@@ -22,7 +22,7 @@ function ReactionTest() {
     const handleStart = () => {
         setStatus('initiating');
         setReactionTime(null);
-        const delay = Math.random() * 5000 + 1000; // Random delay between 1 and 6 seconds
+        const delay = Math.random() * 5000 + 1000;
         setTimeout(() => {
             setStatus('ready');
             setStartTime(new Date().getTime());
@@ -39,7 +39,7 @@ function ReactionTest() {
             setStatus('tooSoon');
             setTimeout(() => {
                 setStatus('waiting');
-            }, 2000); // Reset after "Too Soon"
+            }, 2000);
         }
     };
 
