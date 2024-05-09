@@ -48,6 +48,7 @@ export default function CreateGroupContent({ closeCreateGroupOverlay, overlayBox
     async function createGroup() {
         // console.lo
         await sunshine_chat.createGroup(groupName, principal, groupDescription);
+        
         // wannaCreate = false;
         setGroupName("");
         closeCreateGroupOverlay();
