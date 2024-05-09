@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { sunshine_chat } from "../../../../declarations/sunshine_chat";
 import { useAuth } from "../../use-auth-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import GameOptions from "../../components/game/GameOptions";
 
 // interface chatInterface{
 //     name: string,
@@ -97,6 +98,9 @@ export default function ChatBox({ activeGroup }) {
             {sendStatus}
             {activeGroup ? (isLoadingFetchChat ? "Fetching Chat..." : chats) : ""}
             {sendStatus == "pending" ? "Sending Data" : sendBtn}
+
+            <h1>Create A new Game</h1>
+            <GameOptions />
         </div>
     )
 }
