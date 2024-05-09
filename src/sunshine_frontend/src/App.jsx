@@ -58,15 +58,15 @@ const routes = [
     element: <FriendPage />,
   },
   {
-    path: "/firstgame",
+    path: "/TwentyFive",
     element: <TwentyFive />,
   },
   {
-    path: "/secondgame",
+    path: "/MentalMath",
     element: <MentalMath />,
   },
   {
-    path: "/thirdgame",
+    path: "/ReactionTest",
     element: <ReactionTest />,
   },
 ];

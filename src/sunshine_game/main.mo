@@ -22,6 +22,7 @@ actor{
         groupId : Text;
         participants : [Principal];
         scores : [Nat];
+        variant : Text;
         timestamp : Time.Time;
     };
 
@@ -59,7 +60,8 @@ actor{
                     groupId = groupId;
                     participants = Vector.toArray(groupMem);
                     timestamp = Time.now();
-                    scores = [];
+                    variant = "game";
+                    scores = [0];
                 };
                 games.put(newId, newGame);
                 return #ok();
@@ -82,6 +84,20 @@ actor{
             };
         };
     };
+
+    
+    // get all games
+    public shared query func getAllGames(): async Result.Result<[Game], Text>{
+        
+        var allGames = Vector.Vector<Game>();
+
+        for (game in games.vals()) {
+            allGames.add(game);
+        };
+
+        return #ok(Vector.toArray(allGames));
+    };
+
 
     // adding participants to the game
     public shared func addParticipant(gameId : Text, user_id : Principal) : async Result.Result<Game, Text> {
@@ -106,6 +122,7 @@ actor{
                             groupId = game.groupId;
                             participants = newUsers;
                             timestamp = game.timestamp;
+                            variant = "game";
                             scores = newScores;
                         };
                         games.put(gameId, newGame);
@@ -147,6 +164,7 @@ actor{
                                     groupId = game.groupId;
                                     participants = game.participants;
                                     timestamp = game.timestamp;
+                                    variant = "game";
                                     scores = Vector.toArray(newScores);
                                 };
                                 games.put(gameId, newGame);

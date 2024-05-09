@@ -1,25 +1,38 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {sunshine_game} from '../../../../declarations/sunshine_game';
 import TwentyFiveLogo from '../../../../../assets/game/twentyfive.png';
 import MentalMathLogo from '../../../../../assets/game/mentalmath.png';
 import ReactionTimeLogo from '../../../../../assets/game/reactiontime.png';
+import { Button } from "@chakra-ui/react";
+import { IoGameController } from "react-icons/io5";
+import { useMutation } from '@tanstack/react-query';
+import { useAuth } from '../../use-auth-client';
 
-function GameOptions() {
+function GameOptions({activeGroup}) {
   const navigate = useNavigate();
+  const { principal } = useAuth(); 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGame, setSelectedGame] = useState('');
 
   const games = [
-    { id: 'firstgame', title: 'Twenty Five', company: 'Sunshine Games', imageUrl: TwentyFiveLogo },
-    { id: 'secondgame', title: 'Mental Math', company: 'Brain Boosters', imageUrl: MentalMathLogo },
-    { id: 'thirdgame', title: 'Reaction Time', company: 'Quick Reflex Co.', imageUrl: ReactionTimeLogo }
+    { id: 'firstgame', title: 'TwentyFive', company: 'Sunshine Games', imageUrl: TwentyFiveLogo },
+    { id: 'secondgame', title: 'MentalMath', company: 'Brain Boosters', imageUrl: MentalMathLogo },
+    { id: 'thirdgame', title: 'ReactionTime', company: 'Quick Reflex Co.', imageUrl: ReactionTimeLogo }
   ];
 
   const toggleModal = () => setIsOpen(!isOpen);
   const handleSelection = (gameId) => setSelectedGame(gameId);
+  const {
+      status : createGameStatus,
+      mutate : createGameMutate
+  } = useMutation({
+      mutationFn : handleStartGame,
+  })
 
-  const handleStartGame = () => {
+  async function handleStartGame (){
     if (selectedGame) {
+      await sunshine_game.createGame(activeGroup, principal, selectedGame);
       navigate(`/${selectedGame}`);
     } else {
       alert('Please select a game first!');
@@ -28,9 +41,15 @@ function GameOptions() {
 
   return (
     <>
-      <button onClick={toggleModal} className="rounded-full block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-sans">
-        Choose Your Game
-      </button>
+      <Button
+        className="bg-cream-custom hover:bg-cream-custom-hover"
+        size="sm"
+        textColor="white"
+        onClick={toggleModal}
+        height={10}
+      >
+        <IoGameController size={25}/>
+      </Button>
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto font-sans">
@@ -51,7 +70,7 @@ function GameOptions() {
                 <ul className="space-y-4 mb-4 font-sans">
                   {games.map(game => (
                     <li key={game.id}>
-                      <input type="radio" id={game.id} name="game" value={game.id} checked={selectedGame === game.id} onChange={() => handleSelection(game.id)} className="hidden peer" required />
+                      <input type="radio" id={game.id} name="game" value={game.id} checked={selectedGame === game.title} onChange={() => handleSelection(game.title)} className="hidden peer" required />
                       <label htmlFor={game.id} className="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-500 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-500 font-sans">
                         <div className="flex items-center">
                           <img src={game.imageUrl} alt={game.title} className="h-16 w-16 mr-4" />
@@ -64,7 +83,7 @@ function GameOptions() {
                     </li>
                   ))}
                 </ul>
-                <button onClick={handleStartGame} className="rounded-full text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-sans">
+                <button onClick={createGameMutate} className="rounded-full text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-sans">
                   Start Game
                 </button>
               </div>
