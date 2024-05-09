@@ -11,13 +11,13 @@ function CountingAnimation() {
         <div className="flex flex-col items-center">
           <div className="text-5xl font-bold mb-2">Users Joined</div>
           <div className="text-8xl font-bold text-blue-600">
-            <CountUp end={163052} duration={5} />
+            <CountUp end={163052} duration={7.5} />
           </div>
         </div>
         <div className="flex flex-col items-center">
           <div className="text-5xl font-bold mb-2">Chats Created</div>
           <div className="text-8xl font-bold text-purple-600">
-            <CountUp end={54523} duration={5} />
+            <CountUp end={54523} duration={7.5} />
           </div>
         </div>
       </div>
