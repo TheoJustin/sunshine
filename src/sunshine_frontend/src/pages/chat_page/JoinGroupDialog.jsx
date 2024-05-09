@@ -29,6 +29,8 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
     await sunshine_chat.addGroupMember(principal, groupId);
     console.log("successfully joined!");
     closeJoinGroupOverlay();
+    setSearchedGroupToJoinName("");
+    onClose();
     return true;
   }
   async function handleJoinClick(groupId) {
@@ -44,18 +46,28 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
         // console.log(searchedGroupName);
         // mapping buat chat
         if (groups.ok) {
-          const listItems = groups.ok.map(([name, description, id]) => (
-            <li className="text-left font-productsans relative">
-              <h1>{name}</h1>
-              <p>{description}</p>
-              <button
-                // style={joinButtonStyle()}
-                // onClick={() => handleJoinClick(id)}
-              >
-                Join
-              </button>
-            </li>
-          ));
+          const listItems = groups.ok.map(
+            ([name, description, id, imageUrl]) => (
+              <>
+                <div
+                  onClick={() => handleJoinClick(id)}
+                  className={`cursor-pointer text-left hover:bg-cream-custom rounded-xl ease-out transition-all duration-200 mr-2 p-4 flex flex-col mb-5`}
+                >
+                  <div className="flex gap-5">
+                    <img
+                      className="m-0 w-20 h-20 rounded-3xl object-cover"
+                      src={imageUrl === "" ? placeholder : imageUrl}
+                      alt=""
+                    />
+                    <div>
+                      <div className="font-bold">{name}</div>
+                      <div className="text-lg text-gray-600">{description}</div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )
+          );
 
           //   Setting the state with the list of elements
           setSearchedGroupsToJoin(<ul className="pt-4">{listItems}</ul>);
@@ -70,31 +82,29 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Join Group</ModalHeader>
+        <ModalHeader fontSize="2xl">Join Group</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Input
-            focusBorderColor="orange.400"
-            variant="filled"
-            placeholder="Group Name"
-            size="md"
-            onChange={(e) => {
-              setSearchedGroupToJoinName(e.target.value);
-            }}
-            value={searchedGroupToJoinName}
-          />
+          <div className="flex flex-col gap-4">
+            <div className="text-base">Enter group name to search</div>
+            <Input
+              focusBorderColor="orange.400"
+              variant="filled"
+              placeholder="Group Name"
+              size="md"
+              onChange={(e) => {
+                setSearchedGroupToJoinName(e.target.value);
+              }}
+              value={searchedGroupToJoinName}
+            />
+          </div>
+
           <div>{searchedGroupsToJoin}</div>
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
           </Button>
-          {/* <Button
-            className="bg-cream-custom hover:bg-cream-custom-hover"
-            color="white"
-          >
-            Join Group
-          </Button> */}
         </ModalFooter>
       </ModalContent>
     </Modal>

@@ -10,9 +10,10 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../use-auth-client";
 import { sunshine_chat } from "../../../../declarations/sunshine_chat";
+import { uploadImage } from "../../../../config/cloudinary";
 
 export default function CreateGroupDialog({ isOpen, onClose }) {
   const { status: createStatus, mutate: createMutate } = useMutation({
@@ -25,20 +26,52 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
   const { user, principal } = useAuth();
   const [groupName, setGroupName] = useState("");
   const [groupDescription, setGroupDescription] = useState("");
+  const [groupImage, setGroupImage] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
 
   async function handleClick() {
     createMutate();
-    // console.log("create clicked");
-    // console.log(principal)
   }
 
   async function createGroup() {
-    await sunshine_chat.createGroup(groupName, principal, groupDescription);
+    console.log("created")
+    await sunshine_chat.createGroup(groupName, principal, groupDescription, groupImage);
+    console.log(groupImage)
     // wannaCreate = false;
     setGroupName("");
     setGroupDescription("");
+    setGroupImage("");
     return true;
   }
+
+  const handleImage = async (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const validatedFileTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/webp",
+      ];
+
+      if (validatedFileTypes.includes(file.type)) {
+        try {
+          const url = await uploadImage(file, setImageLoading);
+          if (url) {
+            setGroupImage(url);
+          } else {
+            throw new Error("Failed to upload image.");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        e.target.value = "";
+      }
+      //   console.log(image);
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -70,13 +103,42 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
               }}
               value={groupDescription}
             />
+            {!imageLoading ? (
+              <>
+                <Button
+                  onClick={() => document.getElementById("file-input").click()}
+                  className="bg-cream-custom hover:bg-cream-custom-hover"
+                  color="white"
+                  onChange={(e) => {
+                    handleImage(e);
+                  }}
+                >
+                  Upload File
+                </Button>
+                <Input
+                  type="file"
+                  style={{ display: "none" }}
+                  id="file-input"
+                  onChange={(e) => {
+                    handleImage(e);
+                  }}
+                />
+              </>
+            ) : (
+              <Button
+                isLoading
+                className="bg-cream-custom hover:bg-cream-custom-hover"
+                color="white"
+              />
+            )}
+            {groupImage === "" ? <></> : <img className="rounded-3xl w-36 h-36 object-cover" src={groupImage} />}
           </div>
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
           </Button>
-          {createStatus !== "pending" ? (
+          {createStatus !== "pending" && imageLoading !== true ? (
             <Button
               className="bg-cream-custom hover:bg-cream-custom-hover"
               color="white"

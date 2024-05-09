@@ -359,9 +359,8 @@ actor {
         return Text.contains(lowerText, #text lowerPattern);
     };
 
-    // getting groups that the user hasn't joined yet
-    public shared query func getAllUnjoinedGroups(groupSearched : Text, currUser : Principal) : async Result.Result<[(Text, Text, Text)], Text> {
-        var allGroups = Vector.Vector<(Text, Text, Text)>();
+    public shared query func getAllUnjoinedGroups(groupSearched : Text, currUser : Principal) : async Result.Result<[(Text, Text, Text, Text)], Text> {
+        var allGroups = Vector.Vector<(Text, Text, Text, Text)>();
         if (groupSearched == "") {
             return #err("No group searched");
         };
@@ -373,7 +372,7 @@ actor {
                 // let size = Array.size(group.messages);
                 // if(size != 0){
                 //     let msg = group.messages[size-1].message;
-                allGroups.add(group.groupName, group.description, group.id);
+                allGroups.add(group.groupName, group.description, group.id, group.imageUrl);
                 // }
                 // else{
                 //     let msg = "";
