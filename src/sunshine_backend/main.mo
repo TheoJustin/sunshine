@@ -22,6 +22,7 @@ actor {
       birth_date : Text;
       timestamp : Time.Time;
       money : Nat;
+      profileUrl : Text;
    };
 
    let users = TrieMap.TrieMap<Principal, User>(Principal.equal, Principal.hash);
@@ -49,7 +50,7 @@ actor {
    };
 
    // get user object by ID
-   public shared query func getUserById(userId : Principal) : async Result.Result<User, Text> {
+   public query func getUserById(userId : Principal) : async Result.Result<User, Text> {
       let user = users.get(userId);
       switch (user) {
          case (?user) {
@@ -75,7 +76,7 @@ actor {
    };
 
    // update user
-   public func updateUser(userId : Principal, name : Text, email : Text, birth_date : Text) : async Bool {
+   public func updateUser(userId : Principal, name : Text, email : Text, birth_date : Text, profileUrl : Text) : async Bool {
       let user = users.get(userId);
       switch (user) {
          case (?user) {
@@ -86,6 +87,7 @@ actor {
                birth_date = birth_date;
                timestamp = user.timestamp;
                money = user.money;
+               profileUrl = profileUrl;
             };
             users.put(userId, newUser);
             return true;
@@ -103,7 +105,7 @@ actor {
    };
 
    // inserting data into array
-   public shared (msg) func register(name : Text, email : Text, birth_date : Text) : async Bool {
+   public shared (msg) func register(name : Text, email : Text, birth_date : Text, profileUrl : Text) : async Bool {
 
       let user_id = msg.caller;
 
@@ -117,13 +119,14 @@ actor {
          };
       };
 
-      let user = {
+      let user : User = {
          internet_identity = user_id;
          name = name;
          email = email;
          birth_date = birth_date;
          timestamp = Time.now();
          money = 50000;
+         profileUrl = profileUrl;
       };
 
       users.put(user.internet_identity, user);

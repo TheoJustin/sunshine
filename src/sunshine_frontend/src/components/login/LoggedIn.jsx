@@ -4,11 +4,18 @@ import { useNavigate } from "react-router-dom";
 import ChakraTemplate from "../../templates/ChakraTemplate";
 import { Button, Input } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import { uploadImage } from "../../../../config/cloudinary";
+import profilePlaceholder from "../../../../../assets/profilePlaceholder.jpg"
 
-const whoamiStyles = {
-  border: "1px solid #1a1a1a",
-  marginBottom: "1rem",
-};
+
+
+const imageContainerStyle = {
+  width: '100px',
+  height: '100px',
+  borderRadius: '50%',
+  overflow: 'hidden',
+  cursor: 'pointer',
+}
 
 function LoggedIn() {
   const [result, setResult] = useState("");
@@ -18,6 +25,8 @@ function LoggedIn() {
   const [email, setEmail] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const navigate = useNavigate();
+  const [image, setImage] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["getUser"],
@@ -29,7 +38,7 @@ function LoggedIn() {
     // sunshine_backend.tryFuzz();
     async function tryRegister() {
       if (data.err) {
-        const registerFlag = await user.register(name, email, dob);
+        const registerFlag = await user.register(name, email, dob, image);
         console.log(registerFlag);
         if (registerFlag == true) {
           setIsUpdating(false);
@@ -39,7 +48,8 @@ function LoggedIn() {
           data.ok.internet_identity,
           name,
           email,
-          dob
+          dob,
+          image
         );
         if (updateFlag == true) {
           setIsUpdating(false);
@@ -49,24 +59,67 @@ function LoggedIn() {
     tryRegister();
   };
 
+  const handleImage = async (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const validatedFileTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/webp",
+      ];
+
+      if (validatedFileTypes.includes(file.type)) {
+        try {
+          const url = await uploadImage(file, setImageLoading);
+          if (url) {
+            setImage(url);
+          } else {
+            throw new Error("Failed to upload image.");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        e.target.value = "";
+      }
+      console.log(image);
+    }
+  };
+
   useEffect(() => {
     if (!isLoading) {
       if (data.ok) {
         setName(data.ok.name);
         setEmail(data.ok.email);
         setDob(data.ok.birth_date);
+        setImage(data.ok.profileUrl)
       }
     }
   }, [data, isLoading]);
 
   if (isLoading) return <div>loading</div>;
 
+  async function handleImageClick(){
+    document.getElementById('fileInput').click();
+  }
+
   return (
     <ChakraTemplate>
       <div className="flex justify-center items-center">
-        <div className="relative flex flex-col top-[35vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl drop-shadow-lg">
+        <div className="relative flex flex-col top-[23vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl drop-shadow-lg">
           <div className="text-teal-custom font-bold text-3xl">
-            Profile Page
+            Your Profile
+          </div>
+          {/* <div>
+            <input type="file" id="imageInput" accept="image/*" onChange={(e) => { handleImage(e) }} />
+          </div>
+          <div>
+            <img id="previewImage" src={image === "" ? "#" : image} alt="Preview" style={profileStyle} />
+          </div> */}
+          <div  style={imageContainerStyle} onClick={() => {handleImageClick()}}>
+            <input type="file" style={{display: 'none'}} id="fileInput" accept="image/*"  onChange={(e) => { handleImage(e) }} />
+            <img id="profileImage" src={image === "" ? profilePlaceholder : image} alt="Upload a file" />
           </div>
           <div className="flex gap-5 text-lg container items-center">
             <div className="min-w-14">Name</div>
