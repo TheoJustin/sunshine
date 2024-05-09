@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { sunshine_chat } from "../../../../declarations/sunshine_chat";
 import { useAuth } from "../../use-auth-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import ChatBox from "./ChatBox";
-import CreateGroupContent from "./CreateGroupContent";
-import JoinGroupContent from "./JoinGroupContent";
 import {
   Button,
   Input,
@@ -25,12 +22,11 @@ import CreateGroupDialog from "./CreateGroupDialog";
 import JoinGroupDialog from "./JoinGroupDialog";
 import Group from "./Group";
 
-export default function GroupList() {
+export default function GroupList({ activeGroup, setActiveGroup }) {
   const [groups, setGroups] = useState();
   const { principal } = useAuth();
 
   const [searchedGroupName, setSearchedGroupName] = useState("");
-  const [activeGroup, setActiveGroup] = useState("");
   const {
     isOpen: isOpenCreateGroup,
     onOpen: onOpenCreateGroup,
@@ -45,8 +41,15 @@ export default function GroupList() {
   useEffect(() => {
     sunshine_chat.getAllGroups(searchedGroupName, principal).then((groups) => {
       if (groups.ok) {
-        const listItems = groups.ok.map(([name, lastMessage, id]) => (
-          <Group groupName={name} lastMessage={lastMessage} id={id} setActiveGroup={setActiveGroup} activeGroup={activeGroup} />
+        const listItems = groups.ok.map(([name, lastMessage, id, imageUrl]) => (
+          <Group
+            groupName={name}
+            lastMessage={lastMessage}
+            id={id}
+            imageUrl={imageUrl}
+            setActiveGroup={setActiveGroup}
+            activeGroup={activeGroup}
+          />
         ));
 
         //   Setting the state with the list of elements
@@ -96,7 +99,6 @@ export default function GroupList() {
         />
         <JoinGroupDialog isOpen={isOpenJoinGroup} onClose={onCloseJoinGroup} />
       </div>
-      <ChatBox activeGroup={activeGroup} />
     </>
   );
 }

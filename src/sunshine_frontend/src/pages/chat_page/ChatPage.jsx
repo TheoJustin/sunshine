@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
-import FriendList from "./FriendList";
 import ChatPageTemplate from "../../templates/ChatPageTemplate";
-import { useAuth } from "../../use-auth-client";
-import { useNavigate } from "react-router-dom";
 import ChatBox from "./ChatBox"
 import GroupList from "./GroupList";
 
 export default function ChatPage() {
-  
+  const [activeGroup, setActiveGroup] = useState("");
   return (
     <ChatPageTemplate>
-      <GroupList />
-      {/* <ChatBox /> */}
+      <GroupList activeGroup={activeGroup} setActiveGroup={setActiveGroup} />
+      <ChatBox activeGroup={activeGroup}  />
     </ChatPageTemplate>
   );
 }
