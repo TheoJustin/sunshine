@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import BackToChat from '../../components/game/BackToChat';
 
 function generateQuestion() {
-    const num1 = Math.floor(Math.random() * 19) + 2; // Random number between 2 and 20
-    const num2 = Math.floor(Math.random() * 19) + 2; // Random number between 2 and 20
+    const num1 = Math.floor(Math.random() * 19) + 2;
+    const num2 = Math.floor(Math.random() * 19) + 2;
     const operations = ['+', '-', '*'];
     const operation = operations[Math.floor(Math.random() * operations.length)];
 
@@ -23,7 +24,7 @@ function generateQuestion() {
 
     return {
         question: `${num1} ${operation} ${num2}`,
-        answer: answer
+        answer
     };
 }
 
@@ -45,11 +46,9 @@ function MentalMath() {
     }, [timerOn]);
 
     const handleStart = () => {
-        if (!timerOn) {
-            setCurrentQuestion(generateQuestion());
-            setTimerOn(true);
-            setQuestionCount(1);
-        }
+        setCurrentQuestion(generateQuestion());
+        setTimerOn(true);
+        setQuestionCount(1);
     };
 
     const handleAnswer = (event) => {
@@ -76,19 +75,22 @@ function MentalMath() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className='flex flex-col justify-center items-center space-y-4'>
-                <h1>Mental Math</h1>
-                {!timerOn && <button onClick={handleStart} type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Start</button>}
-                {timerOn && <div>
-                    <h2>Question {questionCount}: {currentQuestion.question}</h2>
-                    <form onSubmit={handleAnswer}>
-                        <input type="number" value={userAnswer} onChange={(e) => setUserAnswer(e.target.value)} autoFocus />
-                        <button type="submit" className="ml-2 text-white bg-blue-500 px-4 py-2 rounded">Submit</button>
-                    </form>
-                </div>}
-                <h2>Timer: {formatTime(time)}</h2>
-                {!timerOn && questionCount >= 10 && <h1 className="text-2xl">Final Score (Time): {formatTime(score)}</h1>}
+        <div className="flex justify-center items-center min-h-screen bg-blue-200 font-sans">
+            <div className='bg-white p-8 rounded-lg shadow-md w-full max-w-md'>
+                <h1 className='text-2xl font-bold text-center mb-6'>Mental Math Challenge</h1>
+                {!timerOn && <button onClick={handleStart} type="button" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-4 transition-colors duration-200">Start Challenge</button>}
+                {timerOn && (
+                    <div>
+                        <h2 className='text-lg mb-2'>Question {questionCount}: {currentQuestion.question}</h2>
+                        <form onSubmit={handleAnswer} className="flex justify-between items-center">
+                            <input type="number" value={userAnswer} onChange={(e) => setUserAnswer(e.target.value)} className="border-2 border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500" autoFocus />
+                            <button type="submit" className="ml-2 text-white bg-blue-500 px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-200">Submit</button>
+                        </form>
+                    </div>
+                )}
+                <h2 className='mt-4'>Timer: {formatTime(time)}</h2>
+                {!timerOn && questionCount >= 10 && <h1 className="text-xl font-semibold mt-4">Final Score (Time): {formatTime(score)}</h1>}
+            <BackToChat score={score}/>
             </div>
         </div>
     );

@@ -22,6 +22,13 @@ actor {
         variant : Text;
     };
 
+    // type
+    type Friend = {
+        user1 : Principal;
+        user2 : Principal;
+        messages : [Chat];
+    };
+
     type Group = {
         id : Text;
         imageUrl : Text;
@@ -35,6 +42,7 @@ actor {
 
     let groups = TrieMap.TrieMap<Text, Group>(Text.equal, Text.hash);
     let chats = TrieMap.TrieMap<Text, Chat>(Text.equal, Text.hash);
+    let friends = Vector.Vector<Friend>();
     // var currGroup = "";
 
     // changing currentGroup
@@ -151,7 +159,7 @@ actor {
         };
     };
 
-    // Create Chat with user inputs
+    // Create group Chat with user inputs
     public shared func createChat(newChat : Text, userId : Principal, currGroup : Text) : async Result.Result<Chat, Text> {
         let newId = await generateUUID();
         let groupId = currGroup;
@@ -374,4 +382,94 @@ actor {
         return #ok(Vector.toArray(allGroups));
     };
 
+    // getting all friends
+    public shared func getAllFriends(currUser : Principal) : async Result.Result<[User.User], Text> {
+        let friendsList = Vector.Vector<User.User>();
+        for (friend in friends.vals()) {
+            // var userFriend: ?User.User = null;
+            if (friend.user1 == currUser) {
+                let userFriend = await User.getUserById(friend.user2);
+                switch (userFriend) {
+                    case (#ok(userFriend)) {
+                        friendsList.add(userFriend);
+                    };
+                    case (#err(msg)) {
+                        return #err("failed fetching user");
+                    };
+                };
+            } else if (friend.user2 == currUser) {
+                let userFriend = await User.getUserById(friend.user1);
+                switch (userFriend) {
+                    case (#ok(userFriend)) {
+                        friendsList.add(userFriend);
+                    };
+                    case (#err(msg)) {
+                        return #err("failed fetching user");
+                    };
+                };
+            };
+        };
+        return #ok(Vector.toArray(friendsList));
+    };
+
+    // get friend box
+    public shared query func getFriendBox(user1 : Principal, user2 : Principal) : async Result.Result<Friend, Text> {
+        for (friend in friends.vals()) {
+            if (friend.user1 == user1 and friend.user2 == user2) {
+                return #ok(friend);
+            } else if (friend.user2 == user1 and friend.user1 == user2) {
+                return #ok(friend);
+            };
+        };
+        return #err("Not found");
+    };
+
+    func friendEqual(friend1 : Friend, friend2 : Friend) : Bool {
+        return friend1.user1 == friend2.user1 and friend1.user2 == friend2.user2 and friend1.messages == friend2.messages;
+    };
+
+    // creating a chat on friend chatbox
+    public shared func createFriendChat(userSender : Principal, user2 : Principal, message : Text) : async Result.Result<Text, Text> {
+        let newId = await generateUUID();
+        let friendBox = await getFriendBox(userSender, user2);
+        switch (friendBox) {
+            case (#err(msg)) {
+                return #err("Failed to create message");
+            };
+            case (#ok(friendBox)) {
+                let chat : Chat = {
+                    id = newId;
+                    timestamp = Time.now();
+                    status = "delivered";
+                    user = userSender;
+                    variant = "chat";
+                    message = message;
+                };
+                let chats = friendBox.messages;
+                let newChat = Array.append<Chat>(chats, [chat]);
+                let newFriendBox : Friend = {
+                    user1 = friendBox.user1;
+                    user2 = friendBox.user2;
+                    messages = newChat;
+                };
+                let index = Vector.indexOf<Friend>(friendBox, friends, friendEqual);
+                switch (index) {
+                    case (null) {
+                        return #err("Error in finding index");
+                    };
+                    case (?index) {
+                        friends.put(index, newFriendBox);
+                        return #ok("Successfully added chat");
+                    };
+                };
+                // groups.put(groupId, newGroup);
+            };
+        };
+        // chats.put(newId, chat);
+        // return #ok(chat);
+    };
+
+    // public shared func addFriend(user1: Principal, user2: Principal): async Result.Result<Text, Text> {
+
+    // };
 };

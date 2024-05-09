@@ -25,6 +25,8 @@ actor {
       profileUrl : Text;
    };
 
+   
+
    let users = TrieMap.TrieMap<Principal, User>(Principal.equal, Principal.hash);
 
    public query func tryFuzz() : async () {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import BackToChat from '../../components/game/BackToChat';
 
 function ReactionTest() {
-    const [status, setStatus] = useState('waiting'); // Status can be 'waiting', 'ready', 'tooSoon', or 'clicked'
+    const [status, setStatus] = useState('waiting'); // Status can be 'waiting', 'ready', 'tooSoon', 'clicked', or 'initiating'
     const [startTime, setStartTime] = useState(0);
     const [reactionTime, setReactionTime] = useState(null);
 
@@ -13,40 +14,39 @@ function ReactionTest() {
                     alert("Too slow! Try again.");
                     setReactionTime(null);
                 }
-            }, 5000);
+            }, 5000); // 5 seconds to respond
             return () => clearTimeout(timer);
         }
     }, [status]);
 
     const handleStart = () => {
-        if (status !== 'ready' && status !== 'clicked') {
-            setStatus('waiting');
-            setReactionTime(null);
-            const delay = Math.random() * 5000 + 1000;
-            setTimeout(() => {
-                setStatus('ready');
-                setStartTime(new Date().getTime());
-            }, delay);
-        }
+        setStatus('initiating');
+        setReactionTime(null);
+        const delay = Math.random() * 5000 + 1000; // Random delay between 1 and 6 seconds
+        setTimeout(() => {
+            setStatus('ready');
+            setStartTime(new Date().getTime());
+        }, delay);
     };
 
     const handleClick = () => {
         if (status === 'ready') {
             const endTime = new Date().getTime();
-            const reactionTime = endTime - startTime;
-            setReactionTime(reactionTime);
+            const reaction = endTime - startTime;
+            setReactionTime(reaction);
             setStatus('clicked');
-        } else if (status === 'waiting') {
+        } else if (status === 'waiting' || status === 'initiating') {
             setStatus('tooSoon');
             setTimeout(() => {
                 setStatus('waiting');
-            }, 2000); // Display "Too Soon" for 2 seconds before resetting
+            }, 2000); // Reset after "Too Soon"
         }
     };
 
     const getBackgroundColor = () => {
         switch (status) {
             case 'waiting':
+            case 'initiating':
                 return 'bg-blue-500';
             case 'ready':
                 return 'bg-green-500';
@@ -67,8 +67,13 @@ function ReactionTest() {
                 {status === 'waiting' && <p className="text-2xl">Get ready...</p>}
                 {status === 'tooSoon' && <p className="text-2xl">Too soon!</p>}
                 {status === 'ready' && <p className="text-2xl">Click now!</p>}
-                {status === 'clicked' && reactionTime !== null && <p className="text-2xl">Your reaction time: {reactionTime} milliseconds</p>}
-                {(status === 'waiting' || status === 'clicked') &&
+                {status === 'clicked' && reactionTime !== null && (
+                    <>
+                        <p className="text-2xl">Your reaction time: {reactionTime} milliseconds</p>
+                        <BackToChat score={reactionTime}/>
+                    </>
+                )}
+                {status === 'waiting' &&
                     <button onClick={(e) => {
                         e.stopPropagation();
                         handleStart();
