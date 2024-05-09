@@ -14,7 +14,6 @@ import { sunshine_chat } from "../../../../declarations/sunshine_chat";
 import { useAuth } from "../../use-auth-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import ChatBox from "./ChatBox";
-import CreateGroupContent from "./CreateGroupContent";
 
 export default function JoinGroupDialog({ isOpen, onClose }) {
   const [searchedGroupsToJoin, setSearchedGroupsToJoin] = useState();
