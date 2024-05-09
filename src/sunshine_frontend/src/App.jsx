@@ -19,6 +19,9 @@ import { AuthProvider } from "./use-auth-client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Navbar from "./components/Navbar";
 import { ChakraProvider } from "@chakra-ui/react";
+import TwentyFive from "./pages/game_page/TwentyFive";
+import MentalMath from "./pages/game_page/MentalMath";
+import ReactionTest from "./pages/game_page/ReactionTest";
 // import { CardWithForm } from "./components/login/LoginCardTest";
 
 // const agent = new HttpAgent({ host: 'https://ic0.app' });
@@ -54,10 +57,18 @@ const routes = [
     path: "/friend",
     element: <FriendPage />,
   },
-  // {
-  //   path: "/testCard",
-  //   element: <CardWithForm />,
-  // },
+  {
+    path: "/firstgame",
+    element: <TwentyFive />,
+  },
+  {
+    path: "/secondgame",
+    element: <MentalMath />,
+  },
+  {
+    path: "/thirdgame",
+    element: <ReactionTest />,
+  },
 ];
 
 function App() {
