@@ -1,6 +1,4 @@
-import User "canister:sunshine_backend";
 import Principal "mo:base/Principal";
-import Result "mo:base/Result";
 
 actor {
     //  shared func test(test: Principal) : async Result.Result<User.User, Text> {
