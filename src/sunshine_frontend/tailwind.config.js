@@ -16,8 +16,9 @@ export default {
       colors: {
         'teal-custom' : '#2EC4B6',
         'cyan-custom' : '#CBF3F0',
-        'orange-custom' : '#FF9F1C',
-        'cream-custom' : '#FFBF69',
+        'orange-custom' : '#FF9F1C !important',
+        'cream-custom' : '#FFBF69 !important',
+        'cream-custom-hover' : '#E3A600 !important',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
