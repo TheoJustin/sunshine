@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PhotoTilt from "../components/PhotoTilt";
-import Navbar from "../components/Navbar";
 import Feature from '../components/Feature';
 import { Parallax, ParallaxLayer } from "@react-spring/parallax";
 import { Typewriter } from "react-simple-typewriter";

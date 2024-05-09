@@ -1,11 +1,9 @@
-
 import React, { useEffect, useState } from 'react'
 import logo from "../../../../assets/Logo_Sunshine-removebg.png"
 import { NavLink } from 'react-router-dom';
 
 const activeStyle = ({ isActive }) => ({
   color: isActive ? 'black' : 'black',
-  textDecoration: isActive ? 'underline' : 'none',
   fontSize: '1.7vw'
 });
 
@@ -33,8 +31,6 @@ function Navbar() {
   }
 
   return (
-    // <BrowserRouter>
-    //   <main>
     <>
       <nav style={navStyle(locationName)}>
         <ul>
@@ -45,25 +41,22 @@ function Navbar() {
             <NavLink style={activeStyle} to="/about" onClick={refreshSquare} >About</NavLink>
 
           </div>
-          {/* <div> */}
           <NavLink to={"/chat"} onClick={refreshSquare}>
             <img className='logo' src={logo} alt="" />
 
           </NavLink>
-          {/* </div> */}
           <div>
             <NavLink style={activeStyle} to="/login" onClick={refreshSquare} >Profile</NavLink>
           </div>
 
           <div>
-            <NavLink style={activeStyle} to="/" onClick={refreshSquare} >Etc</NavLink>
+            <NavLink style={activeStyle} to="/chat" onClick={refreshSquare} >Chat</NavLink>
 
           </div>
           <div className='navIndicator' style={squareStyle}></div>
 
         </ul>
       </nav>
-      {/* <div>{location.pathname}</div> */}
     </>
   );
 }

@@ -1,35 +1,39 @@
-
 import React from "react";
+import { FaDiscord, FaTelegramPlane, FaInstagram } from "react-icons/fa";
+import Logo from "../../../../assets/Logo_Sunshine-removebg.png";
 
-export default function Footer(){
-    return(
+export default function Footer() {
+    return (
         <>
-            <footer className="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
-                <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+            <footer className="rounded-lg shadow" style={{ backgroundColor: "#2A6356" }}>
+                <div className="w-full pl-16 pr-16 md:py-8">
                     <div className="sm:flex sm:items-center sm:justify-between">
-                        <a href="https://flowbite.com/" className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                            <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-                            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                        <a href={Logo} className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
+                            <img src={Logo} className="h-16" alt="Sunshine Logo" />
+                            <span className="self-center text-3xl font-semibold whitespace-nowrap text-white font-sans">Sunshine</span>
                         </a>
-                        <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-                            <li>
-                                <a href="#" className="hover:underline me-4 md:me-6">About</a>
+                        <ul className="flex flex-wrap items-center mb-6 text-lg font-medium text-white sm:mb-0">
+                            <li className="mr-6">
+                                <a href="https://discord.com/users/31709445408948225" className="hover:text-blue-300 transition-colors duration-300">
+                                    <FaDiscord size="2em" />
+                                </a>
                             </li>
-                            <li>
-                                <a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a>
+                            <li className="mr-6">
+                                <a href="https://t.me/theojustin" className="hover:text-sky-300 transition-colors duration-300">
+                                    <FaTelegramPlane size="2em" />
+                                </a>
                             </li>
-                            <li>
-                                <a href="#" className="hover:underline me-4 md:me-6">Licensing</a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:underline">Contact</a>
+                            <li className="mr-6">
+                                <a href="https://instagram.com/theojustin_" className="hover:text-pink-300 transition-colors duration-300">
+                                    <FaInstagram size="2em" />
+                                </a>
                             </li>
                         </ul>
                     </div>
-                    <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-                    <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.</span>
+                    <hr className="my-6 border-gray-300 sm:mx-auto" />
+                    <span className="block text-lg text-white sm:text-center font-sans">© 2023 <a href="" className="hover:underline">Sunshine™</a>. All Rights Reserved.</span>
                 </div>
             </footer>
         </>
-    )
+    );
 }

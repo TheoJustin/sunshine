@@ -54,7 +54,7 @@ export default {
       },
       fontFamily: {
         'productsans': ['ProductSans', 'sans-serif'],
-        // sans: ["var(--font-sans)", ...fontFamily.sans],
+        'sans': ['Montserrat', 'sans-serif'],
       },
       borderRadius: {
         lg: `var(--radius)`,
