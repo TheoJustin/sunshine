@@ -115,12 +115,12 @@ export const MacbookScroll = ({ src, showGradient, title, badge }) => {
     }
   }, []);
 
-  const scaleX = useTransform(scrollYProgress, [0.05, 0.95], [1.2, isMobile ? 1 : 1.5]);  // Much slower scale transition
-  const scaleY = useTransform(scrollYProgress, [0.05, 0.95], [0.6, isMobile ? 1 : 1.5]);  // Much slower scale transition
-  const translate = useTransform(scrollYProgress, [0.05, 0.95], [0, 800]);  // Much slower translation
-  const rotate = useTransform(scrollYProgress, [0.2, 0.8], [-28, 0]);  // Slower, more controlled rotation
-  const textTransform = useTransform(scrollYProgress, [0.05, 0.95], [0, 100]);  // Text moves slower
-  const textOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0]);  // Slower fade out of text
+  const scaleX = useTransform(scrollYProgress, [0.05, 0.95], [1.2, isMobile ? 1 : 1.5]);
+  const scaleY = useTransform(scrollYProgress, [0.05, 0.95], [0.6, isMobile ? 1 : 1.5]);
+  const translate = useTransform(scrollYProgress, [0.05, 0.95], [0, 800]);
+  const rotate = useTransform(scrollYProgress, [0.2, 0.8], [-28, 0]);
+  const textTransform = useTransform(scrollYProgress, [0.05, 0.95], [0, 100]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0]);
 
   return (
     <div ref={ref} className="min-h-[200vh] flex flex-col items-center py-0 md:py-80 justify-start flex-shrink-0 [perspective:800px] transform md:scale-100 scale-[0.35] sm:scale-50">
