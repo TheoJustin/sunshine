@@ -6,18 +6,18 @@ import CountUp from 'react-countup';
 
 function CountingAnimation() {
   return (
-    <div className="absolute bottom-0 w-full flex justify-center items-center py-10">
+    <div className="absolute bottom w-full flex justify-center items-center">
       <div className="flex justify-around items-center w-full max-w-6xl mx-auto">
         <div className="flex flex-col items-center">
           <div className="text-5xl font-bold mb-2">Users Joined</div>
           <div className="text-8xl font-bold text-blue-600">
-            <CountUp end={163052} duration={2.5} />
+            <CountUp end={163052} duration={5} />
           </div>
         </div>
         <div className="flex flex-col items-center">
           <div className="text-5xl font-bold mb-2">Chats Created</div>
           <div className="text-8xl font-bold text-purple-600">
-            <CountUp end={54523} duration={2.5} />
+            <CountUp end={54523} duration={5} />
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@ function AboutPage() {
         speed="fast"
         waveOpacity={0.6}
       >
-        <div style={{ backgroundColor: '#2EC4B6', padding: '20px', borderRadius: '20px' }} className="container mx-auto py-12 px-4 shadow-lg">
+        <div style={{ backgroundColor: '#2EC4B6', padding: '20px', borderRadius: '20px' }} className="container mx-auto py-12 px-4 shadow-lg mb-5">
           <h1 className="text-3xl font-bold mb-6 text-white">Our Members</h1>
           <p className="text-lg text-white mb-8">Meet our team members who contributed to this project.</p>
           
@@ -72,7 +72,7 @@ function AboutPage() {
         </div>
       </WavyBackground>
       
-      <CountingAnimation />
+        <CountingAnimation />
 
       <MacbookScroll
           src={logo}
