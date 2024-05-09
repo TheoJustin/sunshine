@@ -15,6 +15,7 @@ import parallax8 from "../../../../assets/parallax/parallax-8.png";
 import sun1 from "../../../../assets/parallax/sun-1.png";
 import Footer from '../components/Footer';
 import { useAuth } from '../use-auth-client';
+import Currency from './Currency';
 // import { sunshine_backend } from "../../.././declarations/sunshine_backend"
 
 // style for parallax images
@@ -135,6 +136,7 @@ function LandingPage() {
         }}>
           
         <Footer/>
+        <Currency></Currency>
         </ParallaxLayer>
 
         <ParallaxLayer offset={1} speed={3} factor={1} className='z-50' style={{
@@ -142,6 +144,7 @@ function LandingPage() {
           // marginTop: '-36rem'
           bottom: '0'
         }}>
+
         </ParallaxLayer>
 
         
