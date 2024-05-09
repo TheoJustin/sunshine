@@ -94,6 +94,8 @@ export default function ChatBox({ activeGroup }) {
               }}
             />
 
+            <GameOptions activeGroup={activeGroup}/>
+
             <Button
               className="bg-cream-custom hover:bg-cream-custom-hover"
               size="sm"

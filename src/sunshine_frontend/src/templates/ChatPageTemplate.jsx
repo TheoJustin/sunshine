@@ -19,7 +19,7 @@ export default function ChatPageTemplate({ children }) {
   return (
     <>
       <ChakraProvider>
-        <div className="flex w-screen h-screen bg-yellow-50">
+        <div className="flex w-screen h-screen bg-yellow-50 overflow-y-hidden">
           <Sidebar />
           {children}
         </div>
