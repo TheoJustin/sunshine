@@ -49,8 +49,8 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
               <h1>{name}</h1>
               <p>{description}</p>
               <button
-                style={joinButtonStyle()}
-                onClick={() => handleJoinClick(id)}
+                // style={joinButtonStyle()}
+                // onClick={() => handleJoinClick(id)}
               >
                 Join
               </button>
@@ -89,12 +89,12 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
           <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
           </Button>
-          <Button
+          {/* <Button
             className="bg-cream-custom hover:bg-cream-custom-hover"
             color="white"
           >
             Join Group
-          </Button>
+          </Button> */}
         </ModalFooter>
       </ModalContent>
     </Modal>
