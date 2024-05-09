@@ -24,13 +24,13 @@ const imageStyle = ({
 
 
 function LandingPage() {
-  const {user} = useAuth();
+  const {user, principal} = useAuth();
   const [currentName, setCurrentName] = useState("Hi");
   useEffect(()=>{
     // async function initName(){
       console.log(user);
       if(user!=null){
-        user.getName().then(name => {
+        user.getName(principal).then(name => {
           setCurrentName(name);
         })
       }

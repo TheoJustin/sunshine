@@ -37,9 +37,9 @@ actor {
    };
 
    // get current user's name
-   public shared query (msg) func getName() : async Text {
-      Debug.print(debug_show (msg.caller));
-      let user : ?User = users.get(msg.caller);
+   public shared query func getName(userId: Principal) : async Text {
+      // Debug.print(debug_show (msg.caller));
+      let user : ?User = users.get(userId);
       switch (user) {
          case (?user) {
             return user.name;

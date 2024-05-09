@@ -328,7 +328,7 @@ actor {
         };
     };
 
-    public shared query func getAllGroups(groupName : Text, currUser : Principal) : async Result.Result<[(Text, Text, Text, Text)], Text> {
+    public shared func getAllGroups(groupName : Text, currUser : Principal) : async Result.Result<[(Text, Text, Text, Text)], Text> {
         var allGroups = Vector.Vector<(Text, Text, Text, Text)>();
         for (group in groups.vals()) {
             // if (group.groupId == groupId) {
@@ -337,7 +337,10 @@ actor {
             if (contains and joined) {
                 let size = Array.size(group.messages);
                 if (size != 0) {
-                    let msg = group.messages[size -1].message;
+                    let message = group.messages[size -1];
+                    let msgContent = message.message;
+                    let username = await User.getName(message.user);
+                    let msg = username # " : " # msgContent;
                     allGroups.add(group.groupName, msg, group.id, group.imageUrl);
                 } else {
                     let msg = "";
@@ -470,7 +473,18 @@ actor {
         // return #ok(chat);
     };
 
-    // public shared func addFriend(user1: Principal, user2: Principal): async Result.Result<Text, Text> {
-
-    // };
+    public shared func addFriend(user1 : Principal, user2 : Principal) : async Result.Result<Text, Text> {
+        // groupMem.add(userCreator);
+        if(Principal.isAnonymous(user1) or Principal.isAnonymous(user2)){
+            return #err("Unauthorized!");
+        };
+        let newFriendBox : Friend = {
+            user1 = user1;
+            user2 = user2;
+            messages = [];
+        };
+        // newGroup.groupMembers.add(userCreator);
+        friends.add(newFriendBox);
+        return #ok("Successfully added");
+    };
 };
