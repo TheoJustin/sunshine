@@ -26,7 +26,6 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
     console.log(groupId);
     await sunshine_chat.addGroupMember(principal, groupId);
     console.log("successfully joined!");
-    closeJoinGroupOverlay();
     setSearchedGroupToJoinName("");
     onClose();
     return true;
@@ -45,9 +44,10 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
         // mapping buat chat
         if (groups.ok) {
           const listItems = groups.ok.map(
-            ([name, description, id, imageUrl]) => (
+            ([name, description, id, imageUrl], idx) => (
               <>
                 <div
+                  key={idx}
                   onClick={() => handleJoinClick(id)}
                   className={`cursor-pointer text-left hover:bg-cream-custom rounded-xl ease-out transition-all duration-200 mr-2 p-4 flex flex-col mb-5`}
                 >

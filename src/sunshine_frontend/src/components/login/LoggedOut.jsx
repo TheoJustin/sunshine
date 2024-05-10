@@ -9,13 +9,13 @@ function LoggedOut() {
   return (
     <ChakraTemplate>
       <div className="flex justify-center items-center">
-        <div className="relative flex flex-col top-[35vh] gap-3 text-center items-center bg-slate-50 w-fit p-7 rounded-xl drop-shadow-lg">
+        <div className="relative flex flex-col top-[35vh] gap-3 text-center items-center bg-slate-50 w-fit p-7 rounded-xl">
           <div className="text-teal-custom font-bold text-3xl">Welcome Back!</div>
           <div className="">You are not authenticated</div>
           {/* <button type="button" id="loginButton" onClick={login}>
         Log in
       </button> */}
-          <Button colorScheme="teal" size="md" variant="solid" onClick={login} className="w-full">
+          <Button size="md" variant="solid" onClick={login} className="w-full bg-teal-custom" color="white">
             Log in
           </Button>
         </div>
