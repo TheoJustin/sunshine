@@ -198,9 +198,8 @@ export default function ChatBox({ activeGroup }) {
                         <div className="text-base">{name}</div>
                       )}
                       <div
-                        className={`flex gap-3 items-end ${
-                          isTheSameSender ? "ml-[3.75rem]" : ""
-                        }`}
+                        className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
+                          }`}
                       >
                         <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
                           {message}
@@ -277,12 +276,18 @@ export default function ChatBox({ activeGroup }) {
                         <div className="text-base">{name}</div>
                       )}
                       <div
-                        className={`flex gap-3 items-end ${
-                          isTheSameSender ? "ml-[3.75rem]" : ""
-                        }`}
+                        className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
+                          }`}
                       >
                         <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
-                          {message}
+                          <GameBox
+                            principal={principal}
+                            gameId={id}
+                            participants={participants}
+                            score={scores}
+                            gameType={gameType}
+                            activeGroup={activeGroup}
+                          />
                         </div>
                         <div className="text-sm">
                           {" "}
