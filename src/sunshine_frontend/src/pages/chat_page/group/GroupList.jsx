@@ -78,7 +78,7 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
           </Button>
         </div>
         <div className="overflow-y-scroll h-[93%] flex flex-col pl-4">
-          {!isLoading ? groups : <Skeleton />}
+          {!isLoading ? groups : <></>}
         </div>
         <div className="absolute top-[93%] left-[21vw] gap-4 flex">
           <Button

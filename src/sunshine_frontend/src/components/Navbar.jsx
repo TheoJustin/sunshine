@@ -22,7 +22,7 @@ const activeSquareStyle = (pathname) => ({
 });
 
 const navStyle = (pathname) => ({
-  display: pathname === "/chat" ? "none" : "flex",
+  display: pathname === "/chat" || pathname === "/friend" ? "none" : "flex",
 });
 
 function Navbar() {
