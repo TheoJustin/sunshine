@@ -418,17 +418,6 @@ actor {
     };
 
     // get all unadded friends
-    public shared func getAllUnaddedFriends(friendSearched : Text, currUser : Principal) : async Result.Result<[User], Text>{
-        var allFriends = Vector.Vector<User>();
-        if(friendSearched == ""){
-            return #err("No friend searched");
-        };
-        for(user in User.users.vals()){
-            // user ada di friendlist
-            
-        }
-        
-    }
 
     // getting all friends
     public shared func getAllFriends(currUser : Principal) : async Result.Result<[User.User], Text> {

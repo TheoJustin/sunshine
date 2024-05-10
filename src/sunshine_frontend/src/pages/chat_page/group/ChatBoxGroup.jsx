@@ -3,7 +3,13 @@ import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 import { useAuth } from "../../../use-auth-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import GameOptions from "../../../components/game/GameOptions";
-import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import {
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { TbSend2 } from "react-icons/tb";
 import { sunshine_game } from "../../../../../declarations/sunshine_game";
@@ -11,6 +17,7 @@ import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import MiniLoader from "../../../components/MiniLoader";
 import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 import GameBox from "../GameBox";
+import ProfileDialog from "./ProfileDialog";
 
 export default function ChatBox({ activeGroup }) {
   //buat semua chat
@@ -28,12 +35,16 @@ export default function ChatBox({ activeGroup }) {
     queryKey: ["checkFetch"],
     queryFn: fetchChats,
   });
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [passedPrincipal, setPassedPrincipal] = useState();
 
   async function fetchChats(activeGroup) {
     // console.log(activeGroup);
     const chats = await sunshine_chat.getAllChatsAccordingToGroup(activeGroup);
     // mapping buat chat
-    const chatngame = await sunshine_chat.getAllChatsAndGamesAccordingToGroup(activeGroup);
+    const chatngame = await sunshine_chat.getAllChatsAndGamesAccordingToGroup(
+      activeGroup
+    );
     // console.log(chatngame);
     // console.log(chats);
     // if (chats.ok) {
@@ -117,7 +128,19 @@ export default function ChatBox({ activeGroup }) {
     if (chatngame.ok) {
       let lastPrincipal = null;
       const listItems = chatngame.ok.map(
-        ([id, message, principalMsg, timestamp, status, variant, gameType, participants, scores, name, pfp]) => {
+        ([
+          id,
+          message,
+          principalMsg,
+          timestamp,
+          status,
+          variant,
+          gameType,
+          participants,
+          scores,
+          name,
+          pfp,
+        ]) => {
           // console.log(id, message, principalMsg, timestamp, status, variant, gameType, participants, scores, name, pfp);
           // let pfp = await sunshine_backend.getPfp(principalMsg);
           // let name = await sunshine_backend.getName(principalMsg);
@@ -159,9 +182,13 @@ export default function ChatBox({ activeGroup }) {
                       <></>
                     ) : (
                       <img
-                        className="w-10 h-10 object-cover m-0 align-end rounded-full"
+                        className="w-10 h-10 object-cover m-0 align-end rounded-full cursor-pointer"
                         src={pfp === "" ? placeholder : pfp}
                         alt=""
+                        onClick={() => {
+                          setPassedPrincipal(principalMsg);
+                          onOpen();
+                        }}
                       />
                     )}
                     <div className="flex flex-col">
@@ -171,15 +198,18 @@ export default function ChatBox({ activeGroup }) {
                         <div className="text-base">{name}</div>
                       )}
                       <div
-                        className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
-                          }`}
+                        className={`flex gap-3 items-end ${
+                          isTheSameSender ? "ml-[3.75rem]" : ""
+                        }`}
                       >
                         <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
                           {message}
                         </div>
                         <div className="text-sm">
                           {" "}
-                          {new Date(Number(timestamp) / 1000000).toLocaleString()}
+                          {new Date(
+                            Number(timestamp) / 1000000
+                          ).toLocaleString()}
                         </div>
                       </div>
                     </div>
@@ -212,7 +242,14 @@ export default function ChatBox({ activeGroup }) {
                         })}
                         <p>Press button below to join game!</p>
                         <button>Join Game</button> */}
-                        <GameBox principal={principal} gameId={id} participants={participants} score={scores} gameType={gameType} activeGroup={activeGroup}/>
+                        <GameBox
+                          principal={principal}
+                          gameId={id}
+                          participants={participants}
+                          score={scores}
+                          gameType={gameType}
+                          activeGroup={activeGroup}
+                        />
                       </div>
                     </div>
                     {/* {name}: {message} at{" "}
@@ -240,15 +277,18 @@ export default function ChatBox({ activeGroup }) {
                         <div className="text-base">{name}</div>
                       )}
                       <div
-                        className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
-                          }`}
+                        className={`flex gap-3 items-end ${
+                          isTheSameSender ? "ml-[3.75rem]" : ""
+                        }`}
                       >
                         <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
                           {message}
                         </div>
                         <div className="text-sm">
                           {" "}
-                          {new Date(Number(timestamp) / 1000000).toLocaleString()}
+                          {new Date(
+                            Number(timestamp) / 1000000
+                          ).toLocaleString()}
                         </div>
                       </div>
                     </div>
@@ -271,7 +311,6 @@ export default function ChatBox({ activeGroup }) {
 
   async function getPfp(principal) {
     return await sunshine_backend.getPfp(principal);
-
   }
 
   function trySend() {
@@ -357,6 +396,15 @@ export default function ChatBox({ activeGroup }) {
           <></>
         )}
       </div>
+      {passedPrincipal !== "" ? (
+        <ProfileDialog
+          isOpen={isOpen}
+          onClose={onClose}
+          passedPrincipal={passedPrincipal}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

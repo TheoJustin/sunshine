@@ -38,21 +38,25 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
   const fetchGroups = () => {
     sunshine_chat.getAllGroups(searchedGroupName, principal).then((groups) => {
       if (groups.ok) {
-        const listItems = groups.ok.map(([name, lastMessage, id, imageUrl]) => (
-          <Group
-            groupName={name}
-            lastMessage={lastMessage}
-            id={id}
-            imageUrl={imageUrl}
-            setActiveGroup={setActiveGroup}
-            activeGroup={activeGroup}
-          />
-        ));
+        const listItems = groups.ok.map(
+          ([name, lastMessage, id, imageUrl], idx) => (
+            <Group
+              key={idx}
+              groupName={name}
+              lastMessage={lastMessage}
+              id={id}
+              imageUrl={imageUrl}
+              setActiveGroup={setActiveGroup}
+              activeGroup={activeGroup}
+            />
+          )
+        );
 
         //   Setting the state with the list of elements
         setGroups(listItems);
       }
     });
+    return true;
   };
 
   return (
