@@ -45,7 +45,7 @@ actor {
 
     let groups = TrieMap.TrieMap<Text, Group>(Text.equal, Text.hash);
     let chats = TrieMap.TrieMap<Text, Chat>(Text.equal, Text.hash);
-  
+    let friends = Vector.Vector<Friend>();
     // var currGroup = "";
 
     // changing currentGroup
@@ -417,18 +417,70 @@ actor {
         return #ok(Vector.toArray(allGroups));
     };
 
+    // checking if two users are friends or not
+    public func isFriends(user1 : Principal, user2 : Principal) : async Result.Result<Bool, Text> {
+        let allFriends = await getAllFriends(user1);
+        switch (allFriends) {
+            case (#ok(allFriends)) {
+                // for (user in allFriends.vals()) {
+                //     // user tidak ada di friendlist
+                let userTarget = await User.getUserById(user2);
+                switch (userTarget) {
+                    case (#ok(userTarget)) {
+                        if (Vector.indexOf<User.User>(userTarget, Vector.fromArray(allFriends), isSameUser) != null) {
+                            // allNotFriend.add(user);
+                            return #ok(true);
+                        } else {
+                            return #ok(false);
+                        };
+                    };
+                    case (#err(msg)){
+                        return #err(msg);
+                    };
+                };
+                // };
+            };
+            case (#err(msg)) {
+                return #err(msg);
+            };
+        };
+    };
+
+    // comparison function for indexOf
+    func isSameUser(user1 : User.User, user2 : User.User) : Bool {
+        return user1.internet_identity == user2.internet_identity;
+    };
+    
     // get all unadded friends
-    public shared func getAllUnaddedFriends(friendSearched : Text, currUser : Principal) : async Result.Result<[User], Text>{
-        var allFriends = Vector.Vector<User>();
-        if(friendSearched == ""){
+    public func getAllUnaddedFriends(friendSearched : Text, currUser : Principal) : async Result.Result<[User.User], Text> {
+        if (friendSearched == "") {
             return #err("No friend searched");
         };
-        for(user in User.users.vals()){
-            // user ada di friendlist
-            
-        }
-        
-    }
+        let allNotFriend = Vector.Vector<User.User>();
+        let allUsers = await User.searchByName(friendSearched);
+        switch (allUsers) {
+            case (#ok(allUsers)) {
+                let allFriends = await getAllFriends(currUser);
+                switch (allFriends) {
+                    case (#ok(allFriends)) {
+                        for (user in allUsers.vals()) {
+                            // user tidak ada di friendlist
+                            if (Vector.indexOf<User.User>(user, Vector.fromArray(allFriends), isSameUser) == null) {
+                                allNotFriend.add(user);
+                            };
+                        };
+                        return #ok(Vector.toArray(allNotFriend));
+                    };
+                    case (#err(msg)) {
+                        return #err(msg);
+                    };
+                };
+            };
+            case (#err(msg)) {
+                return #err(msg);
+            };
+        };
+    };
 
     // getting all friends
     public shared func getAllFriends(currUser : Principal) : async Result.Result<[User.User], Text> {
@@ -647,8 +699,8 @@ actor {
                     case (#ok(group)) {
                         let chats : Vector.Vector<Chat> = Vector.fromArray(group.messages);
                         let oldChatIndex = Vector.indexOf<Chat>(game, chats, isSameChat);
-                        switch(oldChatIndex){
-                            case (?oldChatIndex){
+                        switch (oldChatIndex) {
+                            case (?oldChatIndex) {
                                 chats.put(oldChatIndex, updatedGame);
                                 let newGroup : Group = {
                                     id = group.id;
@@ -663,7 +715,7 @@ actor {
                                 groups.put(groupId, newGroup);
                                 return #ok();
                             };
-                            case (null){
+                            case (null) {
                                 return #err("Group error");
                             };
                         };

@@ -65,6 +65,26 @@ actor {
       };
    };
 
+   func containsInsensitive(text : Text, pattern : Text) : Bool {
+        let lowerText = Text.toLowercase(text);
+        let lowerPattern = Text.toLowercase(pattern);
+        return Text.contains(lowerText, #text lowerPattern);
+    };
+
+    func isSameUser(user1: User, user2: User): Bool {
+      return user1.internet_identity == user2.internet_identity;
+    };
+
+   public query func searchByName (name: Text): async Result.Result<[User], Text> {
+      var allUsers = Vector.Vector<User>();
+      for (user in users.vals()){
+         if(containsInsensitive(user.name, name)){
+            allUsers.add(user);
+         };
+      };
+      return #ok(Vector.toArray(allUsers));
+   };
+
    public  func getParticipantsName(participants : [Principal]) : async [Text]{
       var participantsName = Vector.Vector<Text>();
       for (user in participants.vals()){
