@@ -791,7 +791,7 @@ actor {
         };
     };
 
-    // 
+    //
     public func joinGameFriend(userJoin : Principal, user2 : Principal, gameId : Text) : async Result.Result<(), Text> {
         let game = chats.get(gameId);
         switch (game) {
@@ -848,6 +848,110 @@ actor {
             };
             case (null) {
                 return #err("error");
+            };
+        };
+    };
+    public shared func sendMoney(senderId : Principal, receiverId : Principal, amount : Nat) : async Result.Result<Nat, Text> {
+        if (Principal.isAnonymous(senderId)) {
+            return #err("Unauthorized");
+        };
+
+        let sender = await User.getUserById(senderId);
+        let receiver = await User.getUserById(receiverId);
+
+        switch (sender) {
+            case (#ok(sender)) {
+
+                if (sender.money < amount) {
+                    return #err("Failed to send money");
+                };
+
+                switch (receiver) {
+                    case (#ok(receiver)) {
+                        let receiverMoney = receiver.money + amount;
+                        let senderMoney = sender.money - amount;
+
+                        let receiverPrototype : User.User = {
+                            internet_identity = receiver.internet_identity;
+                            name = receiver.name;
+                            email = receiver.email;
+                            birth_date = receiver.birth_date;
+                            timestamp = receiver.timestamp;
+                            money = receiverMoney;
+                            profileUrl = receiver.profileUrl;
+                        };
+
+                        let senderPrototype : User.User = {
+                            internet_identity = sender.internet_identity;
+                            name = sender.name;
+                            email = sender.email;
+                            birth_date = sender.birth_date;
+                            timestamp = sender.timestamp;
+                            money = senderMoney;
+                            profileUrl = sender.profileUrl;
+                        };
+
+                        await User.putUsers(receiverPrototype);
+                        await User.putUsers(senderPrototype);
+
+                        return #ok(sender.money);
+                    };
+                    case (#err(msg)) {
+                        return #err("Failed to get userid");
+                    };
+                };
+            };
+            case (#err(msg)) {
+                return #err("Failed to get userid");
+            };
+        };
+    };
+
+    // update score list of the game
+    public shared func updateScore(gameId : Text, user_id : Principal, score : Nat) : async Result.Result<Text, Text> {
+        if (Principal.isAnonymous(user_id)) {
+            return #err("Unauthorized");
+        };
+
+        let currUser = await User.getUserById(user_id);
+        switch (currUser) {
+            case (#ok(currUser)) {
+                let game = chats.get(gameId);
+                switch (game) {
+                    case (?game) {
+                        let index = Array.indexOf<Principal>(user_id, game.participants, Principal.equal);
+                        switch (index) {
+                            case (?index) {
+                                let newScores : Vector.Vector<Nat> = Vector.fromArray(game.scores);
+                                newScores.put(index, score);
+
+                                let newGame : Chat = {
+                                    id = game.id;
+                                    timestamp = game.timestamp;
+                                    status = game.status;
+                                    user = game.user;
+                                    variant = game.variant;
+                                    message = game.message;
+                                    gameType = game.gameType;
+                                    participants = game.participants;
+                                    scores = Vector.toArray(newScores);
+                                };
+                                chats.put(gameId, newGame);
+
+                                return #ok("Successfully updated"); 
+                            };
+                            case (null) {
+                                return #err("Index user error");
+                            };
+                        };
+                    };
+                    case (null) {
+                        return #err("Game error");
+                    };
+                };
+            };
+            case (#err(error)) {
+                return #err("user not found!");
             };
         };
     };

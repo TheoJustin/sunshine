@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BackToChat from '../../components/game/BackToChat';
+import { useMutation } from '@tanstack/react-query';
+import { sunshine_chat } from '../../../../declarations/sunshine_chat';
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -12,14 +14,25 @@ function shuffleArray(array) {
 function TwentyFive() {
     const [visible, setVisible] = useState(Array.from({ length: 25 }, () => false));
     const [shuffledNumbers, setShuffledNumbers] = useState([]);
+    const { activeGroup, principal, gameId } = location.state || {};
     const [nextNumber, setNextNumber] = useState(1);
     const [time, setTime] = useState(0);
     const [intervalId, setIntervalId] = useState(null);
     const [started, setStarted] = useState(false);
     const [score, setScore] = useState(0);
+    const {status: updateScoreStatus, mutate: updateMutate} = useMutation({
+        mutationKey: ["updateScore", activeGroup, principal, gameId],
+        mutationFn: updateScore
+    })
+
+    async function updateScore(){
+        await sunshine_chat.updateScore(gameId, principal, score);
+        return true;
+    }
 
     useEffect(() => {
         setShuffledNumbers(shuffleArray(Array.from({ length: 25 }, (_, index) => index + 1)));
+        console.log(activeGroup, principal, gameId);
     }, []);
 
     const handleStart = () => {
@@ -43,6 +56,7 @@ function TwentyFive() {
                 clearInterval(intervalId);
                 setScore(time);
                 setStarted(false);
+                updateMutate();
             }
         }
     };

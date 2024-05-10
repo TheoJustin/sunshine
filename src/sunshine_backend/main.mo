@@ -51,6 +51,7 @@ actor {
       };
    };
 
+   // getting user pfp
    public shared query func getPfp(userId: Principal) : async Text {
       // Debug.print(debug_show (msg.caller));
       let user : ?User = users.get(userId);
@@ -65,6 +66,7 @@ actor {
       };
    };
 
+   // comparing with insensitive case
    func containsInsensitive(text : Text, pattern : Text) : Bool {
         let lowerText = Text.toLowercase(text);
         let lowerPattern = Text.toLowercase(pattern);
@@ -74,6 +76,10 @@ actor {
     func isSameUser(user1: User, user2: User): Bool {
       return user1.internet_identity == user2.internet_identity;
     };
+
+    public shared func putUsers(user : User) : async (){
+      users.put(user.internet_identity, user);
+   };
 
    public query func searchByName (name: Text): async Result.Result<[User], Text> {
       var allUsers = Vector.Vector<User>();
