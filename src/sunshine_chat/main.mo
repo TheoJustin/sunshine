@@ -45,7 +45,7 @@ actor {
 
     let groups = TrieMap.TrieMap<Text, Group>(Text.equal, Text.hash);
     let chats = TrieMap.TrieMap<Text, Chat>(Text.equal, Text.hash);
-    let friends = Vector.Vector<Friend>();
+  
     // var currGroup = "";
 
     // changing currentGroup
@@ -416,6 +416,19 @@ actor {
 
         return #ok(Vector.toArray(allGroups));
     };
+
+    // get all unadded friends
+    public shared func getAllUnaddedFriends(friendSearched : Text, currUser : Principal) : async Result.Result<[User], Text>{
+        var allFriends = Vector.Vector<User>();
+        if(friendSearched == ""){
+            return #err("No friend searched");
+        };
+        for(user in User.users.vals()){
+            // user ada di friendlist
+            
+        }
+        
+    }
 
     // getting all friends
     public shared func getAllFriends(currUser : Principal) : async Result.Result<[User.User], Text> {
