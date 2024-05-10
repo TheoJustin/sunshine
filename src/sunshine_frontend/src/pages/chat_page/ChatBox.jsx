@@ -8,7 +8,6 @@ import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { TbSend2 } from "react-icons/tb";
 import { sunshine_game } from "../../../../declarations/sunshine_game";
 import placeholder from "../../../../../assets/profilePlaceholder.jpg";
-import MiniLoader from "../../components/MiniLoader";
 import { sunshine_backend } from "../../../../declarations/sunshine_backend";
 import GameBox from "./GameBox";
 
@@ -18,6 +17,8 @@ export default function ChatBox({ activeGroup }) {
   // buat input
   const [message, setMessage] = useState("");
   const { user, principal } = useAuth();
+  const [sendBtn, setSendBtn] = useState();
+  // const [group, setGroup] = useState();
   const [shouldSendData, setShouldSendData] = useState(false);
   const { mutate: sendMutate, status: sendStatus } = useMutation({
     mutationKey: ["checkSend"],
@@ -299,17 +300,8 @@ export default function ChatBox({ activeGroup }) {
   return (
     <div className="flex flex-col h-full w-[69%] gap-5 p-6 justify-between">
       <div className="overflow-y-scroll">
-        {activeGroup ? (
-          isLoadingFetchChat ? (
-            <>
-              <MiniLoader />
-            </>
-          ) : (
-            chats
-          )
-        ) : (
-          ""
-        )}
+        {/* {activeGroup ? (fetchChatStatus == 'pending' ? "Fetching Chat..." : chats) : ""} */}
+        {chats}
       </div>
       <div className="justify-end">
         {activeGroup ? (
@@ -330,27 +322,15 @@ export default function ChatBox({ activeGroup }) {
               }}
             />
             <GameOptions activeGroup={activeGroup} />
-            {sendStatus === "pending" ? (
-              <Button
-                className="bg-cream-custom hover:bg-cream-custom-hover"
-                size="sm"
-                textColor="white"
-                height={10}
-                isLoading
-              >
-                <TbSend2 size={25} />
-              </Button>
-            ) : (
-              <Button
-                className="bg-cream-custom hover:bg-cream-custom-hover"
-                size="sm"
-                textColor="white"
-                onClick={trySend}
-                height={10}
-              >
-                <TbSend2 size={25} />
-              </Button>
-            )}
+            <Button
+              className="bg-cream-custom hover:bg-cream-custom-hover"
+              size="sm"
+              textColor="white"
+              onClick={trySend}
+              height={10}
+            >
+              <TbSend2 size={25} />
+            </Button>
           </div>
         ) : (
           <></>

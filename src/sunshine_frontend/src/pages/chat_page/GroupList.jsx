@@ -53,6 +53,7 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
         setGroups(listItems);
       }
     });
+    return true;
   };
 
   return (
