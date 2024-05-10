@@ -450,7 +450,7 @@ actor {
     func isSameUser(user1 : User.User, user2 : User.User) : Bool {
         return user1.internet_identity == user2.internet_identity;
     };
-    
+
     // get all unadded friends
     public func getAllUnaddedFriends(friendSearched : Text, currUser : Principal) : async Result.Result<[User.User], Text> {
         if (friendSearched == "") {

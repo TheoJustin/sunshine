@@ -1,9 +1,16 @@
 import React from 'react';
 import { CardContainer, CardBody, CardItem } from './CardTilt';
 import Logo from '../../../../assets/motoko.jpg';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate
 
 function LandingCard() {
+  const navigate = useNavigate();  // Initialize the navigate function
+
+  // Function to handle navigation
+  const handleNavigate = (path) => () => {
+    navigate(path);
+  };
+
   return (
     <CardContainer className="mr-16">
       <CardBody className="w-full h-full p-8 bg-white/30 rounded-2xl shadow-xl backdrop-blur-sm border border-gray-300">
@@ -25,24 +32,22 @@ function LandingCard() {
         <CardItem
           className="w-full flex justify-between mt-5"
         >
-          <NavLink to="/chat">
-            <CardItem
-              translateZ={40}
-              as="button"
-              className="px-6 py-3 rounded-full font-sans font-semibold text-black-600 bg-white/50 hover:bg-blue-50/70 focus:outline-none focus:ring focus:ring-blue-500 transition-colors duration-300 ease-in-out"
-            >
-              Try now →
-            </CardItem>
-          </NavLink>
-          <NavLink to="/login">
-            <CardItem
-              translateZ={40}
-              as="button"
-              className="px-6 py-3 rounded-full font-sans font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 transition-colors duration-300 ease-in-out"
-            >
-              Sign up
-            </CardItem>
-          </NavLink>
+          <CardItem
+            translateZ={40}
+            as="button"
+            onClick={handleNavigate('/chat')} // Use handleNavigate for navigation
+            className="px-6 py-3 rounded-full font-sans font-semibold text-black-600 bg-white/50 hover:bg-green-300 focus:outline-none focus:ring focus:ring-blue-500 transition-colors duration-300 ease-in-out"
+          >
+            Try now →
+          </CardItem>
+          <CardItem
+            translateZ={40}
+            as="button"
+            onClick={handleNavigate('/login')} // Use handleNavigate for navigation
+            className="px-6 py-3 rounded-full font-sans font-semibold text-white bg-yellow-500 hover:bg-orange-400 focus:outline-none focus:ring focus:ring-blue-300 transition-colors duration-300 ease-in-out"
+          >
+            Sign up
+          </CardItem>
         </CardItem>
       </CardBody>
     </CardContainer>
