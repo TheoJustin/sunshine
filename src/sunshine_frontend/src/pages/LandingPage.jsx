@@ -17,6 +17,10 @@ import Footer from '../components/Footer';
 import { useAuth } from '../use-auth-client';
 import Currency from './Currency';
 import LandingCard from '../components/LandingCard';
+import StatLabel from '../components/StatLanding';
+import CardComments from '../components/CardComments';
+import { ChakraProvider } from '@chakra-ui/react';
+
 // import { sunshine_backend } from "../../.././declarations/sunshine_backend"
 
 // style for parallax images
@@ -36,9 +40,6 @@ function LandingPage() {
           setCurrentName(name);
         })
       }
-
-    // }
-    // initName();
   }, [user])
   return (
     <>
@@ -137,7 +138,12 @@ function LandingPage() {
           backgroundColor: '#9BDDCB',
           marginTop: '-46rem'
         }}>
-          <LandingCard/>
+          <div className='flex justify-around m-10'>
+            <LandingCard/>
+            <div className='flex flex-col justify-between'>
+                <CardComments/>
+            </div>
+          </div>
         </ParallaxLayer>
         <ParallaxLayer offset={1.9} speed={3.2} factor={1} className='z-50' style={{
           backgroundColor: '#B0DDD6',

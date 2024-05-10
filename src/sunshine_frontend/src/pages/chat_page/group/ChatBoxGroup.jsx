@@ -24,9 +24,9 @@ export default function ChatBox({ activeGroup }) {
     mutationFn: handleSend,
   });
 
-  const { status: fetchChatStatus, mutate: getChatsMutate } = useMutation({
-    mutationKey: ["checkFetch"],
-    mutationFn: fetchChats,
+  const { isLoading: isLoadingFetchChat } = useQuery({
+    queryKey: ["checkFetch"],
+    queryFn: fetchChats,
   });
 
   async function fetchChats(activeGroup) {
@@ -279,7 +279,8 @@ export default function ChatBox({ activeGroup }) {
   }
 
   useEffect(() => {
-    getChatsMutate(activeGroup);
+    // getChatsMutate(activeGroup);
+    fetchChats(activeGroup);
   }, [user, chats, activeGroup]);
 
   async function handleSend() {
