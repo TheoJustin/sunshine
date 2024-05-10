@@ -16,6 +16,7 @@ import sun from "../../../../assets/parallax/sun.png";
 import Footer from '../components/Footer';
 import { useAuth } from '../use-auth-client';
 import Currency from './Currency';
+import LandingCard from '../components/LandingCard';
 // import { sunshine_backend } from "../../.././declarations/sunshine_backend"
 
 // style for parallax images
@@ -136,7 +137,7 @@ function LandingPage() {
           backgroundColor: '#9BDDCB',
           marginTop: '-46rem'
         }}>
-          more content?
+          <LandingCard/>
         </ParallaxLayer>
         <ParallaxLayer offset={1.9} speed={3.2} factor={1} className='z-50' style={{
           backgroundColor: '#B0DDD6',
