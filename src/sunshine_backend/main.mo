@@ -37,7 +37,7 @@ actor {
    };
 
    // get current user's name
-   public shared query func getName(userId: Principal) : async Text {
+   public query func getName(userId: Principal) : async Text {
       // Debug.print(debug_show (msg.caller));
       let user : ?User = users.get(userId);
       switch (user) {
@@ -49,6 +49,28 @@ actor {
          };
 
       };
+   };
+
+   public shared query func getPfp(userId: Principal) : async Text {
+      // Debug.print(debug_show (msg.caller));
+      let user : ?User = users.get(userId);
+      switch (user) {
+         case (?user) {
+            return user.profileUrl;
+         };
+         case (null) {
+            return "Stranger";
+         };
+
+      };
+   };
+
+   public  func getParticipantsName(participants : [Principal]) : async [Text]{
+      var participantsName = Vector.Vector<Text>();
+      for (user in participants.vals()){
+         participantsName.add(await getName(user));
+      };
+      return Vector.toArray(participantsName);
    };
 
    // get user object by ID

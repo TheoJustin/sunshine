@@ -20,6 +20,9 @@ actor {
         timestamp : Time.Time;
         status : Text;
         variant : Text;
+        gameType : Text;
+        participants : [Principal];
+        scores : [Nat];
     };
 
     // type
@@ -181,6 +184,9 @@ actor {
                     user = userId;
                     variant = "chat";
                     message = newChat;
+                    gameType = "";
+                    participants = [];
+                    scores = [];
                 };
                 let group = await getGroupById(groupId);
                 switch (group) {
@@ -307,6 +313,29 @@ actor {
                         };
                     };
                     allChats.add(senderName, chat.message, chat.timestamp, senderPrinciple, senderPfp);
+                    // };
+                };
+            };
+            case (null) {
+
+            };
+        };
+
+        return #ok(Vector.toArray(allChats));
+    };
+
+    public shared func getAllChatsAndGamesAccordingToGroup(currGroup : Text) : async Result.Result<[(Text, Text, Principal, Time.Time, Text, Text, Text, [Text], [Nat], Text, Text)], Text> {
+        let groupId = currGroup;
+        var allChats = Vector.Vector<(Text, Text, Principal, Time.Time, Text, Text, Text, [Text], [Nat], Text, Text)>();
+        let group = groups.get(groupId);
+        switch (group) {
+            case (?group) {
+                for (chat in group.messages.vals()) {
+                    // if (chat.groupId == groupId) {
+                    let name = await User.getName(chat.user);
+                    let participantsName = await User.getParticipantsName(chat.participants);
+                    let pfp = await User.getPfp(chat.user);
+                    allChats.add(chat.id, chat.message, chat.user, chat.timestamp, chat.status, chat.variant, chat.gameType, participantsName, chat.scores, name, pfp);
                     // };
                 };
             };
@@ -450,6 +479,9 @@ actor {
                     user = userSender;
                     variant = "chat";
                     message = message;
+                    gameType = "";
+                    participants = [];
+                    scores = [];
                 };
                 let chats = friendBox.messages;
                 let newChat = Array.append<Chat>(chats, [chat]);
@@ -477,7 +509,7 @@ actor {
 
     public shared func addFriend(user1 : Principal, user2 : Principal) : async Result.Result<Text, Text> {
         // groupMem.add(userCreator);
-        if(Principal.isAnonymous(user1) or Principal.isAnonymous(user2)){
+        if (Principal.isAnonymous(user1) or Principal.isAnonymous(user2)) {
             return #err("Unauthorized!");
         };
         let newFriendBox : Friend = {
@@ -488,5 +520,149 @@ actor {
         // newGroup.groupMembers.add(userCreator);
         friends.add(newFriendBox);
         return #ok("Successfully added");
+    };
+
+    public shared func createGame(groupId : Text, userCreator : Principal, gameType : Text) : async Result.Result<(), Text> {
+        let newId = await generateUUID();
+        let user = await User.getUserById(userCreator);
+        if (Principal.isAnonymous(userCreator)) {
+            return #err("Unauthorized");
+        };
+        switch (user) {
+            case (#ok(user)) {
+                let groupMem = Vector.Vector<Principal>();
+                groupMem.add(userCreator);
+                let newGame : Chat = {
+                    id = newId;
+                    timestamp = Time.now();
+                    status = "delivered";
+                    user = userCreator;
+                    variant = "game";
+                    message = "";
+                    gameType = gameType;
+                    participants = [];
+                    scores = [];
+                };
+                let group = await getGroupById(groupId);
+                switch (group) {
+                    case (#ok(group)) {
+                        let chats = group.messages;
+                        let newChat = Array.append<Chat>(chats, [newGame]);
+                        let newGroup : Group = {
+                            id = group.id;
+                            creatorUser = group.creatorUser;
+                            groupName = group.groupName;
+                            description = group.description;
+                            timestamp = group.timestamp;
+                            groupMembers = group.groupMembers;
+                            messages = newChat;
+                            imageUrl = group.imageUrl;
+                        };
+                        groups.put(groupId, newGroup);
+                    };
+                    case (#err(msg)) {
+                        return #err("Group error");
+                    };
+                };
+                chats.put(newId, newGame);
+                return #ok();
+            };
+            case (#err(errorMsg)) {
+                return #err("Failed to create game!");
+            };
+        };
+    };
+
+    public func getGameParticipants(gameId : Text) : async Result.Result<[Principal], Text> {
+        let game = chats.get(gameId);
+        switch (game) {
+            case (null) {
+                return #err("error");
+            };
+            case (?game) {
+                return #ok(game.participants);
+            };
+        };
+    };
+
+    public func isJoinedGame(user : Principal, gameId : Text) : async Result.Result<Bool, Text> {
+        let participants = await getGameParticipants(gameId);
+        switch (participants) {
+            case (#ok(participants)) {
+                let index = Array.indexOf<Principal>(user, participants, Principal.equal);
+                switch (index) {
+                    case (null) {
+                        return #ok(false);
+                    };
+                    case (?index) {
+                        return #ok(true);
+                    };
+                };
+            };
+            case (#err(msg)) {
+                return #err("error");
+            };
+        };
+
+    };
+
+    func isSameChat(chat1 : Chat, chat2 : Chat) : Bool {
+        return chat1.id == chat2.id;
+    };
+
+    public func joinGame(groupId : Text, user : Principal, gameId : Text) : async Result.Result<(), Text> {
+        let game = chats.get(gameId);
+        switch (game) {
+            case (?game) {
+                let participants = game.participants;
+                let newParticipants = Array.append<Principal>(participants, [user]);
+                let newScores = Array.append<Nat>(game.scores, [0]);
+                let updatedGame : Chat = {
+                    id = game.id;
+                    timestamp = game.timestamp;
+                    status = game.status;
+                    user = game.user;
+                    variant = game.variant;
+                    message = game.message;
+                    gameType = game.gameType;
+                    participants = newParticipants;
+                    scores = newScores;
+                };
+                chats.put(gameId, updatedGame);
+                let group = await getGroupById(groupId);
+                switch (group) {
+                    case (#ok(group)) {
+                        let chats : Vector.Vector<Chat> = Vector.fromArray(group.messages);
+                        let oldChatIndex = Vector.indexOf<Chat>(game, chats, isSameChat);
+                        switch(oldChatIndex){
+                            case (?oldChatIndex){
+                                chats.put(oldChatIndex, updatedGame);
+                                let newGroup : Group = {
+                                    id = group.id;
+                                    creatorUser = group.creatorUser;
+                                    groupName = group.groupName;
+                                    description = group.description;
+                                    timestamp = group.timestamp;
+                                    groupMembers = group.groupMembers;
+                                    messages = Vector.toArray(chats);
+                                    imageUrl = group.imageUrl;
+                                };
+                                groups.put(groupId, newGroup);
+                                return #ok();
+                            };
+                            case (null){
+                                return #err("Group error");
+                            };
+                        };
+                    };
+                    case (#err(msg)) {
+                        return #err("Group error");
+                    };
+                };
+            };
+            case (null) {
+                return #err("error");
+            };
+        };
     };
 };
