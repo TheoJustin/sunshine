@@ -15,7 +15,6 @@ import parallax8 from "../../../../assets/parallax/parallax8.png";
 import sun from "../../../../assets/parallax/sun.png";
 import Footer from '../components/Footer';
 import { useAuth } from '../use-auth-client';
-import Currency from './Currency';
 import LandingCard from '../components/LandingCard';
 import StatLabel from '../components/StatLanding';
 import CardComments from '../components/CardComments';
@@ -103,7 +102,7 @@ function LandingPage() {
             textAlign: 'center',
             height: '110vh',
           }}>
-            <div className="ml-20 mr-20 w-2/5 flex justify-center">
+            <div className="ml-20 mr-20 w-3/5 flex justify-center">
               <PhotoTilt />
             </div>
             <div className="flex flex-col gap-3 justify-center">
@@ -138,11 +137,9 @@ function LandingPage() {
           backgroundColor: '#9BDDCB',
           marginTop: '-46rem'
         }}>
-          <div className='flex justify-around m-10'>
+          <div className='flex flex-row justify-around m-10'>
             <LandingCard/>
-            <div className='flex flex-col justify-between'>
-                <CardComments/>
-            </div>
+            <CardComments/>
           </div>
         </ParallaxLayer>
         <ParallaxLayer offset={1.9} speed={3.2} factor={1} className='z-50' style={{
@@ -151,7 +148,6 @@ function LandingPage() {
         }}>
           
         <Footer/>
-        <Currency></Currency>
         </ParallaxLayer>
         
       </Parallax>

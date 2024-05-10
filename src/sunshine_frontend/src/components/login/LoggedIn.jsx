@@ -6,6 +6,7 @@ import { Button, Input } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { uploadImage } from "../../../../config/cloudinary";
 import profilePlaceholder from "../../../../../assets/profilePlaceholder.jpg";
+import Currency from '../../pages/Currency';
 
 const imageContainerStyle = {
   width: "100px",
@@ -25,6 +26,7 @@ function LoggedIn() {
   const navigate = useNavigate();
   const [image, setImage] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["getUser"],
@@ -49,6 +51,8 @@ function LoggedIn() {
           dob,
           image
         );
+        
+        setAlreadyRegistered(true);
         if (updateFlag == true) {
           setIsUpdating(false);
         }
@@ -109,12 +113,6 @@ function LoggedIn() {
           <div className="text-teal-custom font-bold text-3xl">
             Your Profile
           </div>
-          {/* <div>
-            <input type="file" id="imageInput" accept="image/*" onChange={(e) => { handleImage(e) }} />
-          </div>
-          <div>
-            <img id="previewImage" src={image === "" ? "#" : image} alt="Preview" style={profileStyle} />
-          </div> */}
           <div
             style={imageContainerStyle}
             onClick={() => {
@@ -170,9 +168,6 @@ function LoggedIn() {
               value={dob}
             />
           </div>
-          {/* <button type="button" id="loginButton" onClick={login}>
-        Log in
-      </button> */}
           {!isUpdating ? (
             <Button
               size="md"
@@ -207,6 +202,9 @@ function LoggedIn() {
           >
             Log Out
           </Button>
+          {alreadyRegistered ? (
+            <Currency></Currency>
+          ): (<></>)}
         </div>
       </div>
     </ChakraTemplate>
