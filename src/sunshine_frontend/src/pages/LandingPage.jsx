@@ -3,16 +3,16 @@ import PhotoTilt from "../components/PhotoTilt";
 import Feature from '../components/Feature';
 import { Parallax, ParallaxLayer } from "@react-spring/parallax";
 import { Typewriter } from "react-simple-typewriter";
-import homeBackgroundSky from "../../../../assets/parallax/background_home_sky.png";
-import parallax1 from "../../../../assets/parallax/parallax-1.png";
-import parallax2 from "../../../../assets/parallax/parallax-2.png";
-import parallax3 from "../../../../assets/parallax/parallax-3.png";
-import parallax4 from "../../../../assets/parallax/parallax-4.png";
-import parallax5 from "../../../../assets/parallax/parallax-5.png";
-import parallax6 from "../../../../assets/parallax/parallax-6.png";
-import parallax7 from "../../../../assets/parallax/parallax-7.png";
-import parallax8 from "../../../../assets/parallax/parallax-8.png";
-import sun1 from "../../../../assets/parallax/sun-1.png";
+import homeBackgroundSky from "../../../../assets/parallax/parallax8.png";
+import parallax1 from "../../../../assets/parallax/parallax1.png";
+import parallax2 from "../../../../assets/parallax/parallax2.png";
+import parallax3 from "../../../../assets/parallax/parallax3.png";
+import parallax4 from "../../../../assets/parallax/parallax4.png";
+import parallax5 from "../../../../assets/parallax/parallax5.png";
+import parallax6 from "../../../../assets/parallax/parallax6.png";
+import parallax7 from "../../../../assets/parallax/parallax7.png";
+import parallax8 from "../../../../assets/parallax/parallax8.png";
+import sun from "../../../../assets/parallax/sun.png";
 import Footer from '../components/Footer';
 import { useAuth } from '../use-auth-client';
 import Currency from './Currency';
@@ -26,7 +26,7 @@ const imageStyle = ({
 
 function LandingPage() {
   const {user, principal} = useAuth();
-  const [currentName, setCurrentName] = useState("Hi");
+  const [currentName, setCurrentName] = useState("Stranger");
   useEffect(()=>{
     // async function initName(){
       console.log(user);
@@ -42,52 +42,61 @@ function LandingPage() {
   return (
     <>
       {/* parallax of mountains and sun for landing page */}
-      <Parallax pages={1.77}>
+      <Parallax pages={1.85}>
         {/* 1st part -> mountains and sun, some tagline?*/}
         <ParallaxLayer offset={0} speed={0.3} onScroll={() => ref.current.scrollTo(0.9)} factor={1} style={{
           backgroundImage: `url(${homeBackgroundSky})`,
           objectFit: 'contain',
           zIndex: '-130'
         }} >
-          <div className="absolute font-productsans font-bold" style={{ top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-            Hello {currentName}!
-            <br />
-            You are my <Typewriter
-              words={["sunshine!", "only sunshine!"]}
-              loop={0}
-              cursor
-              cursorStyle='_'
-              typeSpeed={70}
-              deleteSpeed={50}
-              delaySpeed={1000}
-            />
+        </ParallaxLayer>
+        <ParallaxLayer offset={0} speed={0.3}  factor={1} >
+          <div className="w-[100] absolute font-productsans  font-bold text-center" style={{ top: '36%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '100' }}>
+            <h1 className='text-5xl'>Hello <span style={{color: '#ff9f1c'}}>{currentName}</span> &lt;3</h1> 
+            <p className='mt-2'>
+              You are my  
+              <span style={{color: '#ff9f1c'}}>
+                  <Typewriter
+                  words={[" sunshine!", " only sunshine!"]}
+                  loop={0}
+                  cursor
+                  cursorStyle='_'
+                  typeSpeed={70}
+                  deleteSpeed={50}
+                  delaySpeed={1000}
+                />
+                </span> 
+            </p>
           </div>
         </ParallaxLayer>
-        <ParallaxLayer offset={0.38} speed={1.9} factor={1 - 0.38} className='-z-20'>
+        <ParallaxLayer offset={0} speed={1.7} factor={1} className='-z-20'>
           <img src={parallax8} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.28} speed={2} factor={1 - 0.28} className='-z-10'>
+        <ParallaxLayer offset={0} speed={1.8} factor={1 - 0.28} className='-z-10'>
           <img src={parallax7} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.3} speed={2.1} factor={1 - 0.3} className='z-0'>
+        <ParallaxLayer offset={0.33} speed={1.9} factor={1 - 0.3} className='z-0'>
           <img src={parallax6} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.4} speed={2.2} factor={1 - 0.4} className='z-10'>
+        <ParallaxLayer offset={0.3} speed={2} factor={1 - 0.4} className='z-10'>
           <img src={parallax5} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.2} speed={2.3} factor={1 - 0.2} className='z-20'>
+        <ParallaxLayer offset={0.2} speed={2.1} factor={1 - 0.2} className='z-20'>
           <img src={parallax4} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.2} speed={2.3} factor={1 - 0.2} className='z-30'>
+        <ParallaxLayer offset={0.2} speed={2.2} factor={1 - 0.2} className='z-30'>
           <img src={parallax3} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.2} speed={2.4} factor={1 - 0.2} className='z-40'>
+        <ParallaxLayer offset={0.2} speed={2.3} factor={1 - 0.2} className='z-40'>
           <img src={parallax2} style={imageStyle} alt="" />
+        </ParallaxLayer>
+        <ParallaxLayer offset={0} speed={0.3} factor={1} className='-z-10'>
+          <img src={sun} className='w-4/5 left-12 top-20 absolute' style={{filter: 'drop-shadow(0 0 20px #ffbf64)'}} alt="asd" />
         </ParallaxLayer>
         <ParallaxLayer offset={0.2} speed={2.4} factor={1 - 0.2} className='z-40'>
           <img src={parallax1} style={imageStyle} alt="" />
           <div className="flex flex-row -z-50" style={{
-            backgroundColor: '#2A6356',
+            backgroundColor: '#1b2f2e',
             alignContent: 'center',
             textAlign: 'center',
             height: '110vh',
@@ -104,19 +113,17 @@ function LandingPage() {
             </div>
           </div>
         </ParallaxLayer>
-        <ParallaxLayer offset={0.2} speed={0.3} factor={1 - 0.2} className='-z-30'>
-          <img src={sun1} className='w-40 left-64 top-10 absolute' alt="" />
-        </ParallaxLayer>
+        
 
 
         {/* 3rd part include sliding animation + footer? */}
         <ParallaxLayer offset={1} speed={3.5} factor={1} className='z-50' style={{
-          backgroundColor: '#34836E',
+          backgroundColor: '#2A4A49',
           marginTop: '-64rem'
         }}>
         </ParallaxLayer>
         <ParallaxLayer offset={1} speed={3.4} factor={1} className='z-50' style={{
-          backgroundColor: '#3F967E',
+          backgroundColor: '#437574',
           marginTop: '-58rem'
         }}>
         </ParallaxLayer>
@@ -125,12 +132,13 @@ function LandingPage() {
           marginTop: '-52rem'
         }}>
         </ParallaxLayer>
-        <ParallaxLayer offset={1} speed={3.2} factor={1} className='z-50' style={{
+        <ParallaxLayer offset={1} speed={3.2} factor={1.2} className='z-50' style={{
           backgroundColor: '#9BDDCB',
           marginTop: '-46rem'
         }}>
+          more content?
         </ParallaxLayer>
-        <ParallaxLayer offset={1} speed={3.1} factor={1} className='z-50' style={{
+        <ParallaxLayer offset={1.9} speed={3.2} factor={1} className='z-50' style={{
           backgroundColor: '#B0DDD6',
           marginTop: '-41rem'
         }}>
@@ -138,15 +146,6 @@ function LandingPage() {
         <Footer/>
         <Currency></Currency>
         </ParallaxLayer>
-
-        <ParallaxLayer offset={1} speed={3} factor={1} className='z-50' style={{
-          backgroundColor: '#B0DDD6',
-          // marginTop: '-36rem'
-          bottom: '0'
-        }}>
-
-        </ParallaxLayer>
-
         
       </Parallax>
 

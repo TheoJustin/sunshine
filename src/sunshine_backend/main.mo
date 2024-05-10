@@ -45,7 +45,7 @@ actor {
             return user.name;
          };
          case (null) {
-            return "Not Found";
+            return "Stranger";
          };
 
       };

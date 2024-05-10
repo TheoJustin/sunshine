@@ -111,7 +111,7 @@ nav ul div{
   position: absolute;
   background-color: #ff9f1c;
   z-index: -1 ;
-  box-shadow: 0 0 15px #ff9f1c;
+  box-shadow: 0 0 15px #ff9f1c ;
   transition: all 0.3s;
 }
 
