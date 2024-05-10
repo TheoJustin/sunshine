@@ -5,17 +5,15 @@ import ChakraTemplate from "../../templates/ChakraTemplate";
 import { Button, Input } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { uploadImage } from "../../../../config/cloudinary";
-import profilePlaceholder from "../../../../../assets/profilePlaceholder.jpg"
-
-
+import profilePlaceholder from "../../../../../assets/profilePlaceholder.jpg";
 
 const imageContainerStyle = {
-  width: '100px',
-  height: '100px',
-  borderRadius: '50%',
-  overflow: 'hidden',
-  cursor: 'pointer',
-}
+  width: "100px",
+  height: "100px",
+  borderRadius: "50%",
+  overflow: "hidden",
+  cursor: "pointer",
+};
 
 function LoggedIn() {
   const [result, setResult] = useState("");
@@ -93,21 +91,21 @@ function LoggedIn() {
         setName(data.ok.name);
         setEmail(data.ok.email);
         setDob(data.ok.birth_date);
-        setImage(data.ok.profileUrl)
+        setImage(data.ok.profileUrl);
       }
     }
   }, [data, isLoading]);
 
   if (isLoading) return <div>loading</div>;
 
-  async function handleImageClick(){
-    document.getElementById('fileInput').click();
+  async function handleImageClick() {
+    document.getElementById("fileInput").click();
   }
 
   return (
     <ChakraTemplate>
       <div className="flex justify-center items-center">
-        <div className="relative flex flex-col top-[23vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl drop-shadow-lg">
+        <div className="relative flex flex-col top-[23vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl">
           <div className="text-teal-custom font-bold text-3xl">
             Your Profile
           </div>
@@ -117,9 +115,26 @@ function LoggedIn() {
           <div>
             <img id="previewImage" src={image === "" ? "#" : image} alt="Preview" style={profileStyle} />
           </div> */}
-          <div  style={imageContainerStyle} onClick={() => {handleImageClick()}}>
-            <input type="file" style={{display: 'none'}} id="fileInput" accept="image/*"  onChange={(e) => { handleImage(e) }} />
-            <img id="profileImage" src={image === "" ? profilePlaceholder : image} alt="Upload a file" />
+          <div
+            style={imageContainerStyle}
+            onClick={() => {
+              handleImageClick();
+            }}
+          >
+            <input
+              type="file"
+              style={{ display: "none" }}
+              id="fileInput"
+              accept="image/*"
+              onChange={(e) => {
+                handleImage(e);
+              }}
+            />
+            <img
+              id="profileImage"
+              src={image === "" ? profilePlaceholder : image}
+              alt="Upload a file"
+            />
           </div>
           <div className="flex gap-5 text-lg container items-center">
             <div className="min-w-14">Name</div>
@@ -160,10 +175,10 @@ function LoggedIn() {
       </button> */}
           {!isUpdating ? (
             <Button
-              colorScheme="teal"
               size="md"
               variant="solid"
-              className="w-full"
+              className="w-full bg-teal-custom"
+              color="white"
               onClick={handleRegister}
             >
               Update Data
@@ -171,10 +186,10 @@ function LoggedIn() {
           ) : (
             <>
               <Button
-                colorScheme="teal"
                 size="md"
                 variant="solid"
-                className="w-full"
+                className="w-full bg-teal-custom"
+                color="white"
                 isLoading
               />
             </>

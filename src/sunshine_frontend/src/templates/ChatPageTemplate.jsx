@@ -4,6 +4,7 @@ import { useAuth } from "../use-auth-client";
 import { useNavigate } from "react-router-dom";
 import { useIsFetching, useQuery } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
+import Loader from "../components/Loader";
 
 export default function ChatPageTemplate({ children }) {
   const { checkAuthentication } = useAuth();
@@ -13,7 +14,7 @@ export default function ChatPageTemplate({ children }) {
     queryFn: checkAuthentication,
   });
 
-  if (isLoading) return <div>loading</div>;
+  if (isLoading) return <Loader />;
   if (error) return <div>error</div>;
 
   return (

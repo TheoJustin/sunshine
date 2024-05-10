@@ -1,4 +1,5 @@
 import User "canister:sunshine_backend";
+import Chat "canister:sunshine_chat";
 import UUID "mo:uuid/UUID";
 import Source "mo:uuid/async/SourceV4";
 import Principal "mo:base/Principal";
@@ -26,7 +27,6 @@ actor{
         timestamp : Time.Time;
     };
 
-    
     let games = TrieMap.TrieMap<Text, Game>(Text.equal, Text.hash);
     
     // generate UUID
@@ -186,5 +186,18 @@ actor{
             };
         };
     };
+
+    public shared query func getGamesAccordingToGroup(groupId : Text) : async Result.Result<[Game], Text> {
+        var groupGames = Vector.Vector<Game>();
+        for (game in games.vals()) {
+            if(game.groupId == groupId){
+                groupGames.add(game);
+
+            };
+        };
+        return #ok(Vector.toArray(groupGames));
+    };
+
+    
 
 }

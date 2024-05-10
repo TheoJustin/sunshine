@@ -8,6 +8,7 @@ import { Button } from "@chakra-ui/react";
 import { IoGameController } from "react-icons/io5";
 import { useMutation } from '@tanstack/react-query';
 import { useAuth } from '../../use-auth-client';
+import { sunshine_chat } from '../../../../declarations/sunshine_chat';
 
 function GameOptions({activeGroup}) {
   const navigate = useNavigate();
@@ -32,8 +33,8 @@ function GameOptions({activeGroup}) {
 
   async function handleStartGame (){
     if (selectedGame) {
-      await sunshine_game.createGame(activeGroup, principal, selectedGame);
-      navigate(`/${selectedGame}`);
+      await sunshine_chat.createGame(activeGroup, principal, selectedGame);
+      // navigate(`/${selectedGame}`);
     } else {
       alert('Please select a game first!');
     }

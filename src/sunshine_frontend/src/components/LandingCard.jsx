@@ -4,9 +4,9 @@ import Logo from '../../../../assets/motoko.jpg';
 
 function LandingCard() {
   return (
-    <CardContainer className="mx-auto max-w-4xl">
+    <CardContainer className="flex items-center justify-center w-2/5">
       <CardBody className="w-full h-full p-8 bg-white rounded-2xl shadow-xl">
-      <CardItem
+        <CardItem
           translateZ={20}
           className="text-lg text-gray-800 mb-4"
         >
@@ -35,8 +35,8 @@ function LandingCard() {
             Try now →
           </CardItem>
           <CardItem
-            translateZ={40}
-            translateX={5}
+            translateZ={40}  // Slightly forward
+            translateX={5}  // Shifted to the right
             as="button"
             className="px-6 py-3 rounded-lg font-sans font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
           >

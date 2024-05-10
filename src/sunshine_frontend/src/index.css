@@ -32,8 +32,6 @@
   animation: slideOutRight 1s forwards;
 }
 
-
-
 body {
   font-family: sans-serif;
   font-size: 1.5rem;
@@ -84,13 +82,17 @@ nav {
   justify-content: center;
 }
 
-nav ul{
+nav ul {
   display: flex;
   width: 70vw;
   padding: 0.5vw 3vw;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(100deg, rgba(255,255,255,0.3), rgba(255,255,255, 0));
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
   backdrop-filter: blur(8px) brightness(105%);
   -webkit-backdrop-filter: blur(8px);
   border-radius: 3vw;
@@ -98,7 +100,7 @@ nav ul{
   height: 6vw;
 }
 
-nav ul div{
+nav ul div {
   width: 11vw;
   text-align: center;
   align-items: center;
@@ -107,19 +109,19 @@ nav ul div{
   transition: all 0.3s;
 }
 
-.navIndicator{
+.navIndicator {
   position: absolute;
   background-color: #ff9f1c;
-  z-index: -1 ;
-  box-shadow: 0 0 15px #ff9f1c ;
+  z-index: -1;
+  box-shadow: 0 0 15px #ff9f1c;
   transition: all 0.3s;
 }
 
-nav ul div:hover{
+nav ul div:hover {
   letter-spacing: 2px;
 }
 
-.logo{
+.logo {
   width: 5.5vw;
   margin: 0;
 }
@@ -136,4 +138,62 @@ nav ul div:hover{
 
 ::-webkit-scrollbar {
   width: 0.5rem;
+}
+
+/* loader */
+.spinner {
+  width: 44px;
+  height: 44px;
+  animation: spinner-y0fdc1 2s infinite ease;
+  transform-style: preserve-3d;
+}
+
+.spinner > div {
+  background-color: #FFBF69;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  border: 2px solid #FF9F1C;
+}
+
+.spinner div:nth-of-type(1) {
+  transform: translateZ(-22px) rotateY(180deg);
+}
+
+.spinner div:nth-of-type(2) {
+  transform: rotateY(-270deg) translateX(50%);
+  transform-origin: top right;
+}
+
+.spinner div:nth-of-type(3) {
+  transform: rotateY(270deg) translateX(-50%);
+  transform-origin: center left;
+}
+
+.spinner div:nth-of-type(4) {
+  transform: rotateX(90deg) translateY(-50%);
+  transform-origin: top center;
+}
+
+.spinner div:nth-of-type(5) {
+  transform: rotateX(-90deg) translateY(50%);
+  transform-origin: bottom center;
+}
+
+.spinner div:nth-of-type(6) {
+  transform: translateZ(22px);
+}
+
+@keyframes spinner-y0fdc1 {
+  0% {
+    transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
+  }
+
+  50% {
+    transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
+  }
+
+  100% {
+    transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
+  }
 }
