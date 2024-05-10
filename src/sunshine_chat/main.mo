@@ -434,7 +434,7 @@ actor {
                             return #ok(false);
                         };
                     };
-                    case (#err(msg)){
+                    case (#err(msg)) {
                         return #err(msg);
                     };
                 };
@@ -671,10 +671,12 @@ actor {
 
     };
 
+    // comparison function for chat
     func isSameChat(chat1 : Chat, chat2 : Chat) : Bool {
         return chat1.id == chat2.id;
     };
 
+    // joining game
     public func joinGame(groupId : Text, user : Principal, gameId : Text) : async Result.Result<(), Text> {
         let game = chats.get(gameId);
         switch (game) {
@@ -697,11 +699,11 @@ actor {
                 let group = await getGroupById(groupId);
                 switch (group) {
                     case (#ok(group)) {
-                        let chats : Vector.Vector<Chat> = Vector.fromArray(group.messages);
-                        let oldChatIndex = Vector.indexOf<Chat>(game, chats, isSameChat);
+                        let chatsNew : Vector.Vector<Chat> = Vector.fromArray(group.messages);
+                        let oldChatIndex = Vector.indexOf<Chat>(game, chatsNew, isSameChat);
                         switch (oldChatIndex) {
                             case (?oldChatIndex) {
-                                chats.put(oldChatIndex, updatedGame);
+                                chatsNew.put(oldChatIndex, updatedGame);
                                 let newGroup : Group = {
                                     id = group.id;
                                     creatorUser = group.creatorUser;
@@ -709,11 +711,130 @@ actor {
                                     description = group.description;
                                     timestamp = group.timestamp;
                                     groupMembers = group.groupMembers;
-                                    messages = Vector.toArray(chats);
+                                    messages = Vector.toArray(chatsNew);
                                     imageUrl = group.imageUrl;
                                 };
                                 groups.put(groupId, newGroup);
                                 return #ok();
+                            };
+                            case (null) {
+                                return #err("Group error");
+                            };
+                        };
+                    };
+                    case (#err(msg)) {
+                        return #err("Group error");
+                    };
+                };
+            };
+            case (null) {
+                return #err("error");
+            };
+        };
+    };
+
+    // comparison function for friendBox
+    func isSameFriendBox(box1 : Friend, box2 : Friend) : Bool {
+        return (box1.user1 == box2.user1 and box1.user2 == box2.user2) or (box1.user2 == box2.user1 and box1.user1 == box2.user2);
+    };
+
+    // creating game in friend chat page
+    public shared func createGameFriend(userCreator : Principal, userFriend : Principal, gameType : Text) : async Result.Result<(), Text> {
+        let newId = await generateUUID();
+        let user = await User.getUserById(userCreator);
+        if (Principal.isAnonymous(userCreator)) {
+            return #err("Unauthorized");
+        };
+        switch (user) {
+            case (#ok(user)) {
+                let newGame : Chat = {
+                    id = newId;
+                    timestamp = Time.now();
+                    status = "delivered";
+                    user = userCreator;
+                    variant = "game";
+                    message = "";
+                    gameType = gameType;
+                    participants = [];
+                    scores = [];
+                };
+                let friendBox = await getFriendBox(userCreator, userFriend);
+                switch (friendBox) {
+                    case (#ok(friendBox)) {
+                        let chatsNew = friendBox.messages;
+                        let newChat = Array.append<Chat>(chatsNew, [newGame]);
+                        let newFriendBox : Friend = {
+                            user1 = userCreator;
+                            user2 = userFriend;
+                            messages = newChat;
+                        };
+                        let oldIndex = Vector.indexOf<Friend>(friendBox, friends, isSameFriendBox);
+                        switch (oldIndex) {
+                            case (?oldIndex) {
+                                friends.put(oldIndex, newFriendBox);
+                                chats.put(newId, newGame);
+                                return #ok();
+                            };
+                            case (null) {
+                                return #err("no index");
+                            };
+                        };
+                    };
+                    case (#err(msg)) {
+                        return #err("Group error");
+                    };
+                };
+            };
+            case (#err(errorMsg)) {
+                return #err("Failed to create game!");
+            };
+        };
+    };
+
+    // 
+    public func joinGameFriend(userJoin : Principal, user2 : Principal, gameId : Text) : async Result.Result<(), Text> {
+        let game = chats.get(gameId);
+        switch (game) {
+            case (?game) {
+                let participants = game.participants;
+                let newParticipants = Array.append<Principal>(participants, [userJoin]);
+                let newScores = Array.append<Nat>(game.scores, [0]);
+                let updatedGame : Chat = {
+                    id = game.id;
+                    timestamp = game.timestamp;
+                    status = game.status;
+                    user = game.user;
+                    variant = game.variant;
+                    message = game.message;
+                    gameType = game.gameType;
+                    participants = newParticipants;
+                    scores = newScores;
+                };
+                chats.put(gameId, updatedGame);
+                let friendBox = await getFriendBox(userJoin, user2);
+                switch (friendBox) {
+                    case (#ok(friendBox)) {
+                        let chatsNew : Vector.Vector<Chat> = Vector.fromArray(friendBox.messages);
+                        let oldChatIndex = Vector.indexOf<Chat>(game, chatsNew, isSameChat);
+                        switch (oldChatIndex) {
+                            case (?oldChatIndex) {
+                                chatsNew.put(oldChatIndex, updatedGame);
+                                let newFriendBox : Friend = {
+                                    user1 = userJoin;
+                                    user2 = user2;
+                                    messages = Vector.toArray(chatsNew);
+                                };
+                                // fr.put(groupId, newGroup);
+                                let oldIndex = Vector.indexOf<Friend>(friendBox, friends, isSameFriendBox);
+                                switch (oldIndex) {
+                                    case (?oldIndex) {
+                                        friends.put(oldIndex, newFriendBox);
+                                        return #ok();
+                                    };
+                                    case (null) {
+                                        return #err("no index");
+                                    };
+                                };
                             };
                             case (null) {
                                 return #err("Group error");
