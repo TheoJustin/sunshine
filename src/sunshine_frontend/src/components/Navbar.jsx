@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../../../assets/Logo_Sunshine-removebg.png";
+import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
 const activeStyle = ({ isActive }) => ({
@@ -22,23 +23,24 @@ const activeSquareStyle = (pathname) => ({
 });
 
 const navStyle = (pathname) => ({
-  display: pathname === "/chat" || pathname === "/friend" ? "none" : "flex",
+  display: (pathname === "/chat" || pathname === "/friend") ? "none" : "flex",
 });
 
 function Navbar() {
-  const [squareStyle, setSquareStyle] = useState(activeSquareStyle("/home"));
-  const locationName = window.location.pathname;
-  useEffect(() => {
-    refreshSquare();
-  }, [locationName, window]);
+  const location = useLocation();
+  const [squareStyle, setSquareStyle] = useState(activeSquareStyle(location.pathname));
 
   async function refreshSquare() {
     setSquareStyle(activeSquareStyle(locationName));
   }
 
+  useEffect(() => {
+    refreshSquare();
+  }, [location]);
+
   return (
     <>
-      <nav style={navStyle(locationName)}>
+      <nav style={navStyle(location.pathname)}>
         <ul>
           <div>
             <NavLink
