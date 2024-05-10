@@ -285,9 +285,9 @@ actor {
     // };
 
     // buat ambil chat per group
-    public shared func getAllChatsAccordingToGroup(currGroup : Text) : async Result.Result<[(Text, Text, Int)], Text> {
+    public shared func getAllChatsAccordingToGroup(currGroup : Text) : async Result.Result<[(Text, Text, Int, Principal, Text)], Text> {
         let groupId = currGroup;
-        var allChats = Vector.Vector<(Text, Text, Int)>();
+        var allChats = Vector.Vector<(Text, Text, Int, Principal, Text)>();
         let group = groups.get(groupId);
         switch (group) {
             case (?group) {
@@ -295,15 +295,18 @@ actor {
                     // if (chat.groupId == groupId) {
                     let sender = await User.getUserById(chat.user);
                     var senderName = "";
+                    var senderPrinciple = chat.user;
+                    var senderPfp = "";
                     switch (sender) {
                         case (#ok(sender)) {
                             senderName := sender.name;
+                            senderPfp := sender.profileUrl;
                         };
                         case (#err(msg)) {
                             senderName := "Not found!";
                         };
                     };
-                    allChats.add(senderName, chat.message, chat.timestamp);
+                    allChats.add(senderName, chat.message, chat.timestamp, senderPrinciple, senderPfp);
                     // };
                 };
             };

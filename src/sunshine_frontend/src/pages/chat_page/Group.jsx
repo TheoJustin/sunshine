@@ -21,7 +21,7 @@ export default function Group({
         <img className="m-0 w-20 h-20 rounded-3xl object-cover" src={imageUrl === "" ? placeholder : imageUrl} alt="" />
         <div>
           <div className="font-bold">{groupName}</div>
-          <div className="text-lg text-gray-600">{lastMessage}</div>
+          <div className="text-lg text-gray-600 truncate max-w-[10vw]">{lastMessage}</div>
         </div>
       </div>
     </div>

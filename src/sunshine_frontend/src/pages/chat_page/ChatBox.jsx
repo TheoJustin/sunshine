@@ -6,6 +6,7 @@ import GameOptions from "../../components/game/GameOptions";
 import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { TbSend2 } from "react-icons/tb";
+import placeholder from "../../../../../assets/profilePlaceholder.jpg";
 
 export default function ChatBox({ activeGroup }) {
   //buat semua chat
@@ -30,14 +31,82 @@ export default function ChatBox({ activeGroup }) {
     const chats = await sunshine_chat.getAllChatsAccordingToGroup(activeGroup);
     // mapping buat chat
     if (chats.ok) {
-      const listItems = chats.ok.map(([name, message, timestamp]) => (
-        <li>
-          {name}: {message} at{" "}
-          {new Date(Number(timestamp) / 1000000).toLocaleString()}
-        </li>
-      ));
+      let lastPrincipal = null;
+      const listItems = chats.ok.map(
+        ([name, message, timestamp, principalMsg, pfp]) => {
+          const isSender = principal.toString() === principalMsg.toString();
+          const isTheSameSender =
+            lastPrincipal &&
+            lastPrincipal.toString() === principalMsg.toString();
+          lastPrincipal = principalMsg;
+          if (isSender) {
+            return (
+              <>
+                <div className="flex-col flex items-end mb-3">
+                  {isTheSameSender ? (
+                    <></>
+                  ) : (
+                    <div className="text-base">{name}</div>
+                  )}
+
+                  <div className="flex gap-3 items-end">
+                    <div className="text-sm">
+                      {" "}
+                      {new Date(Number(timestamp) / 1000000).toLocaleString()}
+                    </div>
+                    <div className="bg-cream-custom w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
+                      {message}
+                    </div>
+                  </div>
+                  {/* {name}: {message} at{" "}
+            {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
+                </div>
+              </>
+            );
+          } else {
+            return (
+              <>
+                <div className="flex gap-5 items-center mb-3">
+                  {isTheSameSender ? (
+                    <></>
+                  ) : (
+                    <img
+                      className="w-10 h-10 object-cover m-0 align-end rounded-full"
+                      src={pfp === "" ? placeholder : pfp}
+                      alt=""
+                    />
+                  )}
+                  <div className="flex flex-col">
+                    {isTheSameSender ? (
+                      <></>
+                    ) : (
+                      <div className="text-base">{name}</div>
+                    )}
+                    <div
+                      className={`flex gap-3 items-end ${
+                        isTheSameSender ? "ml-[3.75rem]" : ""
+                      }`}
+                    >
+                      <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
+                        {message}
+                      </div>
+                      <div className="text-sm">
+                        {" "}
+                        {new Date(Number(timestamp) / 1000000).toLocaleString()}
+                      </div>
+                    </div>
+                  </div>
+                  {/* {name}: {message} at{" "}
+            {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
+                </div>
+              </>
+            );
+          }
+        }
+      );
+
       //   Setting the state with the list of elements
-      setChats(<ul>{listItems}</ul>);
+      setChats(<>{listItems}</>);
     }
 
     return true;
@@ -52,7 +121,6 @@ export default function ChatBox({ activeGroup }) {
   }, [user, chats, activeGroup]);
 
   async function handleSend() {
-    // async function sendChat() {
     const result = await sunshine_chat.createChat(
       message,
       principal,
@@ -62,16 +130,11 @@ export default function ChatBox({ activeGroup }) {
       console.log("delivered!");
     }
     setShouldSendData(false);
-    console.log(result);
-    // }
-    // sendChat();
-    // fetchChats(activeGroup);
     return true;
   }
 
   return (
     <div className="flex flex-col h-full w-[69%] gap-5 p-6 justify-between">
-      {/* {sendStatus} */}
       <div className="overflow-y-scroll">
         {activeGroup ? (isLoadingFetchChat ? "Fetching Chat..." : chats) : ""}
       </div>
@@ -93,9 +156,7 @@ export default function ChatBox({ activeGroup }) {
                 boxShadow: "none",
               }}
             />
-
-            <GameOptions activeGroup={activeGroup}/>
-
+            <GameOptions activeGroup={activeGroup} />
             <Button
               className="bg-cream-custom hover:bg-cream-custom-hover"
               size="sm"
@@ -103,17 +164,13 @@ export default function ChatBox({ activeGroup }) {
               onClick={trySend}
               height={10}
             >
-              <TbSend2 size={25}/>
+              <TbSend2 size={25} />
             </Button>
           </div>
         ) : (
           <></>
         )}
       </div>
-      {/* <div className="align-bottom">{sendStatus == "pending" ? "Sending Data" : sendBtn}</div> */}
-
-      {/* <h1>Create A new Game</h1> */}
-      {/* <GameOptions /> */}
     </div>
   );
 }
