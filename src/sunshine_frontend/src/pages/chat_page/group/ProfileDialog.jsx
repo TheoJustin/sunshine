@@ -9,22 +9,43 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import MiniLoader from "../../../components/MiniLoader";
+import { useAuth } from "../../../use-auth-client";
+import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 
 export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
+  const { principal } = useAuth();
   const getUserDetail = async () => {
     return await sunshine_backend.getUserById(passedPrincipal);
   };
+  const checkIsFriend = async () => {
+    return await sunshine_chat.isFriends(principal, passedPrincipal);
+  };
 
-  const [isFriend, setIsFriend] = useState(false);
+  const addFriend = async () => {
+    await sunshine_chat.addFriend(principal, passedPrincipal);
+    console.log("Added friend!");
+    onClose();
+    return true;
+  };
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["getUserDetail", passedPrincipal],
     queryFn: getUserDetail,
+  });
+
+  const { data: isFriend } = useQuery({
+    queryKey: ["checkIsFriend", passedPrincipal],
+    queryFn: checkIsFriend,
+  });
+
+  const { status, mutate } = useMutation({
+    mutationKey: ["addFriend"],
+    mutationFn: addFriend,
   });
 
   if (isLoading) return <></>;
@@ -53,12 +74,18 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
           </div>
         </ModalBody>
         <ModalFooter gap={5}>
-          <Button
-            className="bg-cream-custom hover:bg-cream-custom-hover"
-            color="white"
-          >
-            Add Friend
-          </Button>
+          {isFriend ? (
+            <></>
+          ) : (
+            <Button
+              className="bg-cream-custom hover:bg-cream-custom-hover"
+              color="white"
+              onClick={mutate}
+            >
+              Add Friend
+            </Button>
+          )}
+
           <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
           </Button>

@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 import { useAuth } from "../../../use-auth-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 
 export default function JoinGroupDialog({ isOpen, onClose }) {
   const [searchedGroupsToJoin, setSearchedGroupsToJoin] = useState();
