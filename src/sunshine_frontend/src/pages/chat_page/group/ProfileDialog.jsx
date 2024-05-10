@@ -10,7 +10,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import MiniLoader from "../../../components/MiniLoader";
@@ -19,6 +19,8 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
   const getUserDetail = async () => {
     return await sunshine_backend.getUserById(passedPrincipal);
   };
+
+  const [isFriend, setIsFriend] = useState(false);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["getUserDetail", passedPrincipal],
@@ -35,15 +37,16 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
         <ModalCloseButton />
         <ModalBody>
           <div className="flex flex-col text-center items-center justify-center">
-            <img
-              className="w-20 h-20 object-cover m-0 align-end rounded-full"
-              src={
-                data && data.ok.profileUrl === ""
-                  ? placeholder
-                  : data.ok.profileUrl
-              }
-              alt=""
-            />
+            {data && (
+              <img
+                className="w-20 h-20 object-cover m-0 align-end rounded-full"
+                src={
+                  data.ok.profileUrl === "" ? placeholder : data.ok.profileUrl
+                }
+                alt=""
+              />
+            )}
+
             <div className="text-2xl font-bold">{data && data.ok.name}</div>
             <div className="text-base">{data && data.ok.email}</div>
             <div className="text-base">{data && data.ok.birth_date}</div>
