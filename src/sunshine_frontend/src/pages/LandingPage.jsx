@@ -43,7 +43,7 @@ function LandingPage() {
   return (
     <>
       {/* parallax of mountains and sun for landing page */}
-      <Parallax pages={1.85}>
+      <Parallax pages={1.85} style={{backgroundColor: '#1b2f2e'}}>
         {/* 1st part -> mountains and sun, some tagline?*/}
         <ParallaxLayer offset={0} speed={0.3} onScroll={() => ref.current.scrollTo(0.9)} factor={1} style={{
           backgroundImage: `url(${homeBackgroundSky})`,
@@ -137,7 +137,7 @@ function LandingPage() {
           backgroundColor: '#9BDDCB',
           marginTop: '-46rem'
         }}>
-          <div className='flex flex-row justify-around m-10'>
+          <div className='flex flex-row justify-around m-10 mt-20'>
             <LandingCard/>
             <CardComments/>
           </div>
