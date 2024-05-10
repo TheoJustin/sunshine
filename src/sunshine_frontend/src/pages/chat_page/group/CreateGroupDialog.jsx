@@ -11,9 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../use-auth-client";
-import { sunshine_chat } from "../../../../declarations/sunshine_chat";
-import { uploadImage } from "../../../../config/cloudinary";
+import { useAuth } from "../../../use-auth-client";
+import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
+import { uploadImage } from "../../../../../config/cloudinary";
 
 export default function CreateGroupDialog({ isOpen, onClose }) {
   const { status: createStatus, mutate: createMutate } = useMutation({

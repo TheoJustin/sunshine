@@ -8,8 +8,6 @@ import AboutPage from "./pages/AboutPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import ChatPage from "./pages/chat_page/ChatPage";
-import FriendPage from "./pages/chat_page/FriendPage";
 import { Actor, HttpAgent } from "@dfinity/agent";
 import {
   idlFactory as fontLoaderIdl,
@@ -22,6 +20,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import TwentyFive from "./pages/game_page/TwentyFive";
 import MentalMath from "./pages/game_page/MentalMath";
 import ReactionTest from "./pages/game_page/ReactionTest";
+import ChatPage from "./pages/chat_page/group/ChatPage";
+import FriendPage from "./pages/chat_page/friend/FriendPage";
 // import { CardWithForm } from "./components/login/LoginCardTest";
 
 // const agent = new HttpAgent({ host: 'https://ic0.app' });
