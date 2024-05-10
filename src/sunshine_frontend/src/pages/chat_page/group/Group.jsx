@@ -1,5 +1,5 @@
 import React from "react";
-import placeholder from "../../../../../assets/profilePlaceholder.jpg"
+import placeholder from "../../../../../../assets/profilePlaceholder.jpg"
 
 export default function Group({
   id,
