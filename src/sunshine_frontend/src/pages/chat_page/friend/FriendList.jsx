@@ -4,6 +4,7 @@ import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 import { Button, Input, useDisclosure, useQuery } from "@chakra-ui/react";
 import AddFriendDialog from "./AddFriendDialog";
 import Friend from "./Friend";
+import Skeleton from "../../../components/Skeleton";
 
 export default function FriendList({ activeFriend, setActiveFriend }) {
   const { principal } = useAuth();
@@ -12,22 +13,25 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchFriends = () => {
-    sunshine_chat.getAllFriends(principal).then((friends) => {
+    sunshine_chat.getAllAvailableFriends(searchFriendName, principal).then((friends) => {
       // console.log(friends);
       if (friends.ok) {
-        const listItems = friends.ok.map((user, idx) => {
-          // console.log(user);
-          return (
-            <Friend
-              key={idx}
-              name={user.name}
-              pfp={user.profileUrl}
-              friendPrincipal={user.internet_identity}
-              activeFriend={activeFriend}
-              setActiveFriend={setActiveFriend}
-            />
-          );
-        });
+        const listItems = friends.ok.map(
+          ([name, profileUrl, lastMsg, friendPrincipal], idx) => {
+            // console.log(user);
+            return (
+              <Friend
+                key={idx}
+                name={name}
+                pfp={profileUrl}
+                friendPrincipal={friendPrincipal}
+                lastMsg={lastMsg}
+                activeFriend={activeFriend}
+                setActiveFriend={setActiveFriend}
+              />
+            );
+          }
+        );
         setFriends(listItems);
       }
     });
@@ -56,15 +60,16 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
           }}
         />
         <Button
-          className="bg-cream-custom hover:bg-cream-custom-hover"
+          className="bg-orange-custom hover:bg-darkorange-custom"
           color="white"
           onClick={onOpen}
+          padding={5}
         >
           Add Friend
         </Button>
       </div>
       <div className="overflow-y-scroll h-[93%] flex flex-col pl-4">
-        {!isLoading ? friends : <></>}
+        {!isLoading ? friends : <><Skeleton /></>}
       </div>
       <AddFriendDialog isOpen={isOpen} onClose={onClose} />
     </div>

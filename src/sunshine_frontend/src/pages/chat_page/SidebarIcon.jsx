@@ -20,7 +20,7 @@ function Hover({ active }) {
   const opacityControl = active ? "opacity-100" : "opacity-0";
   return (
     <div
-      className={`absolute flex bg-cream-custom w-1 rounded-r-sm left-0 h-12 transition-opacity duration-200 ${opacityControl}`}
+      className={`absolute flex bg-orange-custom w-1 rounded-r-sm left-0 h-12 transition-opacity duration-200 ${opacityControl}`}
     ></div>
   );
 }

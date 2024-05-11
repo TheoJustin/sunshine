@@ -100,6 +100,8 @@ function LoggedIn() {
     }
   }, [data, isLoading]);
 
+  
+
   if (isLoading) return <div>loading</div>;
 
   async function handleImageClick() {
@@ -110,7 +112,7 @@ function LoggedIn() {
     <ChakraTemplate>
       <div className="flex justify-center items-center">
         <div className="relative flex flex-col top-[23vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl">
-          <div className="text-teal-custom font-bold text-3xl">
+          <div className="text-orange-custom font-bold text-3xl">
             Your Profile
           </div>
           <div
@@ -132,12 +134,13 @@ function LoggedIn() {
               id="profileImage"
               src={image === "" ? profilePlaceholder : image}
               alt="Upload a file"
+              className="object-cover w-24 h-24 rounded-full"
             />
           </div>
           <div className="flex gap-5 text-lg container items-center">
             <div className="min-w-14">Name</div>
             <Input
-              focusBorderColor="teal.400"
+              focusBorderColor="orange.400"
               variant="filled"
               placeholder="Name"
               size="md"
@@ -148,7 +151,7 @@ function LoggedIn() {
           <div className="flex gap-5 text-lg container items-center">
             <div className="min-w-14">Email</div>
             <Input
-              focusBorderColor="teal.400"
+              focusBorderColor="orange.400"
               variant="filled"
               placeholder="Email"
               size="md"
@@ -159,7 +162,7 @@ function LoggedIn() {
           <div className="flex gap-5 text-lg container items-center">
             <div className="min-w-14">DOB</div>
             <Input
-              focusBorderColor="teal.400"
+              focusBorderColor="orange.400"
               variant="filled"
               placeholder="Date of Birth"
               size="md"
@@ -172,7 +175,7 @@ function LoggedIn() {
             <Button
               size="md"
               variant="solid"
-              className="w-full bg-teal-custom"
+              className="w-full bg-orange-custom hover:bg-darkorange-custom"
               color="white"
               onClick={handleRegister}
             >
@@ -183,7 +186,7 @@ function LoggedIn() {
               <Button
                 size="md"
                 variant="solid"
-                className="w-full bg-teal-custom"
+                className="w-full bg-orange-custom hover:bg-darkorange-custom"
                 color="white"
                 isLoading
               />

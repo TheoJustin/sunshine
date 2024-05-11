@@ -41,6 +41,7 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
     sunshine_chat
       .getAllUnjoinedGroups(searchedGroupToJoinName, principal)
       .then((groups) => {
+        console.log(groups)
         // console.log(searchedGroupName);
         // mapping buat chat
         if (groups.ok) {

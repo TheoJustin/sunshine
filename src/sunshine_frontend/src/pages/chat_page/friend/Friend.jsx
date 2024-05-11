@@ -23,9 +23,9 @@ export default function Friend({
         />
         <div>
           <div className="font-bold">{name}</div>
-          {/* <div className="text-lg text-gray-600 truncate max-w-[10vw]">
-            {lastMessage}
-          </div> */}
+          <div className="text-lg text-gray-600 truncate max-w-[10vw]">
+            {lastMsg}
+          </div>
         </div>
       </div>
     </div>

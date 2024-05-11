@@ -112,7 +112,7 @@ export default function ChatBoxFriend({ activeFriend }) {
       );
       setChats(<>{listItems}</>);
     }
-    console.log(allChats);
+    // console.log(allChats);
     return true;
   }
 

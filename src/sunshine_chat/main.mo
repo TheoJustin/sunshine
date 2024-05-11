@@ -562,6 +562,89 @@ actor {
         return #ok(Vector.toArray(friendsList));
     };
 
+    public shared func getAllAvailableFriends(searchedFriend : Text, currUser : Principal) : async Result.Result<[(Text, Text, Text, Principal)], Text> {
+        let friendsList = Vector.Vector<(Text, Text, Text, Principal)>();
+        for (friend in friends.vals()) {
+            if (friend.user1 == currUser) {
+                let userFriend = await User.getUserById(friend.user2);
+                switch (userFriend) {
+                    case (#ok(userFriend)) {
+                        let contains = containsInsensitive(userFriend.name, searchedFriend);
+                        if (contains) {
+                            let friendBox = await getFriendBox(currUser, userFriend.internet_identity);
+                            switch (friendBox) {
+                                case (#ok(friendBox)) {
+                                    let size = Array.size(friendBox.messages);
+                                    if (size != 0) {
+                                        let chatId = friendBox.messages[size - 1];
+                                        let chat = getChat(chatId);
+                                        switch (chat) {
+                                            case (#ok(chat)) {
+                                                let msgContent = chat.message;
+                                                friendsList.add(userFriend.name, userFriend.profileUrl, msgContent, userFriend.internet_identity);
+                                            };
+                                            case (#err(msg)) {
+
+                                            };
+                                        };
+                                    } else {
+                                        let msgContent = "";
+                                        friendsList.add(userFriend.name, userFriend.profileUrl, msgContent, userFriend.internet_identity);
+                                    };
+                                };
+                                case (#err(friendBox)) {
+
+                                };
+                            };
+                        };
+                    };
+                    case (#err(userFriend)) {
+                        return #err("failed fetching user");
+                    };
+                };
+            } else if (friend.user2 == currUser) {
+                let userFriend = await User.getUserById(friend.user1);
+                switch (userFriend) {
+                    case (#ok(userFriend)) {
+                        let contains = containsInsensitive(userFriend.name, searchedFriend);
+                        if (contains) {
+                            let friendBox = await getFriendBox(currUser, userFriend.internet_identity);
+                            switch (friendBox) {
+                                case (#ok(friendBox)) {
+                                    let size = Array.size(friendBox.messages);
+                                    if (size != 0) {
+                                        let chatId = friendBox.messages[size - 1];
+                                        let chat = getChat(chatId);
+                                        switch (chat) {
+                                            case (#ok(chat)) {
+                                                let msgContent = chat.message;
+                                                friendsList.add(userFriend.name, userFriend.profileUrl, msgContent, userFriend.internet_identity);
+                                            };
+                                            case (#err(msg)) {
+
+                                            };
+                                        };
+                                    } else {
+                                        let msgContent = "";
+                                        friendsList.add(userFriend.name, userFriend.profileUrl, msgContent, userFriend.internet_identity);
+                                    };
+                                };
+                                case (#err(friendBox)) {
+
+                                };
+                            };
+                        };
+                    };
+                    case (#err(userFriend)) {
+                        return #err("failed fetching user");
+                    };
+                };
+            };
+        };
+
+        return #ok(Vector.toArray(friendsList));
+    };
+
     // get friend box
     public shared query func getFriendBox(user1 : Principal, user2 : Principal) : async Result.Result<Friend, Text> {
         for (friend in friends.vals()) {

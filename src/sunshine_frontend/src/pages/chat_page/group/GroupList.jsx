@@ -74,7 +74,7 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
             }}
           />
           <Button
-            className="bg-cream-custom hover:bg-cream-custom-hover"
+            className="bg-orange-custom hover:bg-darkorange-custom"
             color="white"
             onClick={onOpenJoinGroup}
           >
@@ -86,7 +86,7 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
         </div>
         <div className="absolute top-[93%] left-[21vw] gap-4 flex">
           <Button
-            className="bg-cream-custom hover:bg-cream-custom-hover"
+            className="bg-orange-custom hover:bg-darkorange-custom"
             color="white"
             onClick={onOpenCreateGroup}
             borderRadius={25}

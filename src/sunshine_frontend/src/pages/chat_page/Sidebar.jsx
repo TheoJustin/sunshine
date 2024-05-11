@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 // Enums
 const IconStates = Object.freeze({
-  ACTIVE: "w-10 text-cream-custom stroke-1",
+  ACTIVE: "w-10 text-orange-custom stroke-1",
   NONACTIVE: "w-10 text-gray-400 stroke-1",
 });
 
@@ -32,7 +32,7 @@ const Icons = Object.freeze({
 
 function StaticHover() {
   return (
-    <div className="absolute flex bg-cream-custom w-1 rounded-r-sm left-0 h-12 ease-out duration-200"></div>
+    <div className="absolute flex bg-orange-custom w-1 rounded-r-sm left-0 h-12 ease-out duration-200"></div>
   );
 }
 

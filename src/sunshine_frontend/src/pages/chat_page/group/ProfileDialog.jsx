@@ -23,7 +23,7 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
     return await sunshine_backend.getUserById(passedPrincipal);
   };
   const checkIsFriend = async () => {
-    console.log(passedPrincipal)
+    // console.log(passedPrincipal)
     return await sunshine_chat.isFriends(principal, passedPrincipal);
   };
 
