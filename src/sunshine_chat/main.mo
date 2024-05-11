@@ -478,7 +478,6 @@ actor {
                 switch (userTarget) {
                     case (#ok(userTarget)) {
                         if (Vector.indexOf<User.User>(userTarget, Vector.fromArray(allFriends), isSameUser) != null) {
-                            // allNotFriend.add(user);
                             return #ok(true);
                         } else {
                             return #ok(false);
