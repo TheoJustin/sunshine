@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import BackToChat from '../../components/game/BackToChat';
 import { useMutation } from '@tanstack/react-query';
 import { sunshine_chat } from '../../../../declarations/sunshine_chat';
+import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../use-auth-client';
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -14,21 +16,26 @@ function shuffleArray(array) {
 function TwentyFive() {
     const [visible, setVisible] = useState(Array.from({ length: 25 }, () => false));
     const [shuffledNumbers, setShuffledNumbers] = useState([]);
-    const { activeGroup, principal, gameId } = location.state || {};
+    const location = useLocation();
+    const { activeGroup, gameId } = location.state;
+    const {principal} = useAuth();
     const [nextNumber, setNextNumber] = useState(1);
     const [time, setTime] = useState(0);
     const [intervalId, setIntervalId] = useState(null);
     const [started, setStarted] = useState(false);
     const [score, setScore] = useState(0);
     const {status: updateScoreStatus, mutate: updateMutate} = useMutation({
-        mutationKey: ["updateScore", activeGroup, principal, gameId],
+        mutationKey: ["updateScore"],
         mutationFn: updateScore
-    })
+    });
 
     async function updateScore(){
-        await sunshine_chat.updateScore(gameId, principal, score);
+        console.log("updating...");
+        console.log(gameId, principal, score);
+        let result = await sunshine_chat.updateScore(gameId, principal, score);
+        console.log(result);
         return true;
-    }
+    };
 
     useEffect(() => {
         setShuffledNumbers(shuffleArray(Array.from({ length: 25 }, (_, index) => index + 1)));
