@@ -29,21 +29,21 @@ const imageStyle = ({
 
 
 function LandingPage() {
-  const {user, principal} = useAuth();
+  const { user, principal } = useAuth();
   const [currentName, setCurrentName] = useState("Stranger");
-  useEffect(()=>{
+  useEffect(() => {
     // async function initName(){
-      console.log(user);
-      if(user!=null){
-        user.getName(principal).then(name => {
-          setCurrentName(name);
-        })
-      }
+    console.log(user);
+    if (user != null) {
+      user.getName(principal).then(name => {
+        setCurrentName(name);
+      })
+    }
   }, [user])
   return (
     <>
       {/* parallax of mountains and sun for landing page */}
-      <Parallax pages={1.85} style={{backgroundColor: '#1b2f2e'}}>
+      <Parallax pages={2.25} style={{ backgroundColor: '#1b2f2e' }}>
         {/* 1st part -> mountains and sun, some tagline?*/}
         <ParallaxLayer offset={0} speed={0.3} onScroll={() => ref.current.scrollTo(0.9)} factor={1} style={{
           backgroundImage: `url(${homeBackgroundSky})`,
@@ -51,13 +51,13 @@ function LandingPage() {
           zIndex: '-130'
         }} >
         </ParallaxLayer>
-        <ParallaxLayer offset={0} speed={0.3}  factor={1} >
+        <ParallaxLayer offset={0} speed={0.3} factor={1} >
           <div className="w-[100] absolute font-productsans  font-bold text-center" style={{ top: '36%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '100' }}>
-            <h1 className='text-5xl'>Hello <span style={{color: '#ff9f1c'}}>{currentName}</span> &lt;3</h1> 
+            <h1 className='text-5xl'>Hello <span style={{ color: '#ff9f1c' }}>{currentName}</span> &lt;3</h1>
             <p className='mt-2'>
-              You are my  
-              <span style={{color: '#ff9f1c'}}>
-                  <Typewriter
+              You are my
+              <span style={{ color: '#ff9f1c' }}>
+                <Typewriter
                   words={[" sunshine!", " only sunshine!"]}
                   loop={0}
                   cursor
@@ -66,35 +66,35 @@ function LandingPage() {
                   deleteSpeed={50}
                   delaySpeed={1000}
                 />
-                </span> 
+              </span>
             </p>
           </div>
         </ParallaxLayer>
-        <ParallaxLayer offset={0} speed={1.7} factor={1} className='-z-20'>
+        <ParallaxLayer offset={0} speed={0.5} factor={1} className='-z-20'>
           <img src={parallax8} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0} speed={1.8} factor={1 - 0.28} className='-z-10'>
+        <ParallaxLayer offset={0} speed={0.55} factor={1 - 0.28} className='-z-10'>
           <img src={parallax7} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.33} speed={1.9} factor={1 - 0.3} className='z-0'>
+        <ParallaxLayer offset={0.33} speed={0.6} factor={1 - 0.3} className='z-0'>
           <img src={parallax6} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.3} speed={2} factor={1 - 0.4} className='z-10'>
+        <ParallaxLayer offset={0.3} speed={0.65} factor={1 - 0.4} className='z-10'>
           <img src={parallax5} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.2} speed={2.1} factor={1 - 0.2} className='z-20'>
+        <ParallaxLayer offset={0.2} speed={0.7} factor={1 - 0.2} className='z-20'>
           <img src={parallax4} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.2} speed={2.2} factor={1 - 0.2} className='z-30'>
+        <ParallaxLayer offset={0.2} speed={0.75} factor={1 - 0.2} className='z-30'>
           <img src={parallax3} style={imageStyle} alt="" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.2} speed={2.3} factor={1 - 0.2} className='z-40'>
+        <ParallaxLayer offset={0.2} speed={0.8} factor={1 - 0.2} className='z-40'>
           <img src={parallax2} style={imageStyle} alt="" />
         </ParallaxLayer>
         <ParallaxLayer offset={0} speed={0.3} factor={1} className='-z-10'>
-          <img src={sun} className='w-4/5 left-12 top-20 absolute' style={{filter: 'drop-shadow(0 0 20px #ffbf64)'}} alt="asd" />
+          <img src={sun} className='w-4/5 left-12 top-20 absolute' style={{ filter: 'drop-shadow(0 0 20px #ffbf64)' }} alt="asd" />
         </ParallaxLayer>
-        <ParallaxLayer offset={0.2} speed={2.4} factor={1 - 0.2} className='z-40'>
+        <ParallaxLayer offset={0.2} speed={0.85} factor={1} className='z-40'>
           <img src={parallax1} style={imageStyle} alt="" />
           <div className="flex flex-row -z-50" style={{
             backgroundColor: '#1b2f2e',
@@ -105,60 +105,60 @@ function LandingPage() {
             <div className="ml-20 mr-20 w-3/5 flex justify-center">
               <PhotoTilt />
             </div>
-            <div className="flex flex-col gap-4 justify-center">
+            <div className="flex flex-col gap-7 justify-center">
               {/* <Feature title="Decentralized Authentication" description="Utilize Internet Identity for decentralized authentication to ensure secure and private access to the application. This will leverage blockchain technology to verify user identities without relying on traditional centralized servers." /> */}
               <Feature title="Scalable Real-Time Messaging" description="Implement a scalable real-time messaging system built on the Internet Computer, benefiting from its high throughput and low latency. This system can handle massive amounts of data and a high number of users without compromising speed or efficiency." colorIndex={1} />
-              <Feature title="Blockchain-Enabled Bitcoin Transactions" description="Enable Bitcoin transactions through the app using a blockchain-based approach, possibly through a regtest environment for safe testing and demonstrations. This will allow users to perform secure and verifiable transactions within their chats." colorIndex={1}/>
-              <Feature title="Distributed Game Logic" description="Games integrated into the chat can run their backend logic directly on the Internet Computer, ensuring transparent and verifiable game mechanics. This decentralized approach prevents cheating and enhances performance." colorIndex  ={1} />
+              <Feature title="Blockchain-Enabled Bitcoin Transactions" description="Enable Bitcoin transactions through the app using a blockchain-based approach, possibly through a regtest environment for safe testing and demonstrations. This will allow users to perform secure and verifiable transactions within their chats." colorIndex={1} />
+              <Feature title="Distributed Game Logic" description="Games integrated into the chat can run their backend logic directly on the Internet Computer, ensuring transparent and verifiable game mechanics. This decentralized approach prevents cheating and enhances performance." colorIndex={1} />
               {/* <Feature title="Immutable Chat History" description="Store chat histories on the blockchain, providing users with immutable records of their conversations. This feature not only enhances security but also allows for easy retrieval and verification of past interactions." /> */}
             </div>
           </div>
         </ParallaxLayer>
-        
+
 
 
         {/* 3rd part include sliding animation + footer? */}
-        <ParallaxLayer offset={1} speed={3.5} factor={1} className='z-50' style={{
+        <ParallaxLayer offset={1.9} speed={3} factor={1} className='z-50' style={{
           backgroundColor: '#2A4A49',
-          marginTop: '-64rem'
+          marginTop: '-15rem'
         }}>
         </ParallaxLayer>
-        <ParallaxLayer offset={1} speed={3.4} factor={1} className='z-50' style={{
+        <ParallaxLayer offset={1.9} speed={3} factor={1} className='z-50' style={{
           backgroundColor: '#437574',
-          marginTop: '-58rem'
+          marginTop: '-12rem'
         }}>
         </ParallaxLayer>
-        <ParallaxLayer offset={1} speed={3.3} factor={1} className='z-50' style={{
+        <ParallaxLayer offset={1.9} speed={3} factor={1} className='z-50' style={{
           backgroundColor: '#5DBAA2',
-          marginTop: '-52rem'
+          marginTop: '-9rem'
         }}>
         </ParallaxLayer>
-        <ParallaxLayer offset={1} speed={3.2} factor={1.2} className='z-50' style={{
+        <ParallaxLayer offset={1.9} speed={3} factor={1.6} className='z-50' style={{
           backgroundColor: '#9BDDCB',
-          marginTop: '-46rem'
+          marginTop: '-6rem'
         }}>
-          <div className='flex flex-row justify-around m-10 mt-20'>
-            <LandingCard/>
-            <CardComments/>
+          <div className='flex justify-start items-center gap-8 align-top m-10 mt-20'>
+              <LandingCard />
+              <CardComments />
           </div>
+          <Footer />
         </ParallaxLayer>
-        <ParallaxLayer offset={1.9} speed={3.2} factor={1} className='z-50' style={{
+        {/* <ParallaxLayer offset={2.9} speed={0.9} factor={1} className='z-50' style={{
           backgroundColor: '#B0DDD6',
           marginTop: '-41rem'
         }}>
           
-        <Footer/>
-        </ParallaxLayer>
-        
+        </ParallaxLayer> */}
+
       </Parallax>
 
-      
+
     </>
   );
 }
 
 export default () => (
   // <AuthProvider>
-    <LandingPage />
+  <LandingPage />
   // </AuthProvider>
 );

@@ -4,12 +4,34 @@ import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
 const activeStyle = ({ isActive }) => ({
-  color: isActive ? "black" : "black",
+  color: isActive ? "white" : "#ff9f1c",
   fontSize: "1.7vw",
+  fontWeight: '600'
 });
 
-const activeSquareStyle = (pathname) => ({
-  width: pathname == "/chat" ? "1vw" : "11vw",
+var isHover = false;
+
+
+
+// .navbar-shrink {
+//   height: 4vw; /* Adjust the height as needed */
+// }
+
+
+
+// nav ul div {
+//   width: 11vw;
+//   text-align: center;
+//   align-items: center;
+//   padding: 0vw 1.7vw;
+//   border-radius: 1vw;
+//   transition: all 0.3s;
+// }
+
+
+
+const activeSquareStyle = (pathname, isScrolled) => ({
+  width: pathname == "/chat" || (isScrolled && !isHover) ? "0vw" : "11vw",
   left:
     pathname == "/"
       ? "3vw"
@@ -22,52 +44,106 @@ const activeSquareStyle = (pathname) => ({
   borderRadius: pathname == "/chat" ? "100vw" : "1.7vw",
 });
 
-const navStyle = (pathname) => ({
-  display: (pathname === "/chat" || pathname === "/friend") ? "none" : "flex",
-});
+const navbarStyle = (pathname) => ({
+  display: pathname == "/chat" || pathname == "/friend" ? "none" : "flex",
+  position: 'fixed',
+  left: '50%',
+  top: '10%',
+  transform: 'translate(-50%, -50%)',
+  zIndex: '100',
+  justifyContent: 'center',
+  transition: 'all 0.3s',
+})
+const navUlStyleTemplate = (isScrolled) => ({
+  display: 'flex',
+  width: isScrolled && !isHover ? '7vw' : '70vw',
+  padding: isScrolled && !isHover ? '0' : ' 0.5vw 3vw',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  background: 'linear-gradient( 100deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0))',
+  borderRadius: '6vw',
+  zIndex: '1',
+  height: '6vw',
+  transition: 'all 0.3s',
+})
 
-function Navbar() {
+const navDivTemplate = (isScrolled) => ({
+  width: isScrolled && !isHover ? '0vw' : '11vw',
+  opacity: isScrolled && !isHover ? '0%' : '100%',
+  textAlign: 'center',
+  alignItems: 'center',
+  padding: isScrolled && !isHover ? '0' : '0vw 1.7vw',
+  borderRadius: '1vw',
+  transition: 'all 0.3s',
+})
+
+function Navbar({isScrolled}) {
+  
   const location = useLocation();
-  const [squareStyle, setSquareStyle] = useState(activeSquareStyle(location.pathname));
+  const [squareStyle, setSquareStyle] = useState(activeSquareStyle(location.pathname, isScrolled));
+  const [navStyle, setNavStyle] = useState(navbarStyle(location.pathname));
+  const [navUlStyle, setNavUlStyle] = useState(navUlStyleTemplate(isScrolled));
+  const [navDivStyle, setNavDivStyle] = useState(navDivTemplate(isScrolled));
 
-  async function refreshSquare() {
-    setSquareStyle(activeSquareStyle(location.pathname));
+  async function refreshStyles() {
+    console.log(location.pathname);
+    console.log(isScrolled);
+    setSquareStyle(activeSquareStyle(location.pathname, isScrolled));
+    setNavStyle(navbarStyle(location.pathname));
+    setNavUlStyle(navUlStyleTemplate(isScrolled));
+    setNavDivStyle(navDivTemplate(isScrolled));
+    // console.log(navbarStyle(location.pathname));
   }
 
   useEffect(() => {
-    refreshSquare();
-  }, [location]);
+    refreshStyles();
+  }, [location, isScrolled]);
+  
+  function mouseEnter(){
+    isHover = true;
+    refreshStyles();
+  }
+  function mouseLeave(){
+    isHover = false;
+    refreshStyles();
+  }
 
   return (
     <>
-      <nav className="font-productsans" style={navStyle(location.pathname)}>
-        <ul>
-          <div>
+      <nav onScrollCapture={refreshStyles} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} id="navbar" className="font-productsans" style={navStyle}>
+        <ul style={navUlStyle}>
+          {isScrolled}
+          <div style={navDivStyle}>
             <NavLink
               style={activeStyle}
               to="/"
-              onClick={refreshSquare}
+              onClick={refreshStyles}
               className="font-productsans font-normal"
             >
               Home
             </NavLink>
           </div>
-          <div>
-            <NavLink style={activeStyle} to="/about" onClick={refreshSquare}>
+          <div style={navDivStyle}>
+            <NavLink style={activeStyle} to="/about" onClick={refreshStyles}>
               About
             </NavLink>
           </div>
-          <NavLink to={"/chat"} onClick={refreshSquare}>
-            <img className="logo" src={logo} alt="" />
-          </NavLink>
           <div>
-            <NavLink style={activeStyle} to="/login" onClick={refreshSquare}>
+            <NavLink to={"/chat"} onClick={refreshStyles}>
+              <img style={{
+                width: '5vw',
+                maxWidth: '5vw',
+              }} src={logo} alt="" />
+            </NavLink>
+          </div>
+          <div style={navDivStyle}>
+            <NavLink style={activeStyle} to="/login" onClick={refreshStyles}>
               Profile
             </NavLink>
           </div>
 
-          <div>
-            <NavLink style={activeStyle} to="/chat" onClick={refreshSquare}>
+          <div style={navDivStyle}>
+            <NavLink style={activeStyle} to="/chat" onClick={refreshStyles}>
               Chat
             </NavLink>
           </div>

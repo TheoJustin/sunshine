@@ -73,13 +73,32 @@ const routes = [
 
 function App() {
   const queryClient = new QueryClient();
+  const [scrolled, setScrolled] = useState(false);
+  function handleScroll(event) {
+    const scrollY = event.target.scrollTop;
+    // console.log(scrollY);
+    if (scrollY > 0) {
+      console.log("higher");
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  }
+  useEffect(() => {
 
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up event listener on unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthProvider>
-          <main>
-            <Navbar />
+          <main id="mainapp" onScrollCapture={handleScroll}>
+            <Navbar isScrolled={scrolled} />
             <Routes>
               {routes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
