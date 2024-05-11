@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo from "../../../../assets/Logo Sunshine.png"
+import logo from "../../../../assets/Logo_Sunshine-removebg.png"
 
 export default function PhotoTilt() {
   const [rotation, setRotation] = useState({ rotateX: 0, rotateY: 0 });
@@ -27,13 +27,16 @@ export default function PhotoTilt() {
   return (
     <div className="flex items-center justify-center">
       <pre
-        className="p-8 rounded-lg shadow-lg relative transform-gpu cursor-pointer bg-teal-custom"
+        className="p-8 rounded-lg shadow-lg relative transform-gpu cursor-pointer bg-orange-custom"
         style={{
           transform: `perspective(5000px) rotateY(${rotation.rotateX}deg) rotateX(${rotation.rotateY}deg)`,
           transformStyle: 'preserve-3d',
-          transition: 'transform 0.2s'
+          borderRadius: '50%'
         }}>
-          <img src={logo} className='w-48' alt="Sunshine Logo" />
+          <div style={{backgroundColor: '#ffffff', borderRadius: '50%'}}>
+            <img src={logo} className='w-48' alt="Sunshine Logo"/>
+
+          </div>
       </pre>
     </div>
   );

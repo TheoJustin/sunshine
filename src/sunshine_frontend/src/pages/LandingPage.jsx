@@ -43,7 +43,7 @@ function LandingPage() {
   return (
     <>
       {/* parallax of mountains and sun for landing page */}
-      <Parallax pages={1.85}>
+      <Parallax pages={1.85} style={{backgroundColor: '#1b2f2e'}}>
         {/* 1st part -> mountains and sun, some tagline?*/}
         <ParallaxLayer offset={0} speed={0.3} onScroll={() => ref.current.scrollTo(0.9)} factor={1} style={{
           backgroundImage: `url(${homeBackgroundSky})`,
@@ -105,11 +105,11 @@ function LandingPage() {
             <div className="ml-20 mr-20 w-3/5 flex justify-center">
               <PhotoTilt />
             </div>
-            <div className="flex flex-col gap-3 justify-center">
+            <div className="flex flex-col gap-4 justify-center">
               {/* <Feature title="Decentralized Authentication" description="Utilize Internet Identity for decentralized authentication to ensure secure and private access to the application. This will leverage blockchain technology to verify user identities without relying on traditional centralized servers." /> */}
-              <Feature title="Scalable Real-Time Messaging" description="Implement a scalable real-time messaging system built on the Internet Computer, benefiting from its high throughput and low latency. This system can handle massive amounts of data and a high number of users without compromising speed or efficiency." />
-              <Feature title="Blockchain-Enabled Bitcoin Transactions" description="Enable Bitcoin transactions through the app using a blockchain-based approach, possibly through a regtest environment for safe testing and demonstrations. This will allow users to perform secure and verifiable transactions within their chats." />
-              <Feature title="Distributed Game Logic" description="Games integrated into the chat can run their backend logic directly on the Internet Computer, ensuring transparent and verifiable game mechanics. This decentralized approach prevents cheating and enhances performance." />
+              <Feature title="Scalable Real-Time Messaging" description="Implement a scalable real-time messaging system built on the Internet Computer, benefiting from its high throughput and low latency. This system can handle massive amounts of data and a high number of users without compromising speed or efficiency." colorIndex={1} />
+              <Feature title="Blockchain-Enabled Bitcoin Transactions" description="Enable Bitcoin transactions through the app using a blockchain-based approach, possibly through a regtest environment for safe testing and demonstrations. This will allow users to perform secure and verifiable transactions within their chats." colorIndex={1}/>
+              <Feature title="Distributed Game Logic" description="Games integrated into the chat can run their backend logic directly on the Internet Computer, ensuring transparent and verifiable game mechanics. This decentralized approach prevents cheating and enhances performance." colorIndex  ={1} />
               {/* <Feature title="Immutable Chat History" description="Store chat histories on the blockchain, providing users with immutable records of their conversations. This feature not only enhances security but also allows for easy retrieval and verification of past interactions." /> */}
             </div>
           </div>
@@ -137,7 +137,7 @@ function LandingPage() {
           backgroundColor: '#9BDDCB',
           marginTop: '-46rem'
         }}>
-          <div className='flex flex-row justify-around m-10'>
+          <div className='flex flex-row justify-around m-10 mt-20'>
             <LandingCard/>
             <CardComments/>
           </div>

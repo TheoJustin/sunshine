@@ -9,6 +9,8 @@ import Text "mo:base/Text";
 import Int "mo:base/Int";
 import Bool "mo:base/Bool";
 import Array "mo:base/Array";
+import Debug "mo:base/Debug";
+import Nat "mo:base/Nat";
 import Vector "mo:vector/Class";
 // import Types "mo:fuzz/types";
 
@@ -29,7 +31,7 @@ actor {
     type Friend = {
         user1 : Principal;
         user2 : Principal;
-        messages : [Chat];
+        messages : [Text];
     };
 
     type Group = {
@@ -40,7 +42,7 @@ actor {
         groupName : Text;
         timestamp : Time.Time;
         groupMembers : [Principal];
-        messages : [Chat];
+        messages : [Text];
     };
 
     let groups = TrieMap.TrieMap<Text, Group>(Text.equal, Text.hash);
@@ -192,7 +194,7 @@ actor {
                 switch (group) {
                     case (#ok(group)) {
                         let chats = group.messages;
-                        let newChat = Array.append<Chat>(chats, [chat]);
+                        let newChat = Array.append<Text>(chats, [chat.id]);
                         let newGroup : Group = {
                             id = group.id;
                             creatorUser = group.creatorUser;
@@ -290,6 +292,30 @@ actor {
     //     return #ok(Vector.toArray(allChats));
     // };
 
+    func getSender(chatId : Text) : Result.Result<Principal, Text> {
+        let chat = chats.get(chatId);
+        switch (chat) {
+            case (?chat) {
+                return #ok(chat.user);
+            };
+            case (null) {
+                return #err("not found");
+            };
+        };
+    };
+
+    func getChat(chatId : Text) : Result.Result<Chat, Text> {
+        let chat = chats.get(chatId);
+        switch (chat) {
+            case (?chat) {
+                return #ok(chat);
+            };
+            case (null) {
+                return #err("not found");
+            };
+        };
+    };
+
     // buat ambil chat per group
     public shared func getAllChatsAccordingToGroup(currGroup : Text) : async Result.Result<[(Text, Text, Int, Principal, Text)], Text> {
         let groupId = currGroup;
@@ -297,22 +323,30 @@ actor {
         let group = groups.get(groupId);
         switch (group) {
             case (?group) {
-                for (chat in group.messages.vals()) {
+                for (chatId in group.messages.vals()) {
                     // if (chat.groupId == groupId) {
-                    let sender = await User.getUserById(chat.user);
-                    var senderName = "";
-                    var senderPrinciple = chat.user;
-                    var senderPfp = "";
-                    switch (sender) {
-                        case (#ok(sender)) {
-                            senderName := sender.name;
-                            senderPfp := sender.profileUrl;
+                    let chat = getChat(chatId);
+                    switch (chat) {
+                        case (#ok(chat)) {
+                            let sender = await User.getUserById(chat.user);
+                            var senderName = "";
+                            // var senderPrinciple = chat.user;
+                            var senderPfp = "";
+                            switch (sender) {
+                                case (#ok(sender)) {
+                                    senderName := sender.name;
+                                    senderPfp := sender.profileUrl;
+                                };
+                                case (#err(msg)) {
+                                    senderName := "Not found!";
+                                };
+                            };
+                            allChats.add(senderName, chat.message, chat.timestamp, chat.user, senderPfp);
                         };
                         case (#err(msg)) {
-                            senderName := "Not found!";
+
                         };
                     };
-                    allChats.add(senderName, chat.message, chat.timestamp, senderPrinciple, senderPfp);
                     // };
                 };
             };
@@ -330,13 +364,21 @@ actor {
         let group = groups.get(groupId);
         switch (group) {
             case (?group) {
-                for (chat in group.messages.vals()) {
+                for (chatId in group.messages.vals()) {
                     // if (chat.groupId == groupId) {
-                    let name = await User.getName(chat.user);
-                    let participantsName = await User.getParticipantsName(chat.participants);
-                    let pfp = await User.getPfp(chat.user);
-                    allChats.add(chat.id, chat.message, chat.user, chat.timestamp, chat.status, chat.variant, chat.gameType, participantsName, chat.scores, name, pfp);
-                    // };
+                    let chat = getChat(chatId);
+                    switch (chat) {
+                        case (#ok(chat)) {
+                            let name = await User.getName(chat.user);
+                            let participantsName = await User.getParticipantsName(chat.participants);
+                            let pfp = await User.getPfp(chat.user);
+                            allChats.add(chat.id, chat.message, chat.user, chat.timestamp, chat.status, chat.variant, chat.gameType, participantsName, chat.scores, name, pfp);
+                            // };
+                        };
+                        case (#err(msg)) {
+                            return #err(msg);
+                        };
+                    };
                 };
             };
             case (null) {
@@ -369,11 +411,19 @@ actor {
             if (contains and joined) {
                 let size = Array.size(group.messages);
                 if (size != 0) {
-                    let message = group.messages[size -1];
-                    let msgContent = message.message;
-                    let username = await User.getName(message.user);
-                    let msg = username # " : " # msgContent;
-                    allGroups.add(group.groupName, msg, group.id, group.imageUrl);
+                    let chatId = group.messages[size -1];
+                    let chat = getChat(chatId);
+                    switch(chat){
+                        case (#ok(chat)){
+                            let msgContent = chat.message;
+                            let username = await User.getName(chat.user);
+                            let msg = username # " : " # msgContent;
+                            allGroups.add(group.groupName, msg, group.id, group.imageUrl);
+                        };
+                        case (#err(msg)){
+
+                        };
+                    };
                 } else {
                     let msg = "";
                     allGroups.add(group.groupName, msg, group.id, group.imageUrl);
@@ -434,7 +484,7 @@ actor {
                             return #ok(false);
                         };
                     };
-                    case (#err(msg)){
+                    case (#err(msg)) {
                         return #err(msg);
                     };
                 };
@@ -549,7 +599,7 @@ actor {
                     scores = [];
                 };
                 let chats = friendBox.messages;
-                let newChat = Array.append<Chat>(chats, [chat]);
+                let newChat = Array.append<Text>(chats, [chat.id]);
                 let newFriendBox : Friend = {
                     user1 = friendBox.user1;
                     user2 = friendBox.user2;
@@ -603,7 +653,7 @@ actor {
                     status = "delivered";
                     user = userCreator;
                     variant = "game";
-                    message = "";
+                    message = "Game Created";
                     gameType = gameType;
                     participants = [];
                     scores = [];
@@ -612,7 +662,7 @@ actor {
                 switch (group) {
                     case (#ok(group)) {
                         let chats = group.messages;
-                        let newChat = Array.append<Chat>(chats, [newGame]);
+                        let newChat = Array.append<Text>(chats, [newGame.id]);
                         let newGroup : Group = {
                             id = group.id;
                             creatorUser = group.creatorUser;
@@ -671,10 +721,12 @@ actor {
 
     };
 
+    // comparison function for chat
     func isSameChat(chat1 : Chat, chat2 : Chat) : Bool {
         return chat1.id == chat2.id;
     };
 
+    // joining game
     public func joinGame(groupId : Text, user : Principal, gameId : Text) : async Result.Result<(), Text> {
         let game = chats.get(gameId);
         switch (game) {
@@ -694,29 +746,88 @@ actor {
                     scores = newScores;
                 };
                 chats.put(gameId, updatedGame);
-                let group = await getGroupById(groupId);
-                switch (group) {
-                    case (#ok(group)) {
-                        let chats : Vector.Vector<Chat> = Vector.fromArray(group.messages);
-                        let oldChatIndex = Vector.indexOf<Chat>(game, chats, isSameChat);
-                        switch (oldChatIndex) {
-                            case (?oldChatIndex) {
-                                chats.put(oldChatIndex, updatedGame);
-                                let newGroup : Group = {
-                                    id = group.id;
-                                    creatorUser = group.creatorUser;
-                                    groupName = group.groupName;
-                                    description = group.description;
-                                    timestamp = group.timestamp;
-                                    groupMembers = group.groupMembers;
-                                    messages = Vector.toArray(chats);
-                                    imageUrl = group.imageUrl;
-                                };
-                                groups.put(groupId, newGroup);
+                return #ok();
+                // let group = await getGroupById(groupId);
+                // switch (group) {
+                //     case (#ok(group)) {
+                //         let chatsNew : Vector.Vector<Text> = Vector.fromArray(group.messages);
+                //         let oldChatIndex = Vector.indexOf<Text>(game.id, chatsNew, Text.equal);
+                //         switch (oldChatIndex) {
+                //             case (?oldChatIndex) {
+                //                 chatsNew.put(oldChatIndex, updatedGame);
+                //                 let newGroup : Group = {
+                //                     id = group.id;
+                //                     creatorUser = group.creatorUser;
+                //                     groupName = group.groupName;
+                //                     description = group.description;
+                //                     timestamp = group.timestamp;
+                //                     groupMembers = group.groupMembers;
+                //                     messages = Vector.toArray(chatsNew);
+                //                     imageUrl = group.imageUrl;
+                //                 };
+                //                 groups.put(groupId, newGroup);
+                //                 return #ok();
+                //             };
+                //             case (null) {
+                //                 return #err("Group error");
+                //             };
+                //         };
+                //     };
+                //     case (#err(msg)) {
+                //         return #err("Group error");
+                //     };
+                // };
+            };
+            case (null) {
+                return #err("error");
+            };
+        };
+    };
+
+    // comparison function for friendBox
+    func isSameFriendBox(box1 : Friend, box2 : Friend) : Bool {
+        return (box1.user1 == box2.user1 and box1.user2 == box2.user2) or (box1.user2 == box2.user1 and box1.user1 == box2.user2);
+    };
+
+    // creating game in friend chat page
+    public shared func createGameFriend(userCreator : Principal, userFriend : Principal, gameType : Text) : async Result.Result<(), Text> {
+        let newId = await generateUUID();
+        let user = await User.getUserById(userCreator);
+        if (Principal.isAnonymous(userCreator)) {
+            return #err("Unauthorized");
+        };
+        switch (user) {
+            case (#ok(user)) {
+                let newGame : Chat = {
+                    id = newId;
+                    timestamp = Time.now();
+                    status = "delivered";
+                    user = userCreator;
+                    variant = "game";
+                    message = "Game Created";
+                    gameType = gameType;
+                    participants = [];
+                    scores = [];
+                };
+                let friendBox = await getFriendBox(userCreator, userFriend);
+                switch (friendBox) {
+                    case (#ok(friendBox)) {
+                        let chatsNew = friendBox.messages;
+                        let newChat = Array.append<Text>(chatsNew, [newGame.id]);
+                        let newFriendBox : Friend = {
+                            user1 = userCreator;
+                            user2 = userFriend;
+                            messages = newChat;
+                        };
+                        let oldIndex = Vector.indexOf<Friend>(friendBox, friends, isSameFriendBox);
+                        switch (oldIndex) {
+                            case (?oldIndex) {
+                                friends.put(oldIndex, newFriendBox);
+                                chats.put(newId, newGame);
                                 return #ok();
                             };
                             case (null) {
-                                return #err("Group error");
+                                return #err("no index");
                             };
                         };
                     };
@@ -725,8 +836,175 @@ actor {
                     };
                 };
             };
+            case (#err(errorMsg)) {
+                return #err("Failed to create game!");
+            };
+        };
+    };
+
+    //
+    public func joinGameFriend(userJoin : Principal, user2 : Principal, gameId : Text) : async Result.Result<(), Text> {
+        let game = chats.get(gameId);
+        switch (game) {
+            case (?game) {
+                let participants = game.participants;
+                let newParticipants = Array.append<Principal>(participants, [userJoin]);
+                let newScores = Array.append<Nat>(game.scores, [0]);
+                let updatedGame : Chat = {
+                    id = game.id;
+                    timestamp = game.timestamp;
+                    status = game.status;
+                    user = game.user;
+                    variant = game.variant;
+                    message = game.message;
+                    gameType = game.gameType;
+                    participants = newParticipants;
+                    scores = newScores;
+                };
+                chats.put(gameId, updatedGame);
+                return #ok();
+                // let friendBox = await getFriendBox(userJoin, user2);
+                // switch (friendBox) {
+                //     case (#ok(friendBox)) {
+                //         let chatsNew : Vector.Vector<Chat> = Vector.fromArray(friendBox.messages);
+                //         let oldChatIndex = Vector.indexOf<Chat>(game, chatsNew, isSameChat);
+                //         switch (oldChatIndex) {
+                //             case (?oldChatIndex) {
+                //                 chatsNew.put(oldChatIndex, updatedGame);
+                //                 let newFriendBox : Friend = {
+                //                     user1 = userJoin;
+                //                     user2 = user2;
+                //                     messages = Vector.toArray(chatsNew);
+                //                 };
+                //                 // fr.put(groupId, newGroup);
+                //                 let oldIndex = Vector.indexOf<Friend>(friendBox, friends, isSameFriendBox);
+                //                 switch (oldIndex) {
+                //                     case (?oldIndex) {
+                //                         friends.put(oldIndex, newFriendBox);
+                //                         return #ok();
+                //                     };
+                //                     case (null) {
+                //                         return #err("no index");
+                //                     };
+                //                 };
+                //             };
+                //             case (null) {
+                //                 return #err("Group error");
+                //             };
+                //         };
+                //     };
+                //     case (#err(msg)) {
+                //         return #err("Group error");
+                //     };
+                // };
+            };
             case (null) {
                 return #err("error");
+            };
+        };
+    };
+    public shared func sendMoney(senderId : Principal, receiverId : Principal, amount : Nat) : async Result.Result<Nat, Text> {
+        if (Principal.isAnonymous(senderId)) {
+            return #err("Unauthorized");
+        };
+
+        let sender = await User.getUserById(senderId);
+        let receiver = await User.getUserById(receiverId);
+
+        switch (sender) {
+            case (#ok(sender)) {
+
+                if (sender.money < amount) {
+                    return #err("Failed to send money");
+                };
+
+                switch (receiver) {
+                    case (#ok(receiver)) {
+                        let receiverMoney = receiver.money + amount;
+                        let senderMoney = sender.money - amount;
+
+                        let receiverPrototype : User.User = {
+                            internet_identity = receiver.internet_identity;
+                            name = receiver.name;
+                            email = receiver.email;
+                            birth_date = receiver.birth_date;
+                            timestamp = receiver.timestamp;
+                            money = receiverMoney;
+                            profileUrl = receiver.profileUrl;
+                        };
+
+                        let senderPrototype : User.User = {
+                            internet_identity = sender.internet_identity;
+                            name = sender.name;
+                            email = sender.email;
+                            birth_date = sender.birth_date;
+                            timestamp = sender.timestamp;
+                            money = senderMoney;
+                            profileUrl = sender.profileUrl;
+                        };
+
+                        await User.putUsers(receiverPrototype);
+                        await User.putUsers(senderPrototype);
+
+                        return #ok(sender.money);
+                    };
+                    case (#err(msg)) {
+                        return #err("Failed to get userid");
+                    };
+                };
+            };
+            case (#err(msg)) {
+                return #err("Failed to get userid");
+            };
+        };
+    };
+
+    // update score list of the game
+    public func updateScore(gameId : Text, user_id : Principal, score : Nat) : async Result.Result<Text, Text> {
+        if (Principal.isAnonymous(user_id)) {
+            return #err("Unauthorized");
+        };
+        // Debug.print(debug_show(index, score));
+        let currUser = await User.getUserById(user_id);
+        switch (currUser) {
+            case (#ok(currUser)) {
+                let game = chats.get(gameId);
+                switch (game) {
+                    case (?game) {
+                        let index = Array.indexOf<Principal>(user_id, game.participants, Principal.equal);
+                        switch (index) {
+                            case (?index) {
+                                let newScores : Vector.Vector<Nat> = Vector.fromArray(game.scores);
+                                Debug.print(debug_show(index, score));
+                                // let score = Nat.fromText(score);
+                                newScores.put(index, score);
+
+                                let newGame : Chat = {
+                                    id = game.id;
+                                    timestamp = game.timestamp;
+                                    status = game.status;
+                                    user = game.user;
+                                    variant = game.variant;
+                                    message = game.message;
+                                    gameType = game.gameType;
+                                    participants = game.participants;
+                                    scores = Vector.toArray(newScores);
+                                };
+                                chats.put(gameId, newGame);
+                                return #ok("Successfully updated");
+                            };
+                            case (null) {
+                                return #err("Index user error");
+                            };
+                        };
+                    };
+                    case (null) {
+                        return #err("Game error");
+                    };
+                };
+            };
+            case (#err(error)) {
+                return #err("user not found!");
             };
         };
     };

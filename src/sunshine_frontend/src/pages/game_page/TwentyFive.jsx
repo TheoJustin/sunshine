@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import BackToChat from '../../components/game/BackToChat';
+import { useMutation } from '@tanstack/react-query';
+import { sunshine_chat } from '../../../../declarations/sunshine_chat';
+import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../use-auth-client';
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -17,9 +21,12 @@ function TwentyFive() {
     const [intervalId, setIntervalId] = useState(null);
     const [started, setStarted] = useState(false);
     const [score, setScore] = useState(0);
+    const location = useLocation();
+    const { gameId } = location.state;
 
     useEffect(() => {
         setShuffledNumbers(shuffleArray(Array.from({ length: 25 }, (_, index) => index + 1)));
+        // console.log(activeGroup, principal, gameId);
     }, []);
 
     const handleStart = () => {
@@ -43,6 +50,7 @@ function TwentyFive() {
                 clearInterval(intervalId);
                 setScore(time);
                 setStarted(false);
+                updateMutate();
             }
         }
     };
@@ -70,7 +78,7 @@ function TwentyFive() {
                         </div>
                     ))}
                 </div>
-                <BackToChat score={score}/>
+                <BackToChat score={score} gameId={gameId}/>
             </div>
         </div>
     );

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import BackToChat from '../../components/game/BackToChat';
+import { useLocation } from 'react-router-dom';
 
 function ReactionTest() {
     const [status, setStatus] = useState('waiting');
     const [startTime, setStartTime] = useState(0);
     const [reactionTime, setReactionTime] = useState(null);
+    const location = useLocation();
+    const { gameId } = location.state;
 
     useEffect(() => {
         if (status === 'ready') {
@@ -70,7 +73,7 @@ function ReactionTest() {
                 {status === 'clicked' && reactionTime !== null && (
                     <>
                         <p className="text-2xl">Your reaction time: {reactionTime} milliseconds</p>
-                        <BackToChat score={reactionTime}/>
+                        <BackToChat score={reactionTime} gameId={gameId}/>
                     </>
                 )}
                 {status === 'waiting' &&
