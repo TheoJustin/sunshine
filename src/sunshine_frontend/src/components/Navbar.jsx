@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import logo from "../../../../assets/Logo_Sunshine-removebg.png";
 import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { opacity } from "@cloudinary/url-gen/actions/adjust";
 
 const activeStyle = ({ isActive }) => ({
   color: isActive ? "white" : "#ff9f1c",
@@ -31,15 +32,17 @@ var isHover = false;
 
 
 const activeSquareStyle = (pathname, isScrolled) => ({
-  width: pathname == "/chat" || (isScrolled && !isHover) ? "0vw" : "11vw",
+  width: "11vw",
+  opacity: (isScrolled && !isHover) ? '0%' : '100%',
   left:
+  (isScrolled && !isHover) ? '25vw' :
     pathname == "/"
       ? "3vw"
       : pathname == "/about"
       ? "17.5vw"
       : pathname == "/chat"
       ? "33.3vw"
-      : "41.5vw",
+      : pathname == "/login" ? "41.5vw" : '25vw',
   height: pathname == "/chat" ? "1vw" : "3.4vw",
   borderRadius: pathname == "/chat" ? "100vw" : "1.7vw",
 });

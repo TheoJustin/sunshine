@@ -92,7 +92,7 @@ function App() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [window]);
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
