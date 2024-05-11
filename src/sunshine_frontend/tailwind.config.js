@@ -18,6 +18,7 @@ export default {
         'orange-custom' : '#dd860b !important',
         'darkorange-custom' : '#cd7d0e !important',
         'green-custom' : '#2a6356 !important',
+        'lightgreen-custom' : '#d7ffdc !important',
         'darkgreen-custom' : '#1b2f2e !important',
         'cyan-custom' : '#CBF3F0',
         'orange-custom' : '#FF9F1C !important',

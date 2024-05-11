@@ -39,10 +39,10 @@ const activeSquareStyle = (pathname, isScrolled) => ({
     pathname == "/"
       ? "3vw"
       : pathname == "/about"
-      ? "17.5vw"
+      ? "17.7vw"
       : pathname == "/chat"
       ? "33.3vw"
-      : pathname == "/login" ? "41.5vw" : '25vw',
+      : pathname == "/login" ? "41.3vw" : '25vw',
   height: pathname == "/chat" ? "1vw" : "3.4vw",
   borderRadius: pathname == "/chat" ? "100vw" : "1.7vw",
 });
@@ -100,7 +100,7 @@ function Navbar({isScrolled}) {
 
   useEffect(() => {
     refreshStyles();
-  }, [location, isScrolled]);
+  }, [location.pathname, isScrolled]);
   
   function mouseEnter(){
     isHover = true;

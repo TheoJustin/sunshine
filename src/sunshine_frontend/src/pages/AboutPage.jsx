@@ -4,45 +4,82 @@ import WavyBackground from "../components/background/WavyBackground";
 import { FaTelegramPlane, FaDiscord } from 'react-icons/fa';
 import Footer from '../components/Footer';
 import CountingAnimation from '../components/CountingAnimation';
+import { useEffect, useState } from 'react';
+import { CardPattern, EvervaultCard } from "../components/EncryptedText"
 
 
-function AboutPage() {
+function AboutPage({ setScrolled }) {
+  // const [scrolled, setScrolled] = useState(false);
+
+  function handleScroll() {
+    const scrollY = window.scrollY;
+    console.log(scrollY);
+    if (scrollY > 0) {
+      console.log("higher");
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []); // empty dependency array to ensure this effect runs only once
   return (
-    <div>
+    <div className='bg-lightgreen-custom' onScrollCapture={handleScroll}>
       <WavyBackground
         className="content-class"
         containerClassName="container-class"
-        colors={["#6ee7b7", "#3b82f6", "#9333ea", "#f472b6", "#10b981"]}
+        colors={["#FF9F1C", "#FFBF69", "#FFFFFF", "#2EC4B6", "#10b981"]}
         waveWidth={60}
-        backgroundFill="#FFFFFF"
+        backgroundFill="#d7ffdc"
         blur={15}
         speed="fast"
         waveOpacity={0.6}
       >
-        <div style={{ backgroundColor: '#2EC4B6', padding: '20px', borderRadius: '20px' }} className="container mx-auto py-12 shadow-lg mb-5">
-          <h1 className="text-3xl font-bold mb-6 text-white font-sans pl-4 pt-4">Our Members</h1>
-          <p className="text-lg text-white mb-8 font-sans pl-4">Meet our team members who contributed to this project.</p>
-          
+        <div style={{
+          backgroundColor: '#2EC4B6', padding: '20px', borderRadius: '20px',
+          background: "rgba(255, 255, 255, 0.2)",
+          backdropFilter: "blur(30px)",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          border: "1px solid rgba(255, 255, 255, 0.3)"
+        }} className="mt-8 container text-center mx-auto py-12 shadow-lg mb-5">
+          <h1 className="text-3xl font-bold mb-6 text-orange-custom font-sans pl-4 pt-4"><span className='text-green-custom'>Our</span> Members</h1>
+          <p className="text-lg text-darkgreen-custom mb-8 font-bold font-sans pl-4">Meet our team members who contributed to this project.</p>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pl-4 pr-4">
-            <div style={{ backgroundColor: '#CBF3F0', borderRadius: '15px' }} className="p-6 shadow-md flex flex-col items-center justify-between">
-              <h2 className="text-2xl font-bold mb-4 font-sans">Theo Justin Amantha</h2>
-              <p className="text-gray-800 text-sm font-sans">Undergraduate Student @Bina Nusantara.</p>
+            <div style={{
+              background: "rgba(255, 255, 255, 0.2)",
+              backdropFilter: "blur(30px)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", borderRadius: '15px'
+            }} className="p-6 shadow-md flex flex-col items-center text-teal-custom justify-between">
+              <h2 className="text-2xl font-bold mb-4 font-sans"><span className='text-darkgreen-custom'>Theo</span> Justin Amantha</h2>
+              <p className="text-gray-800 font-semibold text-sm font-sans">Undergraduate Student @Bina Nusantara.</p>
               <div className="flex mt-4">
                 <a href="https://t.me/theojustin" className="text-blue-500 hover:text-blue-700"><FaTelegramPlane size={24} /></a>
                 <a href="https://discord.com/users/31709445408948225" className="text-blue-500 hover:text-blue-700 ml-4"><FaDiscord size={24} /></a>
               </div>
             </div>
-            <div style={{ backgroundColor: '#CBF3F0', borderRadius: '15px' }} className="p-6 shadow-md flex flex-col items-center justify-between">
-              <h2 className="text-2xl font-bold mb-4 font-sans">Jose Jonathan Tano</h2>
-              <p className="text-gray-800 text-sm font-sans">Undergraduate Student @Bina Nusantara.</p>
+            <div style={{
+              background: "rgba(255, 255, 255, 0.2)",
+              backdropFilter: "blur(30px)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", borderRadius: '15px'
+            }} className="p-6 shadow-md text-teal-custom flex flex-col items-center justify-between">
+              <h2 className="text-2xl font-bold mb-4 font-sans"><span className='text-darkgreen-custom'>Jose</span> Jonathan Tano</h2>
+              <p className="text-gray-800 font-semibold text-sm font-sans">Undergraduate Student @Bina Nusantara.</p>
               <div className="flex mt-4">
                 <a href="https://t.me/yentano" className="text-blue-500 hover:text-blue-700"><FaTelegramPlane size={24} /></a>
                 <a href="https://discord.com/users/295769116403302411" className="text-blue-500 hover:text-blue-700 ml-4"><FaDiscord size={24} /></a>
               </div>
             </div>
-            <div style={{ backgroundColor: '#CBF3F0', borderRadius: '15px' }} className="p-6 shadow-md flex flex-col items-center justify-between">
-              <h2 className="text-2xl font-bold mb-4 font-sans">Ryan Ray Wantouw Oei</h2>
-              <p className="text-gray-800 text-sm font-sans">Undergraduate Student @Bina Nusantara.</p>
+            <div style={{
+              background: "rgba(255, 255, 255, 0.2)",
+              backdropFilter: "blur(30px)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", borderRadius: '15px'
+            }} className="p-6 shadow-md flex text-teal-custom flex-col items-center justify-between">
+              <h2 className="text-2xl font-bold mb-4 font-sans"><span className='text-darkgreen-custom'>Ryan</span> Ray Wantouw Oei</h2>
+              <p className="text-gray-800 font-semibold text-sm font-sans">Undergraduate Student @Bina Nusantara.</p>
               <div className="flex mt-4">
                 <a href="https://t.me/wantouw" className="text-blue-500 hover:text-blue-700"><FaTelegramPlane size={24} /></a>
                 <a href="https://discord.com/users/693037429908570172" className="text-blue-500 hover:text-blue-700 ml-4"><FaDiscord size={24} /></a>
@@ -51,17 +88,22 @@ function AboutPage() {
           </div>
         </div>
       </WavyBackground>
-      
-        <CountingAnimation />
 
-      <MacbookScroll
+      <CountingAnimation />
+
+      {/* <MacbookScroll
           src={logo}
           showGradient={true}
           title="Made Using Internet Computer Web 3.0"
           badge=""
-        />
-      
-      <Footer/>
+        /> */}
+      <div className='mb-16 mt-44 font-productsans text-4xl font-bold flex flex-col items-center justify-center'>
+        <h1 className='mb-10'>Made Using Internet Computer Web 3.0</h1>
+        <EvervaultCard />
+        <p className='text-2xl leading-10 w-1/2 text-center mt-10 font-normal font-productsans'>Decentralized computing offers several advantages, including enhanced <span className='text-orange-custom'>security</span>, improved <span className='text-orange-custom'>resilience</span>, increased <span className='text-orange-custom'>transparency</span>, and greater <span className='text-orange-custom'>user control</span> over data and resources.</p>
+      </div>
+
+      <Footer />
     </div>
   );
 }

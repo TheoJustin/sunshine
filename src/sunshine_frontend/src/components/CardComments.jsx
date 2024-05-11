@@ -15,7 +15,7 @@ export default function CardComments() {
                 <figcaption className="flex items-center text-left  border-b border-black w-full pb-3">
                     <FaUserCircle className="rounded-full w-9 h-9 mr-2" alt="profile picture"/>
                     <div className="space-y-0.5 font-medium  text-left rtl:text-right ms-3">
-                        <div className="font-sans text-xl font-bold text-orange-custom">Darryl Effendi</div>
+                        <div className="font-sans text-xl font-bold text-orange-custom">Gojo Satoru</div>
                         <div className="font-sans text-sm text-teal-custom ">Developer</div>
                     </div>
                 </figcaption>    
@@ -34,7 +34,7 @@ export default function CardComments() {
                 <figcaption className="flex items-center text-left  border-b border-black w-full pb-3">
                     <FaUserCircle className="rounded-full w-9 h-9 mr-2" alt="profile picture"/>
                     <div className="space-y-0.5 font-medium  text-left rtl:text-right ms-3">
-                        <div className="font-sans text-xl font-bold text-orange-custom">Victor Halim</div>
+                        <div className="font-sans text-xl font-bold text-orange-custom">Robin</div>
                         <div className="font-sans text-sm text-teal-custom ">Developer</div>
                     </div>
                 </figcaption>    

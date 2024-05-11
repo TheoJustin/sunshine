@@ -27,53 +27,53 @@ import FriendPage from "./pages/chat_page/friend/FriendPage";
 // const agent = new HttpAgent({ host: 'https://ic0.app' });
 // const fontLoaderCanisterId = 'be2us-64aaa-aaaaa-qaabq-cai';
 // const fontLoader = Actor.createActor(fontLoaderIdl, { agent, canisterId: fontLoaderCanisterId });
-
-const routes = [
-  {
-    path: "/",
-    element: <LandingPage />,
-  },
-  {
-    path: "/about",
-    element: <AboutPage />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
-  },
-  {
-    path: "*",
-    element: <NotFoundPage />,
-  },
-  {
-    path: "/chat",
-    element: <ChatPage />,
-  },
-  {
-    path: "/friend",
-    element: <FriendPage />,
-  },
-  {
-    path: "/TwentyFive",
-    element: <TwentyFive />,
-  },
-  {
-    path: "/MentalMath",
-    element: <MentalMath />,
-  },
-  {
-    path: "/ReactionTime",
-    element: <ReactionTest />,
-  },
-];
-
 function App() {
-  const queryClient = new QueryClient();
   const [scrolled, setScrolled] = useState(false);
+  const routes = [
+    {
+      path: "/",
+      element: <LandingPage/>,
+    },
+    {
+      path: "/about",
+      element: <AboutPage setScrolled={setScrolled}/>,
+    },
+    {
+      path: "/login",
+      element: <LoginPage/>,
+    },
+    {
+      path: "/register",
+      element: <RegisterPage/>,
+    },
+    {
+      path: "*",
+      element: <NotFoundPage/>,
+    },
+    {
+      path: "/chat",
+      element: <ChatPage/>,
+    },
+    {
+      path: "/friend",
+      element: <FriendPage/>,
+    },
+    {
+      path: "/TwentyFive",
+      element: <TwentyFive/>,
+    },
+    {
+      path: "/MentalMath",
+      element: <MentalMath/>,
+    },
+    {
+      path: "/ReactionTime",
+      element: <ReactionTest/>,
+    },
+  ];
+  
+  
+  const queryClient = new QueryClient();
   function handleScroll(event) {
     const scrollY = event.target.scrollTop;
     // console.log(scrollY);

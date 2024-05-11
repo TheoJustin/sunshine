@@ -32,7 +32,6 @@ function LandingPage() {
   const { user, principal } = useAuth();
   const [currentName, setCurrentName] = useState("Stranger");
   useEffect(() => {
-    // async function initName(){
     console.log(user);
     if (user != null) {
       user.getName(principal).then(name => {
@@ -108,7 +107,7 @@ function LandingPage() {
             <div className="flex flex-col gap-7 justify-center">
               {/* <Feature title="Decentralized Authentication" description="Utilize Internet Identity for decentralized authentication to ensure secure and private access to the application. This will leverage blockchain technology to verify user identities without relying on traditional centralized servers." /> */}
               <Feature title="Scalable Real-Time Messaging" description="Implement a scalable real-time messaging system built on the Internet Computer, benefiting from its high throughput and low latency. This system can handle massive amounts of data and a high number of users without compromising speed or efficiency." colorIndex={1} />
-              <Feature title="Blockchain-Enabled Bitcoin Transactions" description="Enable Bitcoin transactions through the app using a blockchain-based approach, possibly through a regtest environment for safe testing and demonstrations. This will allow users to perform secure and verifiable transactions within their chats." colorIndex={1} />
+              <Feature title="Blockchain-Enabled Cryptocurrency Transactions" description="Enable cryptocurrency transactions through the app using a blockchain-based approach, possibly through a regtest environment for safe testing and demonstrations. This will allow users to perform secure and verifiable transactions within their chats." colorIndex={1} />
               <Feature title="Distributed Game Logic" description="Games integrated into the chat can run their backend logic directly on the Internet Computer, ensuring transparent and verifiable game mechanics. This decentralized approach prevents cheating and enhances performance." colorIndex={1} />
               {/* <Feature title="Immutable Chat History" description="Store chat histories on the blockchain, providing users with immutable records of their conversations. This feature not only enhances security but also allows for easy retrieval and verification of past interactions." /> */}
             </div>

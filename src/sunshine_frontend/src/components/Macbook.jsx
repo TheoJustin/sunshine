@@ -123,15 +123,15 @@ export const MacbookScroll = ({ src, showGradient, title, badge }) => {
   const textOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0]);
 
   return (
-    <div ref={ref} className="min-h-[200vh] flex flex-col items-center py-0 md:py-80 justify-start flex-shrink-0 [perspective:800px] transform md:scale-100 scale-[0.35] sm:scale-50">
+    <div ref={ref} className="min-h-[200vh] flex flex-col items-center py-0 md:py-80 justify-start flex-shrink-0 [perspective:800px] transform md:scale-100 scale-[0.3] sm:scale-50">
       <motion.h2
         style={{
           translateY: textTransform,
           opacity: textOpacity,
         }}
-        className="dark:text-white text-neutral-800 text-3xl font-bold mb-20 text-center font-sans"
+        className="text-darkgreen-custom-custom text-3xl font-bold mb-20 text-center font-sans"
       >
-        {title || <span>This Macbook is built with Tailwindcss. <br /> No kidding.</span>}
+        {title}
       </motion.h2>
       <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} />
       <BaseArea showGradient={showGradient} badge={badge} />
