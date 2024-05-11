@@ -15,6 +15,7 @@ export default {
     extend: {
       colors: {
         'teal-custom' : '#5C7474 !important',
+        'orange-custom' : '#ff9f1c !important',
         'cyan-custom' : '#CBF3F0',
         'orange-custom' : '#FF9F1C !important',
         'cream-custom' : '#FFBF69 !important',

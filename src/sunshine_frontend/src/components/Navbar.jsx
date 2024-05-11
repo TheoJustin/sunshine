@@ -40,7 +40,7 @@ function Navbar() {
 
   return (
     <>
-      <nav style={navStyle(location.pathname)}>
+      <nav className="font-productsans" style={navStyle(location.pathname)}>
         <ul>
           <div>
             <NavLink
