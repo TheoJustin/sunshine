@@ -20,7 +20,7 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
   const [searchedGroupToJoinName, setSearchedGroupToJoinName] = useState("");
   const { user, principal } = useAuth();
   const { status: joinStatus, mutate: joinMutate } = useMutation({
-    mutationKey: ["createGroup"],
+    mutationKey: ["joinGroup"],
     mutationFn: joinGroup,
   });
   async function joinGroup(groupId) {
@@ -70,11 +70,12 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
 
           //   Setting the state with the list of elements
           setSearchedGroupsToJoin(<ul className="pt-4">{listItems}</ul>);
-        } else {
-          setSearchedGroupsToJoin(
-            "Please search for the group's name or description first"
-          );
         }
+        // else {
+        //   setSearchedGroupsToJoin(
+        //     "Please search for the group's name or description first"
+        //   );
+        // }
       });
   }, [searchedGroupToJoinName]);
   return (
@@ -97,8 +98,13 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
               value={searchedGroupToJoinName}
             />
           </div>
-
           <div>{searchedGroupsToJoin}</div>
+          {/* {searchedGroupToJoinName === "" &&
+          searchedGroupsToJoin.length === 0 ? (
+            <div>Please search for the group's name or description first</div>
+          ) : (
+            <></>
+          )}{" "} */}
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="red" mr={3} onClick={onClose}>

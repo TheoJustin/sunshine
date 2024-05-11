@@ -23,6 +23,7 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
     return await sunshine_backend.getUserById(passedPrincipal);
   };
   const checkIsFriend = async () => {
+    console.log(passedPrincipal)
     return await sunshine_chat.isFriends(principal, passedPrincipal);
   };
 
@@ -38,7 +39,7 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
     queryFn: getUserDetail,
   });
 
-  const { data: isFriend } = useQuery({
+  const { data: isFriend, isLoading: isFriendLoading } = useQuery({
     queryKey: ["checkIsFriend", passedPrincipal],
     queryFn: checkIsFriend,
   });
@@ -74,6 +75,15 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
           </div>
         </ModalBody>
         <ModalFooter gap={5}>
+          {/* {isFriendLoading ? (
+            <>
+              <Button
+                className="bg-cream-custom hover:bg-cream-custom-hover"
+                color="white"
+                isLoading
+              />
+            </>
+          ) :  */}
           {isFriend ? (
             <></>
           ) : (
@@ -85,7 +95,6 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
               Add Friend
             </Button>
           )}
-
           <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
           </Button>

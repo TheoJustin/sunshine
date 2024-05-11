@@ -1,5 +1,5 @@
 import {
-    Button,
+  Button,
   Input,
   Modal,
   ModalBody,
@@ -9,10 +9,43 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../../use-auth-client";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 
 export default function AddFriendDialog({ isOpen, onClose }) {
   const [searchedFriendName, setSearchedFriendName] = useState("");
+  const { user, principal } = useAuth();
+  const { status: joinStatus, mutate: joinMutate } = useMutation({
+    mutationKey: ["addFriend"],
+    mutationFn: () => {},
+  });
+
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["getAllUnaddedFriends", searchedFriendName],
+  //   queryFn: getAllUnaddedFriends
+  // })
+
+  // async function getAllUnaddedFriends(){
+  //   if(searchedFriendName === ""){
+  //     return false;
+  //   }
+  //   return await sunshine_chat.getAllUnaddedFriends(searchedFriendName, principal);
+  // }
+
+  async function addFriend() {}
+
+  async function handleClick() {}
+
+  useEffect(() => {
+    sunshine_chat
+      .getAllUnaddedFriends(searchedFriendName, principal)
+      .then((friends) => {
+        console.log(friends);
+      });
+  }, [searchedFriendName]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

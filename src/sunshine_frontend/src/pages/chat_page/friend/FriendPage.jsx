@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import ChatPageTemplate from "../../../templates/ChatPageTemplate";
 import FriendList from "./FriendList";
+import ChatBoxFriend from "./ChatBoxFriend";
 
 export default function FriendPage() {
+  const [activeFriend, setActiveFriend] = useState("");
   return (
     <ChatPageTemplate>
-      <FriendList />
+      <FriendList
+        activeFriend={activeFriend}
+        setActiveFriend={setActiveFriend}
+      />
+      <ChatBoxFriend activeFriend={activeFriend}/>
     </ChatPageTemplate>
   );
 }
