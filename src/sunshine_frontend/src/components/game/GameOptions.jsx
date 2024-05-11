@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {sunshine_game} from '../../../../declarations/sunshine_game';
+import { sunshine_game } from '../../../../declarations/sunshine_game';
 import TwentyFiveLogo from '../../../../../assets/game/twentyfive.png';
 import MentalMathLogo from '../../../../../assets/game/mentalmath.png';
 import ReactionTimeLogo from '../../../../../assets/game/reactiontime.png';
@@ -10,9 +10,9 @@ import { useMutation } from '@tanstack/react-query';
 import { useAuth } from '../../use-auth-client';
 import { sunshine_chat } from '../../../../declarations/sunshine_chat';
 
-function GameOptions({activeGroup}) {
+function GameOptions({ activeGroup }) {
   const navigate = useNavigate();
-  const { principal } = useAuth(); 
+  const { principal } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGame, setSelectedGame] = useState('');
 
@@ -25,15 +25,16 @@ function GameOptions({activeGroup}) {
   const toggleModal = () => setIsOpen(!isOpen);
   const handleSelection = (gameId) => setSelectedGame(gameId);
   const {
-      status : createGameStatus,
-      mutate : createGameMutate
+    status: createGameStatus,
+    mutate: createGameMutate
   } = useMutation({
-      mutationFn : handleStartGame,
+    mutationFn: handleStartGame,
   })
 
-  async function handleStartGame (){
+  async function handleStartGame() {
     if (selectedGame) {
       await sunshine_chat.createGame(activeGroup, principal, selectedGame);
+      toggleModal();
       // navigate(`/${selectedGame}`);
     } else {
       alert('Please select a game first!');
@@ -49,7 +50,7 @@ function GameOptions({activeGroup}) {
         onClick={toggleModal}
         height={10}
       >
-        <IoGameController size={25}/>
+        <IoGameController size={25} />
       </Button>
 
       {isOpen && (
@@ -84,9 +85,19 @@ function GameOptions({activeGroup}) {
                     </li>
                   ))}
                 </ul>
-                <button onClick={createGameMutate} className="rounded-full text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-sans">
-                  Start Game
-                </button>
+                {createGameStatus == 'pending' ?
+                  // <button className="rounded-full text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-sans">
+                  //   Loading
+                  // </button>
+                  <Button className="rounded-full text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-sans"
+                  height={10} isLoading>
+                    
+                  </Button>
+                  :
+                  <Button onClick={createGameMutate} className="rounded-full text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-sans">
+                    Start Game
+                  </Button>
+                }
               </div>
             </div>
           </div>

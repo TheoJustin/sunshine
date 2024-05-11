@@ -15,7 +15,7 @@ export default function GameBox({ principal, gameId, participants, score, gameTy
     async function joiningGame() {
         console.log(activeGroup, principal, gameId);
         await sunshine_chat.joinGame(activeGroup, principal, gameId);
-        navigate(`/${gameType}`, { state: { activeGroup, gameId } });
+        navigate(`/${gameType}`, { state: { gameId } });
         return true;
     }
     const { isLoading: loadingFetchJoin, data } = useQuery({

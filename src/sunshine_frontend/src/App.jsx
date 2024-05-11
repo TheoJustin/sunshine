@@ -66,7 +66,7 @@ const routes = [
     element: <MentalMath />,
   },
   {
-    path: "/ReactionTest",
+    path: "/ReactionTime",
     element: <ReactionTest />,
   },
 ];

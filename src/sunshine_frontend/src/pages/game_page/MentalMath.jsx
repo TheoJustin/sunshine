@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BackToChat from '../../components/game/BackToChat';
+import { useLocation } from 'react-router-dom';
 
 function generateQuestion() {
     const num1 = Math.floor(Math.random() * 19) + 2;
@@ -35,6 +36,8 @@ function MentalMath() {
     const [currentQuestion, setCurrentQuestion] = useState({});
     const [userAnswer, setUserAnswer] = useState('');
     const [questionCount, setQuestionCount] = useState(0);
+    const location = useLocation();
+    const { gameId } = location.state;
 
     useEffect(() => {
         if (timerOn) {
@@ -61,6 +64,7 @@ function MentalMath() {
             } else {
                 setTimerOn(false);
                 setScore(time);
+                updateMutate();
             }
         } else {
             setUserAnswer('');
@@ -90,7 +94,7 @@ function MentalMath() {
                 )}
                 <h2 className='mt-4'>Timer: {formatTime(time)}</h2>
                 {!timerOn && questionCount >= 10 && <h1 className="text-xl font-semibold mt-4">Final Score (Time): {formatTime(score)}</h1>}
-            <BackToChat score={score}/>
+            <BackToChat score={score} gameId={gameId}/>
             </div>
         </div>
     );
