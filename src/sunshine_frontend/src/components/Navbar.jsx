@@ -144,11 +144,13 @@ function Navbar({isScrolled}) {
               Profile
             </NavLink>
           </div>
+          <div className="bg-darkgreen-custom py-1 rounded-3xl" style={{boxShadow: '0 0 15px #1b2f2e'}}>
+            <div style={{...navDivStyle}}>
+              <NavLink style={{...activeStyle, color: '#ffffff', fontWeight: '600'}} to="/chat" onClick={refreshStyles}>
+                Chat
+              </NavLink>
+            </div>
 
-          <div style={navDivStyle}>
-            <NavLink style={activeStyle} to="/chat" onClick={refreshStyles}>
-              Chat
-            </NavLink>
           </div>
           <div className="navIndicator" style={squareStyle}></div>
         </ul>
