@@ -6,7 +6,7 @@ import { Button, Input } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { uploadImage } from "../../../../config/cloudinary";
 import profilePlaceholder from "../../../../../assets/profilePlaceholder.jpg";
-import Currency from '../../pages/Currency';
+import Currency from "../../pages/Currency";
 
 const imageContainerStyle = {
   width: "100px",
@@ -51,7 +51,7 @@ function LoggedIn() {
           dob,
           image
         );
-        
+
         setAlreadyRegistered(true);
         if (updateFlag == true) {
           setIsUpdating(false);
@@ -100,8 +100,6 @@ function LoggedIn() {
     }
   }, [data, isLoading]);
 
-  
-
   if (isLoading) return <div>loading</div>;
 
   async function handleImageClick() {
@@ -111,7 +109,18 @@ function LoggedIn() {
   return (
     <ChakraTemplate>
       <div className="flex justify-center items-center">
-        <div className="relative flex flex-col top-[23vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl">
+        <div
+          className="relative flex flex-col top-[23vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl"
+          // style={{
+          //   backgroundColor: "#2EC4B6",
+          //   padding: "20px",
+          //   borderRadius: "20px",
+          //   background: "rgba(255, 255, 255, 0.2)",
+          //   backdropFilter: "blur(30px)",
+          //   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          //   border: "1px solid rgba(255, 255, 255, 0.3)",
+          // }}
+        >
           <div className="text-orange-custom font-bold text-3xl">
             Your Profile
           </div>
@@ -138,44 +147,62 @@ function LoggedIn() {
             />
           </div>
           <div className="flex gap-5 text-lg container items-center">
-            <div className="min-w-14">Name</div>
+            <div className="min-w-14 font-bold">Name</div>
             <Input
               focusBorderColor="orange.400"
-              variant="filled"
+              // variant="filled"
               placeholder="Name"
               size="md"
               onChange={(e) => setName(e.target.value)}
               value={name}
+              // style={{
+              //   background: "rgba(255, 255, 255, 0.2)",
+              //   backdropFilter: "blur(30px)",
+              //   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              //   borderRadius: "15px",
+              // }}
             />
           </div>
           <div className="flex gap-5 text-lg container items-center">
-            <div className="min-w-14">Email</div>
+            <div className="min-w-14 font-bold">Email</div>
             <Input
               focusBorderColor="orange.400"
-              variant="filled"
+              // variant="filled"
               placeholder="Email"
               size="md"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              // style={{
+              //   background: "rgba(255, 255, 255, 0.2)",
+              //   backdropFilter: "blur(30px)",
+              //   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              //   borderRadius: "15px",
+              // }}
             />
           </div>
           <div className="flex gap-5 text-lg container items-center">
-            <div className="min-w-14">DOB</div>
+            <div className="min-w-14 font-bold">DOB</div>
             <Input
               focusBorderColor="orange.400"
-              variant="filled"
+              // variant="filled"
               placeholder="Date of Birth"
               size="md"
               type="date"
               onChange={(e) => setDob(e.target.value)}
               value={dob}
+              // style={{
+              //   background: "rgba(255, 255, 255, 0.2)",
+              //   backdropFilter: "blur(30px)",
+              //   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              //   borderRadius: "15px",
+              // }}
             />
           </div>
           {!isUpdating ? (
             <Button
               size="md"
               variant="solid"
-              className="w-full bg-orange-custom hover:bg-darkorange-custom"
+              className="w-1/2 bg-orange-custom hover:bg-darkorange-custom"
               color="white"
               onClick={handleRegister}
             >
@@ -186,9 +213,10 @@ function LoggedIn() {
               <Button
                 size="md"
                 variant="solid"
-                className="w-full bg-orange-custom hover:bg-darkorange-custom"
+                className="w-1/2 bg-orange-custom hover:bg-darkorange-custom"
                 color="white"
                 isLoading
+
               />
             </>
           )}
@@ -197,7 +225,7 @@ function LoggedIn() {
             colorScheme="red"
             size="md"
             variant="solid"
-            className="w-full"
+            className="w-1/2"
             onClick={() => {
               logout();
               window.location.reload();
@@ -205,9 +233,7 @@ function LoggedIn() {
           >
             Log Out
           </Button>
-          {alreadyRegistered ? (
-            <Currency></Currency>
-          ): (<></>)}
+          {alreadyRegistered ? <Currency></Currency> : <></>}
         </div>
       </div>
     </ChakraTemplate>

@@ -108,7 +108,7 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
           )}{" "} */}
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="red" mr={3} onClick={onClose}>
+          <Button colorScheme="red" onClick={onClose}>
             Close
           </Button>
         </ModalFooter>

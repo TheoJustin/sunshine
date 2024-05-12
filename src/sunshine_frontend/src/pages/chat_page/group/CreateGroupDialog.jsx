@@ -34,9 +34,14 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
   }
 
   async function createGroup() {
-    console.log("created")
-    await sunshine_chat.createGroup(groupName, principal, groupDescription, groupImage);
-    console.log(groupImage)
+    console.log("created");
+    await sunshine_chat.createGroup(
+      groupName,
+      principal,
+      groupDescription,
+      groupImage
+    );
+    console.log(groupImage);
     // wannaCreate = false;
     setGroupName("");
     setGroupDescription("");
@@ -107,7 +112,7 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
               <>
                 <Button
                   onClick={() => document.getElementById("file-input").click()}
-                  className="bg-cream-custom hover:bg-cream-custom-hover"
+                  className="bg-green-custom hover:bg-darkgreen-custom"
                   color="white"
                   onChange={(e) => {
                     handleImage(e);
@@ -127,11 +132,18 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
             ) : (
               <Button
                 isLoading
-                className="bg-cream-custom hover:bg-cream-custom-hover"
+                className="bg-green-custom hover:bg-darkgreen-custom"
                 color="white"
               />
             )}
-            {groupImage === "" ? <></> : <img className="rounded-3xl w-36 h-36 object-cover" src={groupImage} />}
+            {groupImage === "" ? (
+              <></>
+            ) : (
+              <img
+                className="rounded-3xl w-36 h-36 object-cover"
+                src={groupImage}
+              />
+            )}
           </div>
         </ModalBody>
         <ModalFooter>
@@ -140,7 +152,7 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
           </Button>
           {createStatus !== "pending" && imageLoading !== true ? (
             <Button
-              className="bg-cream-custom hover:bg-cream-custom-hover"
+              className="bg-orange-custom hover:bg-darkorange-custom"
               color="white"
               onClick={handleClick}
             >
@@ -149,7 +161,7 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
           ) : (
             <Button
               isLoading
-              className="bg-cream-custom hover:bg-cream-custom-hover"
+              className="bg-orange-custom hover:bg-darkorange-custom"
               color="white"
             />
           )}

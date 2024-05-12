@@ -44,7 +44,7 @@ function GameOptions({ activeGroup }) {
   return (
     <>
       <Button
-        className="bg-cream-custom hover:bg-cream-custom-hover"
+        className="bg-orange-custom hover:bg-darkorange-custom"
         size="sm"
         textColor="white"
         onClick={toggleModal}

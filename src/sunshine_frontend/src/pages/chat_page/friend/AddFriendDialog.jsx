@@ -105,7 +105,7 @@ export default function AddFriendDialog({ isOpen, onClose }) {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="red" mr={3} onClick={onClose}>
+          <Button colorScheme="red" onClick={onClose}>
             Close
           </Button>
         </ModalFooter>

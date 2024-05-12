@@ -169,7 +169,7 @@ export default function ChatBoxFriend({ activeFriend }) {
             />
             {sendStatus === "pending" ? (
               <Button
-                className="bg-cream-custom hover:bg-cream-custom-hover"
+                className="bg-orange-custom hover:bg-darkorange-custom"
                 size="sm"
                 textColor="white"
                 height={10}
@@ -179,7 +179,7 @@ export default function ChatBoxFriend({ activeFriend }) {
               </Button>
             ) : (
               <Button
-                className="bg-cream-custom hover:bg-cream-custom-hover"
+                className="bg-orange-custom hover:bg-darkorange-custom"
                 size="sm"
                 textColor="white"
                 onClick={sendMutate}

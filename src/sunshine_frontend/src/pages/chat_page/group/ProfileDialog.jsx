@@ -19,16 +19,27 @@ import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 
 export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
   const { principal } = useAuth();
+  const [isBothUserFriend, setIsBothUserFriend] = useState(false);
   const getUserDetail = async () => {
     return await sunshine_backend.getUserById(passedPrincipal);
   };
   const checkIsFriend = async () => {
     // console.log(passedPrincipal)
-    return await sunshine_chat.isFriends(principal, passedPrincipal);
+    let isBothFriend = await sunshine_chat.isFriends(
+      principal,
+      passedPrincipal
+    );
+    if (isBothFriend && isBothFriend.ok) {
+      setIsBothUserFriend(isBothFriend.ok);
+      return true;
+    }
+    setIsBothUserFriend(false);
+    return false;
   };
 
   const addFriend = async () => {
     await sunshine_chat.addFriend(principal, passedPrincipal);
+    setIsBothUserFriend(await checkIsFriend(principal, passedPrincipal));
     console.log("Added friend!");
     onClose();
     return true;
@@ -45,7 +56,7 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
   });
 
   const { status, mutate } = useMutation({
-    mutationKey: ["addFriend"],
+    mutationKey: ["addFriend", isFriend],
     mutationFn: addFriend,
   });
 
@@ -75,7 +86,7 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
           </div>
         </ModalBody>
         <ModalFooter gap={5}>
-          {/* {isFriendLoading ? (
+          {isFriendLoading || status === "pending" ? (
             <>
               <Button
                 className="bg-cream-custom hover:bg-cream-custom-hover"
@@ -83,14 +94,25 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
                 isLoading
               />
             </>
-          ) :  */}
-          {isFriend ? (
-            <></>
+          ) : isBothUserFriend ? (
+            <>
+              <Button
+                className="bg-cream-custom hover:bg-cream-custom-hover"
+                color="white"
+                // onClick={mutate}
+                onClick={() => {
+                  console.log(isFriend);
+                }}
+              >
+                Send Money
+              </Button>
+            </>
           ) : (
             <Button
               className="bg-cream-custom hover:bg-cream-custom-hover"
               color="white"
               onClick={mutate}
+              // onClick={() => {console.log(isFriend)}}
             >
               Add Friend
             </Button>

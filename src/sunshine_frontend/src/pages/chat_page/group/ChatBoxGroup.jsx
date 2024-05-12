@@ -45,85 +45,6 @@ export default function ChatBox({ activeGroup }) {
     const chatngame = await sunshine_chat.getAllChatsAndGamesAccordingToGroup(
       activeGroup
     );
-    // console.log(chatngame);
-    // console.log(chats);
-    // if (chats.ok) {
-    //   let lastPrincipal = null;
-    //   const listItems = chats.ok.map(
-    //     ([name, message, timestamp, principalMsg, pfp]) => {
-    //       const isSender = principal.toString() === principalMsg.toString();
-    //       const isTheSameSender =
-    //         lastPrincipal &&
-    //         lastPrincipal.toString() === principalMsg.toString();
-    //       lastPrincipal = principalMsg;
-    //       if (isSender) {
-    //         return (
-    //           <>
-    //             <div className="flex-col flex items-end mb-3">
-    //               {isTheSameSender ? (
-    //                 <></>
-    //               ) : (
-    //                 <div className="text-base">{name}</div>
-    //               )}
-
-    //               <div className="flex gap-3 items-end">
-    //                 <div className="text-sm">
-    //                   {" "}
-    //                   {new Date(Number(timestamp) / 1000000).toLocaleString()}
-    //                 </div>
-    //                 <div className="bg-cream-custom w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
-    //                   {message}
-    //                 </div>
-    //               </div>
-    //               {/* {name}: {message} at{" "}
-    //         {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
-    //             </div>
-    //           </>
-    //         );
-    //       } else {
-    //         return (
-    //           <>
-    //             <div className="flex gap-5 items-center mb-3">
-    //               {isTheSameSender ? (
-    //                 <></>
-    //               ) : (
-    //                 <img
-    //                   className="w-10 h-10 object-cover m-0 align-end rounded-full"
-    //                   src={pfp === "" ? placeholder : pfp}
-    //                   alt=""
-    //                 />
-    //               )}
-    //               <div className="flex flex-col">
-    //                 {isTheSameSender ? (
-    //                   <></>
-    //                 ) : (
-    //                   <div className="text-base">{name}</div>
-    //                 )}
-    //                 <div
-    //                   className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
-    //                     }`}
-    //                 >
-    //                   <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
-    //                     {message}
-    //                   </div>
-    //                   <div className="text-sm">
-    //                     {" "}
-    //                     {new Date(Number(timestamp) / 1000000).toLocaleString()}
-    //                   </div>
-    //                 </div>
-    //               </div>
-    //               {/* {name}: {message} at{" "}
-    //         {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
-    //             </div>
-    //           </>
-    //         );
-    //       }
-    //     }
-    //   );
-
-    //   //   Setting the state with the list of elements
-    //   setChats(<>{listItems}</>);
-    // }
 
     if (chatngame.ok) {
       let lastPrincipal = null;
@@ -198,8 +119,9 @@ export default function ChatBox({ activeGroup }) {
                         <div className="text-base">{name}</div>
                       )}
                       <div
-                        className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
-                          }`}
+                        className={`flex gap-3 items-end ${
+                          isTheSameSender ? "ml-[3.75rem]" : ""
+                        }`}
                       >
                         <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
                           {message}
@@ -276,8 +198,9 @@ export default function ChatBox({ activeGroup }) {
                         <div className="text-base">{name}</div>
                       )}
                       <div
-                        className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
-                          }`}
+                        className={`flex gap-3 items-end ${
+                          isTheSameSender ? "ml-[3.75rem]" : ""
+                        }`}
                       >
                         <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
                           <GameBox
@@ -334,7 +257,7 @@ export default function ChatBox({ activeGroup }) {
       activeGroup
     );
     if (result.ok) {
-      console.log("delivered!");
+      setMessage("");
     }
     getChatsMutate(activeGroup);
     setShouldSendData(false);
@@ -377,7 +300,7 @@ export default function ChatBox({ activeGroup }) {
             <GameOptions activeGroup={activeGroup} />
             {sendStatus === "pending" ? (
               <Button
-                className="bg-cream-custom hover:bg-cream-custom-hover"
+                className="bg-orange-custom hover:bg-darkorange-custom"
                 size="sm"
                 textColor="white"
                 height={10}
@@ -387,7 +310,7 @@ export default function ChatBox({ activeGroup }) {
               </Button>
             ) : (
               <Button
-                className="bg-cream-custom hover:bg-cream-custom-hover"
+                className="bg-orange-custom hover:bg-darkorange-custom"
                 size="sm"
                 textColor="white"
                 onClick={trySend}
