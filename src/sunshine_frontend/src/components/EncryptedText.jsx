@@ -36,10 +36,10 @@ export const EvervaultCard = ({
     >
       <div
         onMouseMove={onMouseMove} style={{
-            background: "rgba(255, 255, 255, 0.2)",
-                        backdropFilter: "blur(30px)",
-                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)"
+          background: "rgba(255, 255, 255, 0.2)",
+          backdropFilter: "blur(30px)",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          border: "1px solid rgba(255, 255, 255, 0.3)"
         }}
         className="group/card rounded-3xl w-full relative overflow-hidden flex items-center justify-center h-full"
       >
@@ -49,13 +49,13 @@ export const EvervaultCard = ({
           randomString={randomString}
         />
         <div className="relative z-10 flex items-center justify-center">
-          <div className="relative h-52 w-72  rounded-full flex items-center justify-center text-white font-bold text-4xl">
+          <div className="relative h-52 w-60  rounded-full flex items-center justify-center text-white font-bold text-4xl">
             <div className="absolute w-full h-1/2 blur-sm rounded-xl" style={{
-                background: "rgba(255, 255, 255, 0.2)",
-                        backdropFilter: "blur(30px)",
-                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              background: "rgba(255, 255, 255, 0.2)",
+              backdropFilter: "blur(30px)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }} />
-            <span className="text-center text-3xl text-black z-30">Using Motoko<br />(Hover on me!)</span>
+            <span className="text-center text-3xl text-black z-30">Using <span className="text-orange-custom">Motoko</span><br /><span className="text-2xl"> <span className="text-green-600 ">Hover</span> on me!</span></span>
           </div>
         </div>
       </div>
@@ -71,14 +71,14 @@ export function CardPattern({ mouseX, mouseY, randomString }) {
     <div className="pointer-events-none">
       <div className="absolute inset-0 rounded-2xl  [mask-image:linear-gradient(white,transparent)] group-hover/card:opacity-50"></div>
       <motion.div
-        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-400 to-green-300 opacity-0  group-hover/card:opacity-100 backdrop-blur-xl transition duration-500"
+        className="absolute inset-0 rounded-2xl bg-gradient-to-b from-green-300 to-orange-300 opacity-0  group-hover/card:opacity-100 backdrop-blur-xl transition duration-500"
         style={style}
       />
       <motion.div
         className="absolute inset-0 rounded-2xl opacity-0 mix-blend-overlay  group-hover/card:opacity-100"
         style={style}
       >
-        <p className="absolute inset-x-0 text-base h-full break-words whitespace-pre-wrap text-white font-productsans font-bold transition duration-500">
+        <p className="absolute inset-x-0 text-base h-full tracking-wider break-words whitespace-pre-wrap text-white font-productsans font-bold transition duration-500 text-center ">
           {randomString}
         </p>
       </motion.div>

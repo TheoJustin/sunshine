@@ -42,6 +42,7 @@ function LoggedIn() {
         console.log(registerFlag);
         if (registerFlag == true) {
           setIsUpdating(false);
+          setAlreadyRegistered(true);
         }
       } else {
         const updateFlag = await user.updateUser(
@@ -96,6 +97,9 @@ function LoggedIn() {
         setEmail(data.ok.email);
         setDob(data.ok.birth_date);
         setImage(data.ok.profileUrl);
+        setAlreadyRegistered(true);
+      } else {
+        setAlreadyRegistered(false);
       }
     }
   }, [data, isLoading]);
@@ -110,7 +114,7 @@ function LoggedIn() {
     <ChakraTemplate>
       <div className="flex justify-center items-center">
         <div
-          className="relative flex flex-col top-[23vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl"
+          className="relative flex flex-col top-[19vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl"
           // style={{
           //   backgroundColor: "#2EC4B6",
           //   padding: "20px",
@@ -206,7 +210,7 @@ function LoggedIn() {
               color="white"
               onClick={handleRegister}
             >
-              Update Data
+              {alreadyRegistered ? "Update Data" : "Register"}
             </Button>
           ) : (
             <>

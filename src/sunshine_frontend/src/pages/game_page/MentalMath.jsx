@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BackToChat from '../../components/game/BackToChat';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function generateQuestion() {
     const num1 = Math.floor(Math.random() * 19) + 2;
@@ -37,9 +37,15 @@ function MentalMath() {
     const [userAnswer, setUserAnswer] = useState('');
     const [questionCount, setQuestionCount] = useState(0);
     const location = useLocation();
-    const { gameId } = location.state;
-
+    const [gameId, setGameId] = useState(null); 
+    const navigate = useNavigate();
     useEffect(() => {
+        if(location.state == null){
+            navigate('/');
+            return;
+        }
+        const { idGame } = location.state;
+        setGameId(idGame);
         if (timerOn) {
             const interval = setInterval(() => {
                 setTime((prevTime) => prevTime + 10);

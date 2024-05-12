@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import BackToChat from '../../components/game/BackToChat';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function ReactionTest() {
     const [status, setStatus] = useState('waiting');
     const [startTime, setStartTime] = useState(0);
     const [reactionTime, setReactionTime] = useState(null);
     const location = useLocation();
-    const { gameId } = location.state;
-
+    const [gameId, setGameId] = useState(null);     
+    const navigate = useNavigate();
     useEffect(() => {
+        if(location.state == null){
+            navigate('/');
+            return;
+        }
+        const { idGame } = location.state;
+        setGameId(idGame);
         if (status === 'ready') {
             const timer = setTimeout(() => {
                 if (status === 'ready') {
