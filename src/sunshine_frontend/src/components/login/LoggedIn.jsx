@@ -114,7 +114,7 @@ function LoggedIn() {
     <ChakraTemplate>
       <div className="flex justify-center items-center">
         <div
-          className="relative flex flex-col top-[23vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl"
+          className="relative flex flex-col top-[19vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl"
           // style={{
           //   backgroundColor: "#2EC4B6",
           //   padding: "20px",
