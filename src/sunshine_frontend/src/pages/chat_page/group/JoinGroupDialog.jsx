@@ -98,7 +98,9 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
               }}
               value={searchedGroupToJoinName}
             />
+              <p className="text-base text-center ">Click on the group to immediately join  (´◡`)</p>
           </div>
+          
           <div>{searchedGroupsToJoin}</div>
           {/* {searchedGroupToJoinName === "" &&
           searchedGroupsToJoin.length === 0 ? (

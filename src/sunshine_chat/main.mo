@@ -107,6 +107,55 @@ actor {
         };
     };
 
+    public func leaveGroup(user : Principal, groupId : Text) : async Result.Result<Text, Text> {
+        if (Principal.isAnonymous(user)) {
+            return #err("Unauthorized");
+        };
+
+        // get user
+        let currUser = await User.getUserById(user);
+        // let currGroup = await getGroupById(groupId);
+        switch (currUser) {
+            case (#ok(currUser)) {
+                let group = await getGroupById(groupId);
+                switch (group) {
+                    case (#ok(group)) {
+                        let oldUsers = group.groupMembers;
+                        let index = Array.indexOf<Principal>(user, oldUsers, Principal.equal);
+                        switch (index) {
+                            case (?index) {
+                                let newUsers = Array.append<Principal>(Array.subArray<Principal>(oldUsers, 0, index), Array.subArray<Principal>(oldUsers, index +1, oldUsers.size() - index - 1));
+                                let newGroup : Group = {
+                                    id = group.id;
+                                    creatorUser = group.creatorUser;
+                                    groupName = group.groupName;
+                                    description = group.description;
+                                    timestamp = group.timestamp;
+                                    groupMembers = newUsers;
+                                    messages = group.messages;
+                                    imageUrl = group.imageUrl;
+                                };
+                                groups.put(groupId, newGroup);
+                                return #ok("Left successfully");
+                            };
+                            case (null) {
+                                return #err("error");
+                            };
+                        };
+                    };
+                    case (#err(msg)) {
+                        return #err("Group error");
+                    };
+                };
+                // chats.put(newId, chat);
+
+            };
+            case (#err(error)) {
+                return #err("not found!");
+            };
+        };
+    };
+
     public query func checkResult(result : Result.Result<(), Text>) : async Bool {
         switch (result) {
             case (#ok(result)) {
@@ -1124,6 +1173,30 @@ actor {
             };
             case (#err(error)) {
                 return #err("user not found!");
+            };
+        };
+    };
+
+    public func getAllMembers(groupId : Text) : async Result.Result<[(Principal, Text, Text)], Text> {
+        let allMembers = Vector.Vector<(Principal, Text, Text)>();
+        let group = await getGroupById(groupId);
+        switch (group) {
+            case (#ok(group)) {
+                for (userId in group.groupMembers.vals()){
+                    let user = await User.getUserById(userId);
+                    switch(user){
+                        case (#ok(user)){
+                            allMembers.add(userId, user.name, user.profileUrl);
+                        };
+                        case (#err(msg)){
+                            return #err(msg);
+                        }
+                    };
+                };
+                return #ok(Vector.toArray(allMembers));
+            };
+            case (#err(msg)) {
+                return #err(msg);
             };
         };
     };

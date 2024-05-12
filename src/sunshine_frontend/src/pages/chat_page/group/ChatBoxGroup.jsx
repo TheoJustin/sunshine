@@ -18,6 +18,7 @@ import MiniLoader from "../../../components/MiniLoader";
 import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 import GameBox from "../GameBox";
 import ProfileDialog from "./ProfileDialog";
+import GroupDetailDialog from "./GroupDetailDialog";
 
 export default function ChatBox({ activeGroup }) {
   //buat semua chat
@@ -25,22 +26,57 @@ export default function ChatBox({ activeGroup }) {
   // buat input
   const [message, setMessage] = useState("");
   const { user, principal } = useAuth();
-  const [shouldSendData, setShouldSendData] = useState(false);
+  const [groupHeader, setGroupHeader] = useState("");
   const { mutate: sendMutate, status: sendStatus } = useMutation({
-    mutationKey: ["checkSend"],
+    mutationKey: ["checkSend", chats],
     mutationFn: handleSend,
   });
 
-  const { isLoading: isLoadingFetchChat } = useQuery({
-    queryKey: ["checkFetch"],
-    queryFn: fetchChats,
+  const { isLoading: loadingFetchData } = useQuery({
+    queryKey: ["queryFetch", chats],
+    queryFn: fetchDatas,
+    refetchInterval: 5000
+  });
+
+  const { status: statusFetchingData, mutate: dataMutate } = useMutation({
+    mutationKey: ["checkFetch", chats, message],
+    mutationFn: fetchDatas,
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [passedPrincipal, setPassedPrincipal] = useState();
+  const {isOpen: isOpenGroup, onOpen: onOpenGroup, onClose: onCloseGroup} = useDisclosure();
 
-  async function fetchChats(activeGroup) {
+  async function fetchDatas(){
+    await fetchChats();
+    await fetchGroupHeader();
+    return true;
+  }
+
+  async function fetchGroupHeader(){
+    const group = await sunshine_chat.getGroupById(activeGroup);
+    if(group.ok){
+      const groupTitle = () => {
+        return (
+          <>
+            <div className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer" onClick={()=> {
+              onOpenGroup();
+            }}>
+              <img src={group.ok.imageUrl == "" ? placeholder : group.ok.imageUrl} className="rounded-full w-11 h-11 m-2 mr-5" alt="" />
+              <div>
+                <h1 className="font-semibold">{group.ok.groupName}</h1>
+                <p>{group.ok.description}</p>
+              </div>
+            </div>
+          </>
+        )
+      }
+      setGroupHeader(groupTitle);
+    }
+  }
+
+  async function fetchChats() {
     // console.log(activeGroup);
-    const chats = await sunshine_chat.getAllChatsAccordingToGroup(activeGroup);
+    // const chats = await sunshine_chat.getAllChatsAccordingToGroup(activeGroup);
     // mapping buat chat
     const chatngame = await sunshine_chat.getAllChatsAndGamesAccordingToGroup(
       activeGroup
@@ -247,8 +283,9 @@ export default function ChatBox({ activeGroup }) {
 
   useEffect(() => {
     // getChatsMutate(activeGroup);
-    fetchChats(activeGroup);
-  }, [user, chats, activeGroup]);
+    fetchDatas();
+    // dataMutate();
+  }, [user, activeGroup]);
 
   async function handleSend() {
     const result = await sunshine_chat.createChat(
@@ -259,27 +296,32 @@ export default function ChatBox({ activeGroup }) {
     if (result.ok) {
       setMessage("");
     }
-    getChatsMutate(activeGroup);
-    setShouldSendData(false);
+    // getChatsMutate(activeGroup);
+    dataMutate();
     return true;
   }
 
   return (
-    <div className="flex flex-col h-full w-[69%] gap-5 p-6 justify-between">
-      <div className="overflow-y-scroll">
+    <div className="flex flex-col h-full w-[69%] gap-5 justify-between">
+      <div>
         {activeGroup ? (
-          isLoadingFetchChat ? (
+          statusFetchingData == 'pending' || loadingFetchData ? (
             <>
               <MiniLoader />
             </>
           ) : (
-            chats
+            <>
+              {groupHeader}
+              <div className="p-6">
+              {chats}
+              </div>
+            </>
           )
         ) : (
           ""
         )}
       </div>
-      <div className="justify-end">
+      <div className="justify-end p-6 overflow-y-scroll">
         {activeGroup ? (
           <div className="flex gap-1 items-center">
             <Input
@@ -333,6 +375,7 @@ export default function ChatBox({ activeGroup }) {
       ) : (
         <></>
       )}
+      <GroupDetailDialog isOpen={isOpenGroup} onClose={onCloseGroup} activeGroup={activeGroup}/>
     </div>
   );
 }
