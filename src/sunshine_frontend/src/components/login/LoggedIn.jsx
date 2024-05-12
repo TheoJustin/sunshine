@@ -42,6 +42,7 @@ function LoggedIn() {
         console.log(registerFlag);
         if (registerFlag == true) {
           setIsUpdating(false);
+          setAlreadyRegistered(true);
         }
       } else {
         const updateFlag = await user.updateUser(
@@ -96,6 +97,9 @@ function LoggedIn() {
         setEmail(data.ok.email);
         setDob(data.ok.birth_date);
         setImage(data.ok.profileUrl);
+        setAlreadyRegistered(true);
+      } else {
+        setAlreadyRegistered(false);
       }
     }
   }, [data, isLoading]);
@@ -206,7 +210,7 @@ function LoggedIn() {
               color="white"
               onClick={handleRegister}
             >
-              Update Data
+              {alreadyRegistered ? "Update Data" : "Register"}
             </Button>
           ) : (
             <>
