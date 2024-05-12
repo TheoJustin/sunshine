@@ -49,7 +49,11 @@ function AboutPage({ setScrolled }) {
           <p className="text-lg text-darkgreen-custom mb-8 font-bold font-sans pl-4">Meet our team members who contributed to this project.</p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pl-4 pr-4">
-            <div className="p-6 rounded-xl shadow-md flex flex-col items-center bg-white/60 text-teal-custom justify-between">
+            <div style={{
+              background: "rgba(255, 255, 255, 0.2)",
+              backdropFilter: "blur(30px)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", borderRadius: '15px'
+            }} className="p-6 shadow-md flex flex-col items-center text-teal-custom justify-between">
               <h2 className="text-2xl font-bold mb-4 font-sans"><span className='text-darkgreen-custom'>Theo</span> Justin Amantha</h2>
               <p className="text-gray-800 font-semibold text-sm font-sans">Undergraduate Student @Bina Nusantara.</p>
               <div className="flex mt-4">
@@ -57,7 +61,11 @@ function AboutPage({ setScrolled }) {
                 <a href="https://discord.com/users/31709445408948225" className="text-blue-500 hover:text-blue-700 ml-4"><FaDiscord size={24} /></a>
               </div>
             </div>
-            <div className="p-6 shadow-md rounded-xl bg-white/60 text-teal-custom flex flex-col items-center justify-between">
+            <div style={{
+              background: "rgba(255, 255, 255, 0.2)",
+              backdropFilter: "blur(30px)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", borderRadius: '15px'
+            }} className="p-6 shadow-md text-teal-custom flex flex-col items-center justify-between">
               <h2 className="text-2xl font-bold mb-4 font-sans"><span className='text-darkgreen-custom'>Jose</span> Jonathan Tano</h2>
               <p className="text-gray-800 font-semibold text-sm font-sans">Undergraduate Student @Bina Nusantara.</p>
               <div className="flex mt-4">
@@ -65,7 +73,11 @@ function AboutPage({ setScrolled }) {
                 <a href="https://discord.com/users/295769116403302411" className="text-blue-500 hover:text-blue-700 ml-4"><FaDiscord size={24} /></a>
               </div>
             </div>
-            <div className="p-6 shadow-md bg-white/60 rounded-xl flex text-teal-custom flex-col items-center justify-between">
+            <div style={{
+              background: "rgba(255, 255, 255, 0.2)",
+              backdropFilter: "blur(30px)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", borderRadius: '15px'
+            }} className="p-6 shadow-md flex text-teal-custom flex-col items-center justify-between">
               <h2 className="text-2xl font-bold mb-4 font-sans"><span className='text-darkgreen-custom'>Ryan</span> Ray Wantouw Oei</h2>
               <p className="text-gray-800 font-semibold text-sm font-sans">Undergraduate Student @Bina Nusantara.</p>
               <div className="flex mt-4">

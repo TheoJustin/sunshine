@@ -18,6 +18,7 @@ import MiniLoader from "../../../components/MiniLoader";
 import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 import GameBox from "../GameBox";
 import ProfileDialog from "./ProfileDialog";
+import SendMoneyDialog from "../SendMoneyDialog";
 
 export default function ChatBox({ activeGroup }) {
   //buat semua chat
@@ -35,7 +36,16 @@ export default function ChatBox({ activeGroup }) {
     queryKey: ["checkFetch"],
     queryFn: fetchChats,
   });
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenProfile,
+    onOpen: onOpenProfile,
+    onClose: onCloseProfile,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenSendMoney,
+    onOpen: onOpenSendMoney,
+    onClose: onCloseSendMoney,
+  } = useDisclosure();
   const [passedPrincipal, setPassedPrincipal] = useState();
 
   async function fetchChats(activeGroup) {
@@ -108,7 +118,7 @@ export default function ChatBox({ activeGroup }) {
                         alt=""
                         onClick={() => {
                           setPassedPrincipal(principalMsg);
-                          onOpen();
+                          onOpenProfile();
                         }}
                       />
                     )}
@@ -325,11 +335,20 @@ export default function ChatBox({ activeGroup }) {
         )}
       </div>
       {passedPrincipal !== "" ? (
-        <ProfileDialog
-          isOpen={isOpen}
-          onClose={onClose}
-          passedPrincipal={passedPrincipal}
-        />
+        <>
+          <ProfileDialog
+            isOpen={isOpenProfile}
+            onClose={onCloseProfile}
+            passedPrincipal={passedPrincipal}
+            setPassedPrincipal={setPassedPrincipal}
+            onOpenSendMoney={onOpenSendMoney}
+          />
+          <SendMoneyDialog
+            isOpen={isOpenSendMoney}
+            onClose={onCloseSendMoney}
+            passedPrinciple={passedPrincipal}
+          />
+        </>
       ) : (
         <></>
       )}

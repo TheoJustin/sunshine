@@ -48,7 +48,7 @@ const activeSquareStyle = (pathname, isScrolled) => ({
 });
 
 const navbarStyle = (pathname) => ({
-  display: pathname == "/chat" || pathname == "/friend" || pathname == 'TwentyFive' || pathname == 'MentalMath' || pathname == 'ReactionTime' ? "none" : "flex",
+  display: pathname == "/chat" || pathname == "/friend" ? "none" : "flex",
   position: 'fixed',
   left: '50%',
   top: '10%',

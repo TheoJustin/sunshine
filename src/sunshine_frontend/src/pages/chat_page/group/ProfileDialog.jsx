@@ -17,7 +17,13 @@ import MiniLoader from "../../../components/MiniLoader";
 import { useAuth } from "../../../use-auth-client";
 import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 
-export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
+export default function ProfileDialog({
+  isOpen,
+  onClose,
+  setPassedPrincipal,
+  passedPrincipal,
+  onOpenSendMoney,
+}) {
   const { principal } = useAuth();
   const [isBothUserFriend, setIsBothUserFriend] = useState(false);
   const getUserDetail = async () => {
@@ -101,7 +107,9 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
                 color="white"
                 // onClick={mutate}
                 onClick={() => {
-                  console.log(isFriend);
+                  onClose();
+                  setPassedPrincipal(passedPrincipal);
+                  onOpenSendMoney();
                 }}
               >
                 Send Money
