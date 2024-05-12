@@ -65,7 +65,7 @@ export default function AddFriendDialog({ isOpen, onClose }) {
                   <img
                     className="m-0 w-20 h-20 rounded-3xl object-cover"
                     src={
-                      friend.profileUrl === "" ? placeholder : friend.rofileUrl
+                      friend.profileUrl === "" ? placeholder : friend.profileUrl
                     }
                     alt=""
                   />

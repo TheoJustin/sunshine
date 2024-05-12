@@ -5,8 +5,10 @@ import { UserIcon as UserOutline } from "@heroicons/react/24/outline";
 import { ChatBubbleOvalLeftEllipsisIcon as ChatSolid } from "@heroicons/react/24/solid";
 import { ChatBubbleOvalLeftEllipsisIcon as ChatOutline } from "@heroicons/react/24/outline";
 import SidebarIcon from "./SidebarIcon";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useNavigation } from "react-router-dom";
 import placeholder from "../../../../../assets/profilePlaceholder.jpg";
+import { sunshine_backend } from "../../../../declarations/sunshine_backend";
+import { useQuery } from "@tanstack/react-query";
 
 // Enums
 const IconStates = Object.freeze({
@@ -40,6 +42,14 @@ function StaticHover() {
 export default function Sidebar() {
   const navigate = useNavigate();
   const locationName = window.location.pathname;
+  const getUserDetail = async () => {
+    return await sunshine_backend.getUserById(principal);
+  };
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["getUserDetail"],
+    queryFn: getUserDetail,
+  });
 
   return (
     <>
@@ -77,11 +87,18 @@ export default function Sidebar() {
                 navigate(`/chat`);
               }}
             />
-            <img
-              className="w-12 h-12 object-cover rounded-full mt-5"
-              src={placeholder}
-              alt=""
-            />
+            {data && (
+              <img
+                className="w-12 h-12 object-cover rounded-full mt-5 cursor-pointer"
+                src={
+                  data && data.ok && data.ok.profileUrl === "" 
+                    ? placeholder
+                    : data.ok.profileUrl
+                }
+                alt=""
+                onClick={() => navigate(`/login`)}
+              />
+            )}
           </div>
         </div>
       </div>

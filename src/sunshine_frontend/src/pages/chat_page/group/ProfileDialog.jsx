@@ -95,7 +95,7 @@ export default function ProfileDialog({
           {isFriendLoading || status === "pending" ? (
             <>
               <Button
-                className="bg-cream-custom hover:bg-cream-custom-hover"
+                className="bg-orange-custom hover:bg-darkorange-custom"
                 color="white"
                 isLoading
               />
@@ -103,7 +103,7 @@ export default function ProfileDialog({
           ) : isBothUserFriend ? (
             <>
               <Button
-                className="bg-cream-custom hover:bg-cream-custom-hover"
+                className="bg-orange-custom hover:bg-darkorange-custom"
                 color="white"
                 // onClick={mutate}
                 onClick={() => {
@@ -117,7 +117,7 @@ export default function ProfileDialog({
             </>
           ) : (
             <Button
-              className="bg-cream-custom hover:bg-cream-custom-hover"
+            className="bg-orange-custom hover:bg-darkorange-custom"
               color="white"
               onClick={mutate}
               // onClick={() => {console.log(isFriend)}}
