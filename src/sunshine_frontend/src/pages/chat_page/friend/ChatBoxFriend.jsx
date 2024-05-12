@@ -7,13 +7,23 @@ import { TbSend2 } from "react-icons/tb";
 import MiniLoader from "../../../components/MiniLoader";
 import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import ProfileDialog from "../group/ProfileDialog";
+import SendMoneyDialog from "../SendMoneyDialog";
 
 export default function ChatBoxFriend({ activeFriend }) {
   const [chats, setChats] = useState("");
   const [message, setMessage] = useState("");
   const { user, principal } = useAuth();
   const [passedPrincipal, setPassedPrincipal] = useState();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenProfile,
+    onOpen: onOpenProfile,
+    onClose: onCloseProfile,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenSendMoney,
+    onOpen: onOpenSendMoney,
+    onClose: onCloseSendMoney,
+  } = useDisclosure();
 
   const { mutate: sendMutate, status: sendStatus } = useMutation({
     mutationKey: ["checkSend"],
@@ -78,7 +88,7 @@ export default function ChatBoxFriend({ activeFriend }) {
                       alt=""
                       onClick={() => {
                         setPassedPrincipal(principalMsg);
-                        onOpen();
+                        onOpenProfile();
                       }}
                     />
                   )}
@@ -194,11 +204,20 @@ export default function ChatBoxFriend({ activeFriend }) {
         )}
       </div>
       {passedPrincipal !== "" ? (
-        <ProfileDialog
-          isOpen={isOpen}
-          onClose={onClose}
-          passedPrincipal={passedPrincipal}
-        />
+        <>
+          <ProfileDialog
+            isOpen={isOpenProfile}
+            onClose={onCloseProfile}
+            passedPrincipal={passedPrincipal}
+            setPassedPrincipal={setPassedPrincipal}
+            onOpenSendMoney={onOpenSendMoney}
+          />
+          <SendMoneyDialog
+            isOpen={isOpenSendMoney}
+            onClose={onCloseSendMoney}
+            passedPrinciple={passedPrincipal}
+          />
+        </>
       ) : (
         <></>
       )}

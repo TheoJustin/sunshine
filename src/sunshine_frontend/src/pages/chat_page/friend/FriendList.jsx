@@ -13,28 +13,30 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchFriends = () => {
-    sunshine_chat.getAllAvailableFriends(searchFriendName, principal).then((friends) => {
-      // console.log(friends);
-      if (friends.ok) {
-        const listItems = friends.ok.map(
-          ([name, profileUrl, lastMsg, friendPrincipal], idx) => {
-            // console.log(user);
-            return (
-              <Friend
-                key={idx}
-                name={name}
-                pfp={profileUrl}
-                friendPrincipal={friendPrincipal}
-                lastMsg={lastMsg}
-                activeFriend={activeFriend}
-                setActiveFriend={setActiveFriend}
-              />
-            );
-          }
-        );
-        setFriends(listItems);
-      }
-    });
+    sunshine_chat
+      .getAllAvailableFriends(searchFriendName, principal)
+      .then((friends) => {
+        // console.log(friends);
+        if (friends.ok) {
+          const listItems = friends.ok.map(
+            ([name, profileUrl, lastMsg, friendPrincipal], idx) => {
+              // console.log(user);
+              return (
+                <Friend
+                  key={idx}
+                  name={name}
+                  pfp={profileUrl}
+                  friendPrincipal={friendPrincipal}
+                  lastMsg={lastMsg}
+                  activeFriend={activeFriend}
+                  setActiveFriend={setActiveFriend}
+                />
+              );
+            }
+          );
+          setFriends(listItems);
+        }
+      });
     return true;
   };
   const { isLoading, error } = useQuery({
@@ -44,7 +46,7 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
 
   useEffect(() => {
     fetchFriends();
-  }, [friends, searchFriendName]);
+  }, [searchFriendName]);
 
   return (
     <div className="flex-row h-screen w-[25%] py-3 bg-gray-50 border-solid border-gray-500 border-r border-opacity-50">
@@ -69,7 +71,7 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
         </Button>
       </div>
       <div className="overflow-y-scroll h-[93%] flex flex-col pl-4">
-        {!isLoading ? friends : <><Skeleton /></>}
+        {isLoading ? <Skeleton /> : friends}
       </div>
       <AddFriendDialog isOpen={isOpen} onClose={onClose} />
     </div>

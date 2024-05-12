@@ -5,7 +5,10 @@ import { UserIcon as UserOutline } from "@heroicons/react/24/outline";
 import { ChatBubbleOvalLeftEllipsisIcon as ChatSolid } from "@heroicons/react/24/solid";
 import { ChatBubbleOvalLeftEllipsisIcon as ChatOutline } from "@heroicons/react/24/outline";
 import SidebarIcon from "./SidebarIcon";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useNavigation } from "react-router-dom";
+import placeholder from "../../../../../assets/profilePlaceholder.jpg";
+import { sunshine_backend } from "../../../../declarations/sunshine_backend";
+import { useQuery } from "@tanstack/react-query";
 
 // Enums
 const IconStates = Object.freeze({
@@ -39,13 +42,30 @@ function StaticHover() {
 export default function Sidebar() {
   const navigate = useNavigate();
   const locationName = window.location.pathname;
+  const getUserDetail = async () => {
+    return await sunshine_backend.getUserById(principal);
+  };
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["getUserDetail"],
+    queryFn: getUserDetail,
+  });
 
   return (
     <>
-      <div className="flex flex-col justify-between h-screen w-[6%] py-3 bg-[#0c0c14]">
+      <div className="flex flex-col justify-between h-screen w-[6%] py-8 bg-[#0c0c14]">
         <div>
-          <img className="w-16 cursor-pointer" src={logoImg} alt="logo" onClick={() => {navigate(`/`)}} />
+          <img
+            className="w-16 cursor-pointer"
+            src={logoImg}
+            alt="logo"
+            onClick={() => {
+              navigate(`/`);
+            }}
+          />
           {/* icons */}
+        </div>
+        <div>
           <div className="flex-col place-content-center justify-center mt-16 gap-5">
             <SidebarIcon
               icon={
@@ -53,7 +73,9 @@ export default function Sidebar() {
                   ? Icons.FRIENDACTIVE
                   : Icons.FRIENDNONACTIVE
               }
-              onClick={() => {navigate(`/friend`)}}
+              onClick={() => {
+                navigate(`/friend`);
+              }}
             />
             <SidebarIcon
               icon={
@@ -61,12 +83,23 @@ export default function Sidebar() {
                   ? Icons.CHATACTIVE
                   : Icons.CHATNONACTIVE
               }
-              onClick={() => {navigate(`/chat`)}}
+              onClick={() => {
+                navigate(`/chat`);
+              }}
             />
+            {data && (
+              <img
+                className="w-12 h-12 object-cover rounded-full mt-5 cursor-pointer"
+                src={
+                  data && data.ok && data.ok.profileUrl === "" 
+                    ? placeholder
+                    : data.ok.profileUrl
+                }
+                alt=""
+                onClick={() => navigate(`/login`)}
+              />
+            )}
           </div>
-        </div>
-        <div>
-          <img className="w-16" src={logoImg} alt="" />
         </div>
       </div>
     </>

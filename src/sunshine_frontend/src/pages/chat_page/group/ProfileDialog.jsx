@@ -17,7 +17,13 @@ import MiniLoader from "../../../components/MiniLoader";
 import { useAuth } from "../../../use-auth-client";
 import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 
-export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
+export default function ProfileDialog({
+  isOpen,
+  onClose,
+  setPassedPrincipal,
+  passedPrincipal,
+  onOpenSendMoney,
+}) {
   const { principal } = useAuth();
   const [isBothUserFriend, setIsBothUserFriend] = useState(false);
   const getUserDetail = async () => {
@@ -89,7 +95,7 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
           {isFriendLoading || status === "pending" ? (
             <>
               <Button
-                className="bg-cream-custom hover:bg-cream-custom-hover"
+                className="bg-orange-custom hover:bg-darkorange-custom"
                 color="white"
                 isLoading
               />
@@ -97,11 +103,13 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
           ) : isBothUserFriend ? (
             <>
               <Button
-                className="bg-cream-custom hover:bg-cream-custom-hover"
+                className="bg-orange-custom hover:bg-darkorange-custom"
                 color="white"
                 // onClick={mutate}
                 onClick={() => {
-                  console.log(isFriend);
+                  onClose();
+                  setPassedPrincipal(passedPrincipal);
+                  onOpenSendMoney();
                 }}
               >
                 Send Money
@@ -109,7 +117,7 @@ export default function ProfileDialog({ isOpen, onClose, passedPrincipal }) {
             </>
           ) : (
             <Button
-              className="bg-cream-custom hover:bg-cream-custom-hover"
+            className="bg-orange-custom hover:bg-darkorange-custom"
               color="white"
               onClick={mutate}
               // onClick={() => {console.log(isFriend)}}
