@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BackToChat from '../../components/game/BackToChat';
 import { useMutation } from '@tanstack/react-query';
 import { sunshine_chat } from '../../../../declarations/sunshine_chat';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../use-auth-client';
 
 function shuffleArray(array) {
@@ -22,9 +22,15 @@ function TwentyFive() {
     const [started, setStarted] = useState(false);
     const [score, setScore] = useState(0);
     const location = useLocation();
-    const { gameId } = location.state;
-
+    const [gameId, setGameId] = useState(null); 
+    const navigate = useNavigate();
     useEffect(() => {
+        if(location.state == null){
+            navigate('/');
+            return;
+        }
+        const { idGame } = location.state;
+        setGameId(idGame);
         setShuffledNumbers(shuffleArray(Array.from({ length: 25 }, (_, index) => index + 1)));
         // console.log(activeGroup, principal, gameId);
     }, []);
