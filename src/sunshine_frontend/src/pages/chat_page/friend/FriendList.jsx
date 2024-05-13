@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../use-auth-client";
 import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
-import { Button, Input, useDisclosure, useQuery } from "@chakra-ui/react";
+import { Button, Input, useDisclosure} from "@chakra-ui/react";
 import AddFriendDialog from "./AddFriendDialog";
 import Friend from "./Friend";
 import Skeleton from "../../../components/Skeleton";
+import { useQuery } from "@tanstack/react-query";
 
 export default function FriendList({ activeFriend, setActiveFriend }) {
   const { principal } = useAuth();
@@ -12,13 +13,13 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
   const [searchFriendName, setSearchFriendName] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const fetchFriends = () => {
-    sunshine_chat
-      .getAllAvailableFriends(searchFriendName, principal)
-      .then((friends) => {
-        // console.log(friends);
-        if (friends.ok) {
-          const listItems = friends.ok.map(
+  async function fetchFriends (){
+    const friendsFetched = await sunshine_chat.getAllAvailableFriends(searchFriendName, principal);
+    
+      // .then((friends) => {
+        console.log(friendsFetched);
+        if (friendsFetched.ok) {
+          const listItems = friendsFetched.ok.map(
             ([name, profileUrl, lastMsg, friendPrincipal], idx) => {
               // console.log(user);
               return (
@@ -36,12 +37,12 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
           );
           setFriends(listItems);
         }
-      });
+      
     return true;
   };
   const { isLoading, error, isFetching } = useQuery({
-    queryKey: ["fetchFriends", searchFriendName, friends],
-    queryFn: fetchFriends,
+    queryKey: ["fetchFriends", searchFriendName],
+    queryFn: fetchFriends
   });
 
   useEffect(() => {

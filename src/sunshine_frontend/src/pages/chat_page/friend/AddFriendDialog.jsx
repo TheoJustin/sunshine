@@ -150,6 +150,7 @@ export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
               }}
               value={searchedFriendName}
             />
+            <p className="text-base text-center ">Click on your friend to immediately add them  (´◡`)</p>
             {fetchUnaddedStatus == "pending" || addFriendStatus == "pending" ? (
               <MiniLoaderSmall />
             ) : (

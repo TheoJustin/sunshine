@@ -11,6 +11,7 @@ import Bool "mo:base/Bool";
 import Array "mo:base/Array";
 import Debug "mo:base/Debug";
 import Nat "mo:base/Nat";
+import Iter "mo:base/Iter";
 import Vector "mo:vector/Class";
 // import Types "mo:fuzz/types";
 
@@ -29,6 +30,7 @@ actor {
 
     // type
     type Friend = {
+        id : Text;
         user1 : Principal;
         user2 : Principal;
         messages : [Text];
@@ -47,7 +49,8 @@ actor {
 
     let groups = TrieMap.TrieMap<Text, Group>(Text.equal, Text.hash);
     let chats = TrieMap.TrieMap<Text, Chat>(Text.equal, Text.hash);
-    let friends = Vector.Vector<Friend>();
+    // let friends = Vector.Vector<Friend>();
+    let friends = TrieMap.TrieMap<Text, Friend>(Text.equal, Text.hash);
     // var currGroup = "";
 
     // changing currentGroup
@@ -610,16 +613,29 @@ actor {
         return #ok(Vector.toArray(friendsList));
     };
 
+    public query func getAllFriendList() : async [Friend] {
+        return Iter.toArray(friends.vals());
+    };
+
+    public query func getAllChatList() : async [Chat] {
+        return Iter.toArray(chats.vals());
+    };
+
     public shared func getAllAvailableFriends(searchedFriend : Text, currUser : Principal) : async Result.Result<[(Text, Text, Text, Principal)], Text> {
         let friendsList = Vector.Vector<(Text, Text, Text, Principal)>();
         for (friend in friends.vals()) {
+
             if (friend.user1 == currUser) {
                 let userFriend = await User.getUserById(friend.user2);
                 switch (userFriend) {
                     case (#ok(userFriend)) {
                         let contains = containsInsensitive(userFriend.name, searchedFriend);
                         if (contains) {
+                            Debug.print("if 1");
+                            Debug.print(debug_show (currUser));
+                            Debug.print(debug_show (userFriend.internet_identity));
                             let friendBox = await getFriendBox(currUser, userFriend.internet_identity);
+                            Debug.print(debug_show (friendBox));
                             switch (friendBox) {
                                 case (#ok(friendBox)) {
                                     let size = Array.size(friendBox.messages);
@@ -632,7 +648,7 @@ actor {
                                                 friendsList.add(userFriend.name, userFriend.profileUrl, msgContent, userFriend.internet_identity);
                                             };
                                             case (#err(msg)) {
-
+                                                
                                             };
                                         };
                                     } else {
@@ -641,7 +657,7 @@ actor {
                                     };
                                 };
                                 case (#err(friendBox)) {
-
+                                    Debug.print(debug_show (friendBox));
                                 };
                             };
                         };
@@ -656,20 +672,25 @@ actor {
                     case (#ok(userFriend)) {
                         let contains = containsInsensitive(userFriend.name, searchedFriend);
                         if (contains) {
+                            Debug.print("if 2");
+                            Debug.print(debug_show (currUser));
+                            Debug.print(debug_show (userFriend.internet_identity));
                             let friendBox = await getFriendBox(currUser, userFriend.internet_identity);
+                            Debug.print(debug_show (friendBox));
                             switch (friendBox) {
                                 case (#ok(friendBox)) {
                                     let size = Array.size(friendBox.messages);
                                     if (size != 0) {
                                         let chatId = friendBox.messages[size - 1];
                                         let chat = getChat(chatId);
+                                        Debug.print(debug_show (friendBox));
                                         switch (chat) {
                                             case (#ok(chat)) {
                                                 let msgContent = chat.message;
                                                 friendsList.add(userFriend.name, userFriend.profileUrl, msgContent, userFriend.internet_identity);
                                             };
                                             case (#err(msg)) {
-
+                                                
                                             };
                                         };
                                     } else {
@@ -678,7 +699,7 @@ actor {
                                     };
                                 };
                                 case (#err(friendBox)) {
-
+                                    Debug.print(debug_show (friendBox));
                                 };
                             };
                         };
@@ -769,21 +790,22 @@ actor {
                 let chatsTemp = friendBox.messages;
                 let newChat = Array.append<Text>(chatsTemp, [chat.id]);
                 let newFriendBox : Friend = {
+                    id = friendBox.id;
                     user1 = friendBox.user1;
                     user2 = friendBox.user2;
                     messages = newChat;
                 };
-                let index = Vector.indexOf<Friend>(friendBox, friends, friendEqual);
+                // let index = Vector.indexOf<Friend>(friendBox, friends, friendEqual);
                 chats.put(newId, chat);
-                switch (index) {
-                    case (null) {
-                        return #err("Error in finding index");
-                    };
-                    case (?index) {
-                        friends.put(index, newFriendBox);
-                        return #ok("Successfully added chat");
-                    };
-                };
+                // switch (index) {
+                //     case (null) {
+                //     return #err("Error in finding index");
+                // };
+                // case (?index) {
+                friends.put(friendBox.id, newFriendBox);
+                return #ok("Successfully added chat");
+                //     };
+                // };
                 // groups.put(groupId, newGroup);
             };
         };
@@ -792,16 +814,18 @@ actor {
 
     public shared func addFriend(user1 : Principal, user2 : Principal) : async Result.Result<Text, Text> {
         // groupMem.add(userCreator);
+        let newId = await generateUUID();
         if (Principal.isAnonymous(user1) or Principal.isAnonymous(user2)) {
             return #err("Unauthorized!");
         };
         let newFriendBox : Friend = {
+            id = newId;
             user1 = user1;
             user2 = user2;
             messages = [];
         };
         // newGroup.groupMembers.add(userCreator);
-        friends.add(newFriendBox);
+        friends.put(newId, newFriendBox);
         return #ok("Successfully added");
     };
 
@@ -983,21 +1007,22 @@ actor {
                         let chatsNew = friendBox.messages;
                         let newChat = Array.append<Text>(chatsNew, [newGame.id]);
                         let newFriendBox : Friend = {
+                            id = friendBox.id;
                             user1 = userCreator;
                             user2 = userFriend;
                             messages = newChat;
                         };
-                        let oldIndex = Vector.indexOf<Friend>(friendBox, friends, isSameFriendBox);
-                        switch (oldIndex) {
-                            case (?oldIndex) {
-                                friends.put(oldIndex, newFriendBox);
-                                chats.put(newId, newGame);
-                                return #ok();
-                            };
-                            case (null) {
-                                return #err("no index");
-                            };
-                        };
+                        // let oldIndex = Vector.indexOf<Friend>(friendBox, friends, isSameFriendBox);
+                        // switch (oldIndex) {
+                        //     case (?oldIndex) {
+                        friends.put(friendBox.id, newFriendBox);
+                        chats.put(newId, newGame);
+                        return #ok();
+                        //     };
+                        //     case (null) {
+                        //         return #err("no index");
+                        //     };
+                        // };
                     };
                     case (#err(msg)) {
                         return #err("Group error");
@@ -1177,20 +1202,34 @@ actor {
         };
     };
 
+    public func unFriend(user1 : Principal, user2 : Principal) : async Result.Result<Text, Text> {
+        let friendBox = await getFriendBox(user1, user2);
+        switch (friendBox) {
+            case (#ok(friendBox)) {
+                friends.delete(friendBox.id);
+                return #ok("unfriended successfully");
+                // let newFriends = Vector.append<Friend>(Array.subArray<Friend>(oldFriends, 0, index), Array.subArray<Friend>(oldUsers, index +1, oldUsers.size() - index - 1));
+            };
+            case (#err(msg)) {
+                return #err("error");
+            };
+        };
+    };
+
     public func getAllMembers(groupId : Text) : async Result.Result<[(Principal, Text, Text)], Text> {
         let allMembers = Vector.Vector<(Principal, Text, Text)>();
         let group = await getGroupById(groupId);
         switch (group) {
             case (#ok(group)) {
-                for (userId in group.groupMembers.vals()){
+                for (userId in group.groupMembers.vals()) {
                     let user = await User.getUserById(userId);
-                    switch(user){
-                        case (#ok(user)){
+                    switch (user) {
+                        case (#ok(user)) {
                             allMembers.add(userId, user.name, user.profileUrl);
                         };
-                        case (#err(msg)){
+                        case (#err(msg)) {
                             return #err(msg);
-                        }
+                        };
                     };
                 };
                 return #ok(Vector.toArray(allMembers));
