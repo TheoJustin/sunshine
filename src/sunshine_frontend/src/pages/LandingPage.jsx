@@ -57,7 +57,7 @@ function LandingPage() {
   return (
     <>
       {/* parallax of mountains and sun for landing page */}
-      <Parallax pages={2.25} style={{ backgroundColor: "#1b2f2e" }}>
+      <Parallax pages={2.29} style={{ backgroundColor: "#1b2f2e" }}>
         {/* 1st part -> mountains and sun, some tagline?*/}
         <ParallaxLayer
           offset={0}
@@ -229,14 +229,14 @@ function LandingPage() {
         <ParallaxLayer
           offset={1.9}
           speed={3}
-          factor={1.6}
+          factor={1.3}
           className="z-50"
           style={{
             backgroundColor: "#9BDDCB",
             marginTop: "-6rem",
           }}
         >
-          <div className="flex justify-start items-center gap-8 align-top m-10 mt-20">
+          <div className="flex justify-start items-center gap-8 align-top m-10 mt-20 mb-16">
             <LandingCard />
             <CardComments />
           </div>

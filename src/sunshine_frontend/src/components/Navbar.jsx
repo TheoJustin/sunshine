@@ -35,7 +35,7 @@ const activeSquareStyle = (pathname, isScrolled) => ({
   width: "11vw",
   opacity: (isScrolled && !isHover) ? '0%' : '100%',
   left:
-  (isScrolled && !isHover) ? '25vw' :
+  (isScrolled && !isHover) ? '0vw' :
     pathname == "/"
       ? "3vw"
       : pathname == "/about"
@@ -62,7 +62,7 @@ const navUlStyleTemplate = (isScrolled) => ({
   width: isScrolled && !isHover ? '7vw' : '70vw',
   padding: isScrolled && !isHover ? '0' : ' 0.5vw 3vw',
   alignItems: 'center',
-  justifyContent: 'space-between',
+  justifyContent: isScrolled && !isHover ? 'center' : 'space-between',
   background: 'linear-gradient( 100deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0))',
   borderRadius: '6vw',
   zIndex: '1',
@@ -80,6 +80,12 @@ const navDivTemplate = (isScrolled) => ({
   transition: 'all 0.3s',
 })
 
+const chatIndicatorTemplate = (isScrolled) => ({
+  opacity: isScrolled && !isHover ? '0%' : '100%',
+  boxShadow: '0 0 15px #1b2f2e',
+  transition: 'all 0.3s',
+})
+
 function Navbar({isScrolled}) {
   
   const location = useLocation();
@@ -87,6 +93,7 @@ function Navbar({isScrolled}) {
   const [navStyle, setNavStyle] = useState(navbarStyle(location.pathname));
   const [navUlStyle, setNavUlStyle] = useState(navUlStyleTemplate(isScrolled));
   const [navDivStyle, setNavDivStyle] = useState(navDivTemplate(isScrolled));
+  const [chatIndicatorStyle, setChatIndicatorStyle] = useState(chatIndicatorTemplate(isScrolled));
 
   async function refreshStyles() {
     console.log(location.pathname);
@@ -96,6 +103,7 @@ function Navbar({isScrolled}) {
     console.log(navStyle);
     setNavUlStyle(navUlStyleTemplate(isScrolled));
     setNavDivStyle(navDivTemplate(isScrolled));
+    setChatIndicatorStyle(chatIndicatorTemplate(isScrolled));
     // console.log(navbarStyle(location.pathname));
   }
 
@@ -145,8 +153,8 @@ function Navbar({isScrolled}) {
               Profile
             </NavLink>
           </div>
-          <div className="bg-darkgreen-custom py-1 rounded-3xl" style={{boxShadow: '0 0 15px #1b2f2e'}}>
-            <div style={{...navDivStyle}}>
+          <div className="bg-darkgreen-custom py-1 rounded-3xl" style={chatIndicatorStyle}>
+            <div style={navDivStyle}>
               <NavLink style={{...activeStyle, color: '#ffffff', fontWeight: '600'}} to="/chat" onClick={refreshStyles}>
                 Chat
               </NavLink>

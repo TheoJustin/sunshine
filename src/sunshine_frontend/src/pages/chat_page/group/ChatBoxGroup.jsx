@@ -317,7 +317,7 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
             {activeGroup ? (
               <>
                 {groupHeader}
-                <div className="p-6 overflow-y-scroll" style={{height: 'inherit'}}>
+                <div className="p-6 overflow-y-scroll" style={{ height: 'inherit' }}>
                   {chats}
                 </div>
               </>
@@ -325,8 +325,8 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
             ) : (
               ""
             )}
-            <div className="justify-end p-6 bg-white">
-              {activeGroup ? (
+            {activeGroup ? (
+              <div className="justify-end p-6 bg-white">
                 <div className="flex gap-1 items-center">
                   <Input
                     focusBorderColor="none"
@@ -366,10 +366,11 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
                     </Button>
                   )}
                 </div>
-              ) : (
-                <></>
-              )}
-            </div>
+              </div>
+            ) : (
+              <></>
+            )}
+
           </div>
         </>
       }

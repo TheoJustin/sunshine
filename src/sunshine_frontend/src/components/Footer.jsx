@@ -5,7 +5,7 @@ import Logo from "../../../../assets/Logo_Sunshine-removebg.png";
 export default function Footer() {
     return (
         <>
-            <footer className="rounded-lg shadow" style={{ backgroundColor: "#2A6356" }}>
+            <footer className="rounded-lg shadow" style={{ backgroundColor: "#1b2f2e" }}>
                 <div className="w-full pl-16 pr-16 md:py-8">
                     <div className="sm:flex sm:items-center sm:justify-between">
                         <a href={Logo} className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
