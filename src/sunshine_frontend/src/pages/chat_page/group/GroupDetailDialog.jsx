@@ -31,17 +31,17 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
         mutationFn: fetchData
     })
     async function leaveGroup(activeGroup) {
-        console.log(activeGroup);
+        // console.log(activeGroup);
         await sunshine_chat.leaveGroup(principal, activeGroup);
-        console.log("successfully left!");
+        // console.log("successfully left!");
         // setSearchedGroupToJoinName("");
         onClose();
         return true;
     }
     async function fetchData() {
-        console.log(fetchStatus);
+        // console.log(fetchStatus);
         let group = await sunshine_chat.getGroupById(activeGroup);
-        console.log(group);
+        // console.log(group);
         if (group.ok) {
             setCurrGroup(group.ok);
             const data = await sunshine_chat.getAllMembers(activeGroup);
@@ -51,7 +51,7 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
                     <h1>{userName}</h1>
                 </div>
             ));
-            console.log(listItems);
+            // console.log(listItems);
             //   Setting the state with the list of elements
             setMembers(<div className="bg-cream-custom rounded-xl">
                 <h1>Group Members</h1>
@@ -62,7 +62,7 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
     }
     async function handleLeaveClick(activeGroup) {
         joinMutate(activeGroup);
-        console.log("success di handle join");
+        // console.log("success di handle join");
         // console.log(joinStatus);
     }
     useEffect(() => {
