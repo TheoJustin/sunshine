@@ -17,7 +17,7 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
     const friendsFetched = await sunshine_chat.getAllAvailableFriends(searchFriendName, principal);
     
       // .then((friends) => {
-        console.log(friendsFetched);
+        // console.log(friendsFetched);
         if (friendsFetched.ok) {
           const listItems = friendsFetched.ok.map(
             ([name, profileUrl, lastMsg, friendPrincipal], idx) => {
