@@ -20,7 +20,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../use-auth-client";
 import { sunshine_chat } from "../../../../declarations/sunshine_chat";
 
-function GameOptions({ activeGroup }) {
+function GameOptions({ activeGroup, flag, activeFriend, refetch}) {
   const navigate = useNavigate();
   const { principal } = useAuth();
   // const [isOpen, setIsOpen] = useState(false);
@@ -55,9 +55,15 @@ function GameOptions({ activeGroup }) {
 
   async function handleStartGame() {
     if (selectedGame) {
-      await sunshine_chat.createGame(activeGroup, principal, selectedGame);
+      if(flag == 'group'){
+        await sunshine_chat.createGame(activeGroup, principal, selectedGame);
+      }
+      else if(flag == 'friend'){
+        await sunshine_chat.createGameFriend( principal, activeFriend, selectedGame);
+      }
       // toggleModal();
       onClose();
+      refetch();
       // navigate(`/${selectedGame}`);
     } else {
       alert("Please select a game first!");

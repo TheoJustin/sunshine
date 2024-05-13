@@ -9,6 +9,7 @@ import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import ProfileDialog from "../group/ProfileDialog";
 import SendMoneyDialog from "../SendMoneyDialog";
 import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
+import GameOptions from "../../../components/game/GameOptions";
 
 export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
   const [chats, setChats] = useState("");
@@ -154,7 +155,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
                 setPassedPrincipal(activeFriend);
                 onOpenProfile();
               }}
-              className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer"
+              className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer h-1/6"
             >
               <img
                 src={
@@ -192,13 +193,13 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
 
   useEffect(() => {
     dataMutate();
-    fetchDatas();
+    // fetchDatas();
   }, [user, activeFriend]);
 
 
   return (
     <div className="flex flex-col h-full w-[69%] gap-5 justify-between">
-      <div className="overflow-y-scroll">
+      <div className="flex flex-col h-[87%] w-full justify-between">
         {activeFriend ? (
           isLoadingFetchChat || statusFetchingData == 'pending' ? (
             <>
@@ -207,7 +208,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
           ) : (
             <>
               {friendHeader}
-              <div className="p-6">{chats}</div>
+              <div className="p-6 overflow-y-scroll h-5/6">{chats}</div>
             </>
           )
         ) : (
@@ -215,7 +216,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
         )}
       </div>
       {activeFriend ? (
-        <div className="justify-end p-6 bg-white">
+        <div className="justify-end h-[13%] p-6 bg-white">
           <div className="flex gap-1 items-center">
             <Input
               focusBorderColor="none"
@@ -232,6 +233,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
                 boxShadow: "none",
               }}
             />
+            <GameOptions activeFriend={activeFriend} refetch={dataMutate} flag="friend"/>
             {sendStatus === "pending" ? (
               <Button
                 className="bg-orange-custom hover:bg-darkorange-custom"

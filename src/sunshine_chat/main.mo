@@ -441,6 +441,36 @@ actor {
         return #ok(Vector.toArray(allChats));
     };
 
+    public shared func getAllChatsAndGamesAccordingToFriend(user1 : Principal, user2 : Principal) : async Result.Result<[(Text, Text, Principal, Time.Time, Text, Text, Text, [Text], [Nat], Text, Text)], Text> {
+        var allChats = Vector.Vector<(Text, Text, Principal, Time.Time, Text, Text, Text, [Text], [Nat], Text, Text)>();
+        let friendBox = await getFriendBox(user1, user2);
+        switch (friendBox) {
+            case (#ok(friendBox)) {
+                for (chatId in friendBox.messages.vals()) {
+                    // if (chat.groupId == groupId) {
+                    let chat = getChat(chatId);
+                    switch (chat) {
+                        case (#ok(chat)) {
+                            let name = await User.getName(chat.user);
+                            let participantsName = await User.getParticipantsName(chat.participants);
+                            let pfp = await User.getPfp(chat.user);
+                            allChats.add(chat.id, chat.message, chat.user, chat.timestamp, chat.status, chat.variant, chat.gameType, participantsName, chat.scores, name, pfp);
+                            // };
+                        };
+                        case (#err(msg)) {
+                            return #err(msg);
+                        };
+                    };
+                };
+            };
+            case (#err(msg)) {
+                return #err(msg);
+            };
+        };
+
+        return #ok(Vector.toArray(allChats));
+    };
+
     func isJoinedGroup(group : Group, currUser : Principal) : Bool {
         let joinedUsers : Vector.Vector<Principal> = Vector.fromArray(group.groupMembers);
         let isJoined = Vector.indexOf<Principal>(currUser, joinedUsers, Principal.equal);
