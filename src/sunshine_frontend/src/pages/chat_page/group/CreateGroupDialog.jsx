@@ -8,26 +8,30 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../use-auth-client";
 import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 import { uploadImage } from "../../../../../config/cloudinary";
+import Snackbar from "../../../components/Snackbar";
+import { IoMdAlert } from "react-icons/io";
 
 export default function CreateGroupDialog({ isOpen, onClose }) {
   const { status: createStatus, mutate: createMutate } = useMutation({
     mutationFn: createGroup,
     mutationKey: ["createGroup"],
-    onSuccess: () => {
-      onClose();
-    },
+    // onSuccess: () => {
+    //   onClose();
+    // },
   });
   const { user, principal } = useAuth();
   const [groupName, setGroupName] = useState("");
   const [groupDescription, setGroupDescription] = useState("");
   const [groupImage, setGroupImage] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
+  const toast = useToast();
 
   async function handleClick() {
     createMutate();
@@ -35,6 +39,11 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
 
   async function createGroup() {
     console.log("created");
+
+    if (!validateGroup()) {
+      return;
+    }
+
     await sunshine_chat.createGroup(
       groupName,
       principal,
@@ -46,8 +55,77 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
     setGroupName("");
     setGroupDescription("");
     setGroupImage("");
+    onClose();
     return true;
   }
+
+  const validateGroup = () => {
+    if (groupName === "") {
+      toast({
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-right",
+        render: () => (
+          <Snackbar
+            bgColor="bg-red-600"
+            icon={<IoMdAlert color="white" />}
+            title="Field error"
+            description="Fill in your group name!"
+          />
+        ),
+      });
+      return false;
+    }
+    if (groupDescription === "") {
+      toast({
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-right",
+        render: () => (
+          <Snackbar
+            bgColor="bg-red-600"
+            icon={<IoMdAlert color="white" />}
+            title="Field error"
+            description="Fill in your group description!"
+          />
+        ),
+      });
+      return false;
+    }
+    if (groupName.length > 40) {
+      toast({
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-right",
+        render: () => (
+          <Snackbar
+            bgColor="bg-red-600"
+            icon={<IoMdAlert color="white" />}
+            title="Group name error"
+            description="Group name cannot have more than 40 characters!"
+          />
+        ),
+      });
+      return false;
+    }
+    if (groupDescription.length > 150) {
+      toast({
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-right",
+        render: () => (
+          <Snackbar
+            bgColor="bg-red-600"
+            icon={<IoMdAlert color="white" />}
+            title="Group description error"
+            description="Group name cannot have more than 150 characters!"
+          />
+        ),
+      });
+      return false;
+    }
+    return true;
+  };
 
   const handleImage = async (e) => {
     if (e.target.files && e.target.files[0]) {

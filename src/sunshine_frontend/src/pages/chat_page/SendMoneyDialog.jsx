@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Input,
   Modal,
@@ -8,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -16,6 +18,9 @@ import { useAuth } from "../../use-auth-client";
 import { sunshine_backend } from "../../../../declarations/sunshine_backend";
 import { useQuery } from "@tanstack/react-query";
 import ConfirmationDialog from "./ConfirmationDialog";
+import { Icon24Hours } from "@tabler/icons-react";
+import { IoMdAlert } from "react-icons/io";
+import Snackbar from "../../components/Snackbar";
 
 export default function SendMoneyDialog({ isOpen, onClose, passedPrincipal }) {
   const { principal } = useAuth();
@@ -88,13 +93,35 @@ export default function SendMoneyDialog({ isOpen, onClose, passedPrincipal }) {
               color="white"
               onClick={() => {
                 if (amount <= 0) {
-                  // toast({
-                  //   title: "Nominal must be more than 0!",
-                  //   description: "We've created your account for you.",
-                  //   status: "error",
-                  //   duration: 5000,
-                  //   isClosable: true,
-                  // });
+                  toast({
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom-right",
+                    render: () => (
+                      <Snackbar
+                        bgColor="bg-red-600"
+                        icon={<IoMdAlert color="white" />}
+                        title="Nominal must be more than 0!"
+                        description="Fill your desired amount!"
+                      />
+                    ),
+                  });
+                  return;
+                }
+                if(amount > data?.ok.money){
+                  toast({
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom-right",
+                    render: () => (
+                      <Snackbar
+                        bgColor="bg-red-600"
+                        icon={<IoMdAlert color="white" />}
+                        title="Nominal problem"
+                        description="Inputted amount must be <= to you current balance!"
+                      />
+                    ),
+                  });
                   return;
                 }
                 onOpenConfirmation();
