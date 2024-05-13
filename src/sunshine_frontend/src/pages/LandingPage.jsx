@@ -22,6 +22,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { sunshine_backend } from "../../../declarations/sunshine_backend";
 import Loader from "../components/Loader";
+import { sunshine_chat } from "../../../declarations/sunshine_chat";
 
 // import { sunshine_backend } from "../../.././declarations/sunshine_backend"
 
@@ -31,7 +32,7 @@ const imageStyle = {
 };
 
 function LandingPage() {
-  const { principal } = useAuth();
+  const { principal, isAuthenticated } = useAuth();
   // const [currentName, setCurrentName] = useState("Stranger");
 
   const getUserName = async () => {
@@ -43,14 +44,17 @@ function LandingPage() {
     queryFn: getUserName,
   });
 
-  // useEffect(() => {
-  //   // console.log(user);
-  //   if (user != null) {
-  //     user.getName(principal).then((name) => {
-  //       setCurrentName(name);
-  //     });
-  //   }
-  // }, [user]);
+  async function generateDummy(){
+    await sunshine_chat.generateDummyGroup(principal);
+
+  }
+
+  useEffect(() => {
+    // console.log(user);
+    if (isAuthenticated) {
+      generateDummy();
+    }
+  }, []);
 
   if (isLoading) return <Loader />;
 

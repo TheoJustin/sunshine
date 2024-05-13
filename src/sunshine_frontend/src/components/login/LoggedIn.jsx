@@ -10,6 +10,7 @@ import Currency from "../../pages/Currency";
 import Snackbar from "../Snackbar";
 import { IoMdAlert } from "react-icons/io";
 import { FaCircleCheck } from "react-icons/fa6";
+import { sunshine_chat } from "../../../../declarations/sunshine_chat";
 
 
 const imageContainerStyle = {
@@ -60,6 +61,7 @@ function LoggedIn() {
         if (registerFlag == true) {
           setIsUpdating(false);
           setAlreadyRegistered(true);
+          
           toast({
             duration: 5000,
             isClosable: true,

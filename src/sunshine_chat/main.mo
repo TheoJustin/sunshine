@@ -27,7 +27,7 @@ actor {
         participants : [Principal];
         scores : [Nat];
     };
-
+    var dummyGenerated = false;
     // type
     type Friend = {
         id : Text;
@@ -178,31 +178,36 @@ actor {
     };
 
     // generate dummy data for groups
-    // public shared func generateDummyGroup(userCreator: Principal) : async Result.Result<(), Text>{
+    public shared func generateDummyGroup(userCreator: Principal) : async Result.Result<(), Text>{
 
-    //     if (Principal.isAnonymous(userCreator)) {
-    //         return #err("Unauthorized");
-    //     };
-    //     ignore await deleteAllGroup();
-    //     var test = await createGroup("Nihility", userCreator, "Nihility Group");
-    //     if (await checkResult(test)){
-    //         test := await createGroup("Erudition", userCreator, "Erudition Group");
-    //         if(await checkResult(test)){
-    //             test := await createGroup("Abundance", userCreator, "Abundance Group");
-    //             if(await checkResult(test)){
-    //                 return #ok();
-    //             } else{
-    //                 return #err("Error in generating");
-    //             }
-    //         } else {
-    //             return #err("Error in generating");
-    //         }
-    //     } else {
-    //         return #err("Error in generating");
-    //     };
-    //     // createGroup("Erudition", userCreator);
-    //     // createGroup("Abundance", userCreator);
-    // };
+        if (Principal.isAnonymous(userCreator)) {
+            return #err("Unauthorized");
+        };
+
+        if(dummyGenerated == false){
+            var test = await createGroup("Nihility", userCreator, "Nihility Group", "https://res.cloudinary.com/dau03r7yn/image/upload/v1715586552/hltdoqe1psizoygjr5d6.png");
+            if (await checkResult(test)){
+                test := await createGroup("Erudition", userCreator, "Erudition Group", "https://res.cloudinary.com/dau03r7yn/image/upload/v1715586524/rdnho1zgnhjquyvc0auf.png");
+                if(await checkResult(test)){
+                    test := await createGroup("Abundance", userCreator, "Abundance Group", "https://res.cloudinary.com/dau03r7yn/image/upload/v1715586539/k1uwn4hxewkwxovzq6c7.png");
+                    if(await checkResult(test)){
+                        return #ok();
+                    } else{
+                        return #err("Error in generating");
+                    }
+                } else {
+                    return #err("Error in generating");
+                }
+            } else {
+                return #err("Error in generating");
+            };
+            dummyGenerated := true;
+            return #ok();
+        };
+        return #err("alr generated");
+        // createGroup("Erudition", userCreator);
+        // createGroup("Abundance", userCreator);
+    };
 
     public shared query func getGroupById(groupId : Text) : async Result.Result<Group, Text> {
         let group = groups.get(groupId);

@@ -72,7 +72,7 @@ function TwentyFive() {
         <div className="flex justify-center items-center min-h-screen bg-blue-100 font-sans">
             <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl'>
                 <h1 className='text-3xl font-bold text-center mb-6'>Twenty Five Game</h1>
-                <button onClick={handleStart} className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-4 transition-colors duration-200">Start Game</button>
+                <button onClick={handleStart} className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 mb-4 transition-colors duration-200">Start Game</button>
                 <h2 className='text-xl mb-2'>Timer: {formatTime(time)}</h2>
                 <div className='grid grid-cols-5 gap-4'>
                     {started && shuffledNumbers.map((number, index) => (

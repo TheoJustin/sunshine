@@ -86,7 +86,7 @@ function ReactionTest() {
                     <button onClick={(e) => {
                         e.stopPropagation();
                         handleStart();
-                    }} className="mt-4 bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-white">Start</button>
+                    }} className="mt-4 bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-xl text-sm px-5 py-2.5 text-white">Start</button>
                 }
             </div>
         </div>

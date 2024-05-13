@@ -95,7 +95,7 @@ function MentalMath() {
                         <h2 className='text-lg mb-2'>Question {questionCount}: {currentQuestion.question}</h2>
                         <form onSubmit={handleAnswer} className="flex justify-between items-center">
                             <input type="number" value={userAnswer} onChange={(e) => setUserAnswer(e.target.value)} className="border-2 border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500" autoFocus />
-                            <button type="submit" className="ml-2 text-white bg-blue-500 px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-200">Submit</button>
+                            <button type="submit" className="ml-2 text-white bg-blue-500 px-4 py-2 rounded-xl hover:bg-blue-600 transition-colors duration-200">Submit</button>
                         </form>
                     </div>
                 )}
