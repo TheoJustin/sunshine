@@ -115,16 +115,7 @@ function LoggedIn() {
     <ChakraTemplate>
       <div className="flex justify-center items-center">
         <div
-          className="relative flex flex-col top-[19vh] gap-3 text-center items-center bg-slate-50 w-[30vw] p-3 rounded-xl"
-          // style={{
-          //   backgroundColor: "#2EC4B6",
-          //   padding: "20px",
-          //   borderRadius: "20px",
-          //   background: "rgba(255, 255, 255, 0.2)",
-          //   backdropFilter: "blur(30px)",
-          //   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-          //   border: "1px solid rgba(255, 255, 255, 0.3)",
-          // }}
+          className="relative flex flex-col top-[20vh] gap-3 text-center items-center bg-slate-50 w-[30vw] rounded-xl bg-white/70 shadow-xl backdrop-blur-sm p-5"
         >
           <div className="text-orange-custom font-bold text-3xl">
             Your Profile
@@ -153,41 +144,27 @@ function LoggedIn() {
           </div>
           <div className="flex gap-5 text-lg container items-center">
             <div className="min-w-14 font-bold">Name</div>
-            <Input
+            <Input className="bg-white/40 rounded-2xl backdrop-blur-sm"
               focusBorderColor="orange.400"
-              // variant="filled"
               placeholder="Name"
               size="md"
               onChange={(e) => setName(e.target.value)}
               value={name}
-              // style={{
-              //   background: "rgba(255, 255, 255, 0.2)",
-              //   backdropFilter: "blur(30px)",
-              //   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              //   borderRadius: "15px",
-              // }}
             />
           </div>
           <div className="flex gap-5 text-lg container items-center">
             <div className="min-w-14 font-bold">Email</div>
-            <Input
+            <Input className="bg-white/40 rounded-2xl backdrop-blur-sm"
               focusBorderColor="orange.400"
-              // variant="filled"
               placeholder="Email"
               size="md"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-              // style={{
-              //   background: "rgba(255, 255, 255, 0.2)",
-              //   backdropFilter: "blur(30px)",
-              //   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              //   borderRadius: "15px",
-              // }}
             />
           </div>
           <div className="flex gap-5 text-lg container items-center">
             <div className="min-w-14 font-bold">DOB</div>
-            <Input
+            <Input className="bg-white/40 rounded-2xl backdrop-blur-sm"
               focusBorderColor="orange.400"
               // variant="filled"
               placeholder="Date of Birth"
@@ -195,109 +172,51 @@ function LoggedIn() {
               type="date"
               onChange={(e) => setDob(e.target.value)}
               value={dob}
-              // style={{
-              //   background: "rgba(255, 255, 255, 0.2)",
-              //   backdropFilter: "blur(30px)",
-              //   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              //   borderRadius: "15px",
-              // }}
             />
           </div>
-          {!isUpdating ? (
-            <Button
-              size="md"
-              variant="solid"
-              className="w-1/2 bg-orange-custom hover:bg-darkorange-custom"
-              color="white"
-              onClick={handleRegister}
-            >
-              {alreadyRegistered ? "Update Data" : "Register"}
-            </Button>
-          ) : (
-            <>
+          <div className="w-[80%] flex space-x-5 justify-items-stretch mt-3">
+
+            {!isUpdating ? (
               <Button
                 size="md"
                 variant="solid"
                 className="w-1/2 bg-orange-custom hover:bg-darkorange-custom"
                 color="white"
-                isLoading
+                onClick={handleRegister}
+              >
+                {alreadyRegistered ? "Update Data" : "Register"}
+              </Button>
+            ) : (
+              <>
+                <Button
+                  size="md"
+                  variant="solid"
+                  className="w-1/2 bg-orange-custom hover:bg-darkorange-custom"
+                  color="white"
+                  isLoading
 
-              />
-            </>
-          )}
+                />
+              </>
+            )}
 
-          <Button
-            colorScheme="red"
-            size="md"
-            variant="solid"
-            className="w-1/2"
-            onClick={() => {
-              logout();
-              window.location.reload();
-            }}
-          >
-            Log Out
-          </Button>
+            <Button
+              colorScheme="red"
+              size="md"
+              variant="solid"
+              className="w-1/2"
+              onClick={() => {
+                logout();
+                window.location.reload();
+              }}
+            >
+              Log Out
+            </Button>
+          </div>
           {alreadyRegistered ? <Currency></Currency> : <></>}
         </div>
       </div>
     </ChakraTemplate>
   );
-  {
-    /* <div className="container">
-        <h1>Internet Identity Client</h1>
-        <h2>You are authenticated!</h2>
-        <p>To see how a canister views you, click this button!</p>
-        <button
-          type="button"
-          id="whoamiButton"
-          className="primary"
-          onClick={handleClick}
-        >
-          Who am I?
-        </button>
-        <input
-          type="text"
-          readOnly
-          id="whoami"
-          value={result}
-          placeholder="your Identity"
-          style={whoamiStyles}
-        /> */
-  }
-  {
-    /* <p>{result}</p> */
-  }
-  {
-    /* <button id="logout" onClick={logout}>
-          log out
-        </button>
-        <div>
-          <div id="regisForm">
-            <label htmlFor="username">Name: </label>
-            <input
-              id="username"
-              type="text"
-              onChange={(event) => setName(event.target.value)}
-            />
-            <label htmlFor="dob">Date of Birth: </label>
-            <input
-              id="dob"
-              type="date"
-              onChange={(event) => setDOB(event.target.value)}
-            />
-            <label htmlFor="email">E-mail Address: </label>
-            <input
-              id="email"
-              type="email"
-              onChange={(event) => setEmail(event.target.value)}
-            />
-            <button onClick={handleRegister}>Add Data</button>
-          </div>
-          {currentName}
-        </div>
-      </div> */
-  }
 }
 
 export default LoggedIn;
