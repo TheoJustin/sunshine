@@ -89,8 +89,8 @@ function Navbar({isScrolled}) {
   const [navDivStyle, setNavDivStyle] = useState(navDivTemplate(isScrolled));
 
   async function refreshStyles() {
-    console.log(location.pathname);
-    console.log(isScrolled);
+    // console.log(location.pathname);
+    // console.log(isScrolled);
     setSquareStyle(activeSquareStyle(location.pathname, isScrolled));
     setNavStyle(navbarStyle(location.pathname));
     setNavUlStyle(navUlStyleTemplate(isScrolled));

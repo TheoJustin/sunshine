@@ -24,24 +24,24 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
     mutationFn: joinGroup,
   });
   async function joinGroup(groupId) {
-    console.log(groupId);
+    // console.log(groupId);
     await sunshine_chat.addGroupMember(principal, groupId);
-    console.log("successfully joined!");
+    // console.log("successfully joined!");
     setSearchedGroupToJoinName("");
     onClose();
     return true;
   }
   async function handleJoinClick(groupId) {
     joinMutate(groupId);
-    console.log("success di handle join");
-    console.log(joinStatus);
+    // console.log("success di handle join");
+    // console.log(joinStatus);
   }
 
   useEffect(() => {
     sunshine_chat
       .getAllUnjoinedGroups(searchedGroupToJoinName, principal)
       .then((groups) => {
-        console.log(groups)
+        // console.log(groups)
         // console.log(searchedGroupName);
         // mapping buat chat
         if (groups.ok) {

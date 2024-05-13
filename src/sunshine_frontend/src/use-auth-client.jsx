@@ -1,6 +1,10 @@
 import { AuthClient } from "@dfinity/auth-client";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { canisterId, createActor } from "../../declarations/sunshine_backend";
+import {
+  canisterId,
+  createActor,
+  sunshine_backend,
+} from "../../declarations/sunshine_backend";
 import { canisterId as internetIdentityCanisterId } from "../../declarations/internet_identity";
 import { useNavigate } from "react-router-dom";
 
@@ -88,9 +92,14 @@ export const useAuthClient = (options = defaultOptions) => {
 
   async function checkAuthentication() {
     const check = await authClient.isAuthenticated();
+
+    // get user
+    const checkUser = await sunshine_backend.getUserById(principal);
+    console.log(checkUser);
+
     // console.log(authClient.isAuthenticated())
-    if (!check) {
-      navigate(`/`);
+    if (!check || checkUser.err) {
+      navigate(`/login`);
     }
     return check;
   }

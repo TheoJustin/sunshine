@@ -87,18 +87,17 @@ export default function Sidebar() {
                 navigate(`/chat`);
               }}
             />
-            {data && (
-              <img
-                className="w-12 h-12 object-cover rounded-full mt-5 cursor-pointer"
-                src={
-                  data && data.ok && data.ok.profileUrl === "" 
-                    ? placeholder
-                    : data.ok.profileUrl
-                }
-                alt=""
-                onClick={() => navigate(`/login`)}
-              />
-            )}
+            {data &&
+              data.ok && (
+                <img
+                  className="w-12 h-12 object-cover rounded-full mt-5 cursor-pointer"
+                  src={
+                    data.ok.profileUrl === "" ? placeholder : data.ok.profileUrl
+                  }
+                  alt=""
+                  onClick={() => navigate(`/login`)}
+                />
+              )}
           </div>
         </div>
       </div>
