@@ -14,11 +14,14 @@ import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 import { useAuth } from "../../../use-auth-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
+import MiniLoader from "../../../components/MiniLoader";
+import MiniLoaderSmall from "../../../components/MiniLoaderSmall";
 
 export default function JoinGroupDialog({ isOpen, onClose }) {
   const [searchedGroupsToJoin, setSearchedGroupsToJoin] = useState();
   const [searchedGroupToJoinName, setSearchedGroupToJoinName] = useState("");
   const { user, principal } = useAuth();
+  const [wannaJoin, setWannaJoin] = useState(false);
   const { status: joinStatus, mutate: joinMutate } = useMutation({
     mutationKey: ["joinGroup"],
     mutationFn: joinGroup,
@@ -28,10 +31,12 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
     await sunshine_chat.addGroupMember(principal, groupId);
     // console.log("successfully joined!");
     setSearchedGroupToJoinName("");
+    setWannaJoin(false);
     onClose();
     return true;
   }
   async function handleJoinClick(groupId) {
+    setWannaJoin(true);
     joinMutate(groupId);
     // console.log("success di handle join");
     // console.log(joinStatus);
@@ -44,14 +49,19 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
         // console.log(groups)
         // console.log(searchedGroupName);
         // mapping buat chat
+        
         if (groups.ok) {
+          if (groups.ok.length == 0) {
+            setSearchedGroupsToJoin(<div className="text-base text-gray-400">No groups found</div>);
+            return;
+          }
           const listItems = groups.ok.map(
             ([name, description, id, imageUrl], idx) => (
               <>
                 <div
                   key={idx}
                   onClick={() => handleJoinClick(id)}
-                  className={`cursor-pointer text-left hover:bg-cream-custom rounded-xl ease-out transition-all duration-200 mr-2 p-4 flex flex-col mb-5`}
+                  className={`cursor-pointer text-left hover:bg-cream-custom rounded-xl ease-out transition-all duration-200 p-4 flex flex-col`}
                 >
                   <div className="flex gap-5">
                     <img
@@ -70,19 +80,23 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
           );
 
           //   Setting the state with the list of elements
-          setSearchedGroupsToJoin(<ul className="pt-4">{listItems}</ul>);
+          setSearchedGroupsToJoin(<ul className="space-y-3">{listItems}</ul>);
         }
-        // else {
-        //   setSearchedGroupsToJoin(
-        //     "Please search for the group's name or description first"
-        //   );
-        // }
+        else {
+          setSearchedGroupsToJoin(
+            <div className="text-base text-center items-center text-gray-400">
+              Please search for the group's name or description first
+
+            </div>
+          );
+        }
       });
   }, [searchedGroupToJoinName]);
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
+
         <ModalHeader fontSize="2xl">Join Group</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -98,10 +112,13 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
               }}
               value={searchedGroupToJoinName}
             />
-              <p className="text-base text-center ">Click on the group to immediately join  (´◡`)</p>
+            <p className="text-base text-center ">Click on the group to immediately join  (´◡`)</p>
           </div>
-          
-          <div>{searchedGroupsToJoin}</div>
+          {wannaJoin == true ? <MiniLoaderSmall/> :
+            <div className="overflow-y-scroll max-h-48 p-3 mt-5 rounded-xl items-center text-center bg-gray-100">
+              {searchedGroupsToJoin}
+            </div>
+          }
           {/* {searchedGroupToJoinName === "" &&
           searchedGroupsToJoin.length === 0 ? (
             <div>Please search for the group's name or description first</div>

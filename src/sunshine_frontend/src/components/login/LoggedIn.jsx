@@ -20,7 +20,7 @@ function LoggedIn() {
   const [result, setResult] = useState("");
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  const { user, logout, getUser } = useAuth();
+  const { user, principal, logout, getUser } = useAuth();
   const [email, setEmail] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function LoggedIn() {
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["getUser"],
+    queryKey: ["getUser", user],
     queryFn: getUser,
   });
 
@@ -37,8 +37,9 @@ function LoggedIn() {
     setIsUpdating(true);
     // sunshine_backend.tryFuzz();
     async function tryRegister() {
+      console.log(principal);
       if (data.err) {
-        const registerFlag = await user.register(name, email, dob, image);
+        const registerFlag = await user.register(principal, name, email, dob, image);
         console.log(registerFlag);
         if (registerFlag == true) {
           setIsUpdating(false);
