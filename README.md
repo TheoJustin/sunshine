@@ -22,18 +22,25 @@ You can see the following documentation for Internet Computer online:
 - [Motoko Language Quick Reference](https://internetcomputer.org/docs/current/motoko/main/language-manual)
 
 ## 📦 Packages
-- Make sure to have Git installed.
+- Git
     - https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
-- Make sure to have WSL installed
+- WSL
     - powershell > type in "wsl --install"
-- Make sure to have Visual Studio Code installed
-https://code.visualstudio.com/ With the extensions :
+- Visual Studio Code https://code.visualstudio.com/ With the extensions :
     - Motoko Language
-    https://marketplace.visualstudio.com/items?itemName=dfinity-foundation.vscode-motoko
+        - https://marketplace.visualstudio.com/items?itemName=dfinity-foundation.vscode-motoko
     - Remote WSL
-    https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
+        - https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
+- Plug Connect
+    - Extension
+        - https://plugwallet.ooo/
+    - Psychedelic packages
+        - https://github.com/Psychedelic/plug-connect?tab=readme-ov-file
+
 Make sure to have dfx installed, update if needed.
-DFX Version : dfx 0.19.0
+- DFX Version : 0.19.0
+Also, make sure node is installed too.
+- Node Version : 20
 
 For more details, you can check the installation docs here :
 https://docs.google.com/document/d/e/2PACX-1vTNicu-xuf4EiLAehHIqgfpjAnPjzqMGT-xpZVvYaAWNyvzYK_Ceve_me4PVRIxpzH7ea5PAX9NxGwY/pub
