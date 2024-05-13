@@ -39,7 +39,7 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
       });
     return true;
   };
-  const { isLoading, error } = useQuery({
+  const { isLoading, error, isFetching } = useQuery({
     queryKey: ["fetchFriends", searchFriendName, friends],
     queryFn: fetchFriends,
   });
@@ -71,7 +71,7 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
         </Button>
       </div>
       <div className="overflow-y-scroll h-[93%] flex flex-col pl-4">
-        {isLoading ? <Skeleton /> : friends}
+        {isLoading || isFetching ? <Skeleton /> : friends}
       </div>
       <AddFriendDialog isOpen={isOpen} onClose={onClose} />
     </div>
