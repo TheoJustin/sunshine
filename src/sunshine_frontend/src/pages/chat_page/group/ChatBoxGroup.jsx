@@ -71,7 +71,7 @@ export default function ChatBox({ activeGroup }) {
             <div className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer" onClick={()=> {
               onOpenGroup();
             }}>
-              <img src={group.ok.imageUrl == "" ? placeholder : group.ok.imageUrl} className="rounded-full w-11 h-11 m-2 mr-5" alt="" />
+              <img src={group.ok.imageUrl == "" ? placeholder : group.ok.imageUrl} className="rounded-full w-11 h-11 m-2 mr-5 object-cover" alt="" />
               <div>
                 <h1 className="font-semibold">{group.ok.groupName}</h1>
                 <p>{group.ok.description}</p>
