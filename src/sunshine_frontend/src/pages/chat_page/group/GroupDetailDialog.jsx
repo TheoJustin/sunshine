@@ -69,7 +69,7 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent minH='50vh'>
-                {fetchStatus != 'pending' ? <div className="flex justify-center items-center">
+                {fetchStatus == 'pending' ? <div className="flex justify-center items-center">
                 <MiniLoader />
                 </div>  :
                     <>

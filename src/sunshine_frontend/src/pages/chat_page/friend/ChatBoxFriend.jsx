@@ -241,7 +241,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
             >
               <img
                 src={
-                  friend.ok.profileUrl == "" ? placeholder : friend.ok.imageUrl
+                  friend.ok.profileUrl == "" ? placeholder : friend.ok.profileUrl
                 }
                 className="rounded-full w-11 h-11 m-2 mr-5 object-cover"
                 alt=""

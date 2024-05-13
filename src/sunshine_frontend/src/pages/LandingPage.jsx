@@ -33,7 +33,6 @@ const imageStyle = {
 
 function LandingPage() {
   const { principal, isAuthenticated } = useAuth();
-  // const [currentName, setCurrentName] = useState("Stranger");
 
   const getUserName = async () => {
     return await sunshine_backend.getName(principal);
@@ -44,17 +43,6 @@ function LandingPage() {
     queryFn: getUserName,
   });
 
-  async function generateDummy(){
-    await sunshine_chat.generateDummyGroup(principal);
-
-  }
-
-  useEffect(() => {
-    // console.log(user);
-    if (isAuthenticated) {
-      generateDummy();
-    }
-  }, []);
 
   if (isLoading) return <Loader />;
 
