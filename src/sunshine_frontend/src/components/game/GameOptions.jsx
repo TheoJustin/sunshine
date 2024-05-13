@@ -14,18 +14,22 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { IoGameController } from "react-icons/io5";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../use-auth-client";
 import { sunshine_chat } from "../../../../declarations/sunshine_chat";
+import Snackbar from "../Snackbar";
+import { IoMdAlert } from "react-icons/io";
 
-function GameOptions({ activeGroup, flag, activeFriend, refetch}) {
+function GameOptions({ activeGroup, flag, activeFriend, refetch }) {
   const navigate = useNavigate();
   const { principal } = useAuth();
   // const [isOpen, setIsOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedGame, setSelectedGame] = useState("");
+  const toast = useToast();
 
   const games = [
     {
@@ -55,18 +59,33 @@ function GameOptions({ activeGroup, flag, activeFriend, refetch}) {
 
   async function handleStartGame() {
     if (selectedGame) {
-      if(flag == 'group'){
+      if (flag == "group") {
         await sunshine_chat.createGame(activeGroup, principal, selectedGame);
-      }
-      else if(flag == 'friend'){
-        await sunshine_chat.createGameFriend( principal, activeFriend, selectedGame);
+      } else if (flag == "friend") {
+        await sunshine_chat.createGameFriend(
+          principal,
+          activeFriend,
+          selectedGame
+        );
       }
       // toggleModal();
       onClose();
       refetch();
       // navigate(`/${selectedGame}`);
     } else {
-      alert("Please select a game first!");
+      toast({
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-right",
+        render: () => (
+          <Snackbar
+            bgColor="bg-red-600"
+            icon={<IoMdAlert color="white" />}
+            title="Game problem"
+            description="Please select one of the game!"
+          />
+        ),
+      });
     }
   }
 
@@ -84,10 +103,9 @@ function GameOptions({ activeGroup, flag, activeFriend, refetch}) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader fontSize="2xl">Game Selection</ModalHeader>
-          <ModalCloseButton />
+          <ModalHeader fontSize="2xl" className="flex justify-center items-center">Game Selection</ModalHeader>
           <ModalBody>
-            <div className="p-4 md:p-5 font-sans">
+            <div className="font-sans">
               <p className="text-gray-500 dark:text-gray-400 mb-4 font-sans">
                 Pick a game to test your skills:
               </p>
@@ -106,7 +124,7 @@ function GameOptions({ activeGroup, flag, activeFriend, refetch}) {
                     />
                     <label
                       htmlFor={game.id}
-                      className="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-500 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-500 font-sans"
+                      className="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-500 dark:peer-checked:text-border-orange-cust peer-checked:border-orange-custom peer-checked:text-orange-custom hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-500 font-sans"
                     >
                       <div className="flex items-center">
                         <img
@@ -132,14 +150,15 @@ function GameOptions({ activeGroup, flag, activeFriend, refetch}) {
                 //   Loading
                 // </button>
                 <Button
-                  className="rounded-full text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-sans"
-                  height={10}
+                  className="bg-orange-custom hover:bg-darkorange-custom"
+                  color="white"
                   isLoading
                 ></Button>
               ) : (
                 <Button
                   onClick={createGameMutate}
-                  className="rounded-full text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-sans"
+                  className="w-full bg-orange-custom hover:bg-darkorange-custom"
+                  color="white"
                 >
                   Start Game
                 </Button>
