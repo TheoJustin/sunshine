@@ -65,7 +65,7 @@ export default function ProfileDialog({
   });
 
   const { data: isFriend, isLoading: isFriendLoading } = useQuery({
-    queryKey: ["checkIsFriend", passedPrincipal],
+    queryKey: ["checkIsFriend", passedPrincipal, isOpenConfirm],
     queryFn: checkIsFriend,
   });
 

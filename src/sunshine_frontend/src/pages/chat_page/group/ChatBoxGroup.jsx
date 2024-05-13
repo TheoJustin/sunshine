@@ -306,11 +306,10 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
   }
 
   return (
-    <div className="flex flex-col h-full w-[69%] justify-items-stretch ">
-      {statusFetchingData == 'pending' || loadingFetchData == true ? <MiniLoader /> :
-        <>
-          <div className="flex flex-col h-full w-full justify-between ">
-            {activeGroup ? (
+    <div className="flex flex-col h-full w-[69%] justify-between ">
+      <div className="flex flex-col h-full w-full justify-between ">
+      {statusFetchingData == 'pending' || loadingFetchData == true ? <MiniLoader /> : 
+            activeGroup ? (
               <>
                 {groupHeader}
                 <div className="p-6 overflow-y-scroll" style={{ height: 'inherit' }}>
@@ -321,11 +320,11 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
             ) : (
               ""
             )}
+          
 
 
           </div>
-        </>
-      }
+      
       {activeGroup ? (
         <div className="justify-end p-6 bg-white">
           <div className="flex gap-1 items-center">
