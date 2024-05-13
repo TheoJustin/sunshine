@@ -39,6 +39,7 @@ You can see the following documentation for Internet Computer online:
 
 Make sure to have dfx installed, update if needed.
 - DFX Version : 0.19.0
+
 Also, make sure node is installed too.
 - Node Version : 20
 
