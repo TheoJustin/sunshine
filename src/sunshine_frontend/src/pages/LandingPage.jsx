@@ -32,7 +32,7 @@ function LandingPage() {
   const { user, principal } = useAuth();
   const [currentName, setCurrentName] = useState("Stranger");
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
     if (user != null) {
       user.getName(principal).then(name => {
         setCurrentName(name);

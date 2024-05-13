@@ -31,17 +31,17 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
         mutationFn: fetchData
     })
     async function leaveGroup(activeGroup) {
-        console.log(activeGroup);
+        // console.log(activeGroup);
         await sunshine_chat.leaveGroup(principal, activeGroup);
-        console.log("successfully left!");
+        // console.log("successfully left!");
         // setSearchedGroupToJoinName("");
         onClose();
         return true;
     }
     async function fetchData() {
-        console.log(fetchStatus);
+        // console.log(fetchStatus);
         let group = await sunshine_chat.getGroupById(activeGroup);
-        console.log(group);
+        // console.log(group);
         if (group.ok) {
             setCurrGroup(group.ok);
             const data = await sunshine_chat.getAllMembers(activeGroup);
