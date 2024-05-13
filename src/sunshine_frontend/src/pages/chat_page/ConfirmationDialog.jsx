@@ -8,12 +8,15 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../use-auth-client";
 import { sunshine_backend } from "../../../../declarations/sunshine_backend";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { sunshine_chat } from "../../../../declarations/sunshine_chat";
+import Snackbar from "../../components/Snackbar";
+import { FaCircleCheck } from "react-icons/fa6";
 
 export default function ConfirmationDialog({
   user,
@@ -25,6 +28,7 @@ export default function ConfirmationDialog({
   onCloseSendMoney,
   refetch,
 }) {
+  const toast = useToast();
   const sendMoney = async () => {
     await sunshine_chat.sendMoney(
       user.ok.internet_identity,
@@ -35,6 +39,19 @@ export default function ConfirmationDialog({
     onCloseSendMoney();
     setAmount("");
     refetch();
+    toast({
+      duration: 5000,
+      isClosable: true,
+      position: "bottom-right",
+      render: () => (
+        <Snackbar
+          bgColor="bg-green-600"
+          icon={<FaCircleCheck color="white" />}
+          title="Success"
+          description="Cryptocurrency transferred!"
+        />
+      ),
+    });
     return true;
   };
 

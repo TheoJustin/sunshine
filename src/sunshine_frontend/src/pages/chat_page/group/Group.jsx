@@ -20,7 +20,7 @@ export default function Group({
       <div className="flex gap-5">
         <img className="m-0 w-20 h-20 rounded-3xl object-cover" src={imageUrl === "" ? placeholder : imageUrl} alt="" />
         <div>
-          <div className="font-bold">{groupName}</div>
+          <div className="font-bold truncate max-w-[10vw]">{groupName}</div>
           <div className="text-lg text-gray-600 truncate max-w-[10vw]">{lastMessage}</div>
         </div>
       </div>

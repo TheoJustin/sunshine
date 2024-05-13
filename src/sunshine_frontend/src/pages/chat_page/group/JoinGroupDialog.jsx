@@ -8,6 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
@@ -16,6 +17,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import MiniLoader from "../../../components/MiniLoader";
 import MiniLoaderSmall from "../../../components/MiniLoaderSmall";
+import Snackbar from "../../../components/Snackbar";
+import { FaCircleCheck } from "react-icons/fa6";
 
 export default function JoinGroupDialog({ isOpen, onClose }) {
   const [searchedGroupsToJoin, setSearchedGroupsToJoin] = useState();
@@ -26,6 +29,8 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
     mutationKey: ["joinGroup"],
     mutationFn: joinGroup,
   });
+  const toast = useToast();
+
   async function joinGroup(groupId) {
     // console.log(groupId);
     await sunshine_chat.addGroupMember(principal, groupId);
@@ -33,6 +38,19 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
     setSearchedGroupToJoinName("");
     setWannaJoin(false);
     onClose();
+    toast({
+      duration: 5000,
+      isClosable: true,
+      position: "bottom-right",
+      render: () => (
+        <Snackbar
+          bgColor="bg-green-600"
+          icon={<FaCircleCheck color="white" />}
+          title="Success"
+          description="Successfuly joined the group"
+        />
+      ),
+    });
     return true;
   }
   async function handleJoinClick(groupId) {
@@ -49,10 +67,12 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
         // console.log(groups)
         // console.log(searchedGroupName);
         // mapping buat chat
-        
+
         if (groups.ok) {
           if (groups.ok.length == 0) {
-            setSearchedGroupsToJoin(<div className="text-base text-gray-400">No groups found</div>);
+            setSearchedGroupsToJoin(
+              <div className="text-base text-gray-400">No groups found</div>
+            );
             return;
           }
           const listItems = groups.ok.map(
@@ -81,12 +101,10 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
 
           //   Setting the state with the list of elements
           setSearchedGroupsToJoin(<ul className="space-y-3">{listItems}</ul>);
-        }
-        else {
+        } else {
           setSearchedGroupsToJoin(
             <div className="text-base text-center items-center text-gray-400">
               Please search for the group's name or description first
-
             </div>
           );
         }
@@ -96,7 +114,6 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-
         <ModalHeader fontSize="2xl">Join Group</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -112,13 +129,17 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
               }}
               value={searchedGroupToJoinName}
             />
-            <p className="text-base text-center ">Click on the group to immediately join  (´◡`)</p>
+            <p className="text-base text-center ">
+              Click on the group to immediately join (´◡`)
+            </p>
           </div>
-          {wannaJoin == true ? <MiniLoaderSmall/> :
+          {wannaJoin == true ? (
+            <MiniLoaderSmall />
+          ) : (
             <div className="overflow-y-scroll max-h-48 p-3 mt-5 rounded-xl items-center text-center bg-gray-100">
               {searchedGroupsToJoin}
             </div>
-          }
+          )}
           {/* {searchedGroupToJoinName === "" &&
           searchedGroupsToJoin.length === 0 ? (
             <div>Please search for the group's name or description first</div>

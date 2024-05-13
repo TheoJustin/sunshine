@@ -9,6 +9,8 @@ import profilePlaceholder from "../../../../../assets/profilePlaceholder.jpg";
 import Currency from "../../pages/Currency";
 import Snackbar from "../Snackbar";
 import { IoMdAlert } from "react-icons/io";
+import { FaCircleCheck } from "react-icons/fa6";
+
 
 const imageContainerStyle = {
   width: "100px",
@@ -58,6 +60,19 @@ function LoggedIn() {
         if (registerFlag == true) {
           setIsUpdating(false);
           setAlreadyRegistered(true);
+          toast({
+            duration: 5000,
+            isClosable: true,
+            position: "bottom-right",
+            render: () => (
+              <Snackbar
+                bgColor="bg-green-600"
+                icon={<FaCircleCheck color="white" />}
+                title="Success"
+                description="Your account has been registered!"
+              />
+            ),
+          });
         }
       } else {
         const updateFlag = await user.updateUser(
@@ -71,6 +86,19 @@ function LoggedIn() {
         setAlreadyRegistered(true);
         if (updateFlag == true) {
           setIsUpdating(false);
+          toast({
+            duration: 5000,
+            isClosable: true,
+            position: "bottom-right",
+            render: () => (
+              <Snackbar
+                bgColor="bg-green-600"
+                icon={<FaCircleCheck color="white" />}
+                title="Success"
+                description="Your account has been updated!"
+              />
+            ),
+          });
         }
       }
     }

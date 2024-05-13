@@ -17,6 +17,7 @@ import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 import { uploadImage } from "../../../../../config/cloudinary";
 import Snackbar from "../../../components/Snackbar";
 import { IoMdAlert } from "react-icons/io";
+import { FaCircleCheck } from "react-icons/fa6";
 
 export default function CreateGroupDialog({ isOpen, onClose }) {
   const { status: createStatus, mutate: createMutate } = useMutation({
@@ -56,6 +57,19 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
     setGroupDescription("");
     setGroupImage("");
     onClose();
+    toast({
+      duration: 5000,
+      isClosable: true,
+      position: "bottom-right",
+      render: () => (
+        <Snackbar
+          bgColor="bg-green-600"
+          icon={<FaCircleCheck color="white" />}
+          title="Success"
+          description="The group has been successfully created"
+        />
+      ),
+    });
     return true;
   }
 
