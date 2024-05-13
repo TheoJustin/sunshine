@@ -89,7 +89,7 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
             className="bg-orange-custom hover:bg-darkorange-custom"
             color="white"
             onClick={onOpenCreateGroup}
-            borderRadius={25}
+            borderRadius={9999}
           >
             +
           </Button>

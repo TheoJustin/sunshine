@@ -17,7 +17,7 @@ import { sunshine_backend } from "../../../../declarations/sunshine_backend";
 import { useQuery } from "@tanstack/react-query";
 import ConfirmationDialog from "./ConfirmationDialog";
 
-export default function SendMoneyDialog({ isOpen, onClose, passedPrinciple }) {
+export default function SendMoneyDialog({ isOpen, onClose, passedPrincipal }) {
   const { principal } = useAuth();
   const {
     isOpen: isOpenConfirmation,
@@ -30,22 +30,22 @@ export default function SendMoneyDialog({ isOpen, onClose, passedPrinciple }) {
   };
   const getFriendDetail = async () => {
     // console.log(passedPrinciple);
-    if (passedPrinciple && passedPrinciple !== "") {
-      return await sunshine_backend.getUserById(passedPrinciple);
+    if (passedPrincipal && passedPrincipal !== "") {
+      return await sunshine_backend.getUserById(passedPrincipal);
     }
   };
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["getUserDetail"],
     queryFn: getUserDetail,
   });
 
   const { data: friendData } = useQuery({
-    queryKey: ["getFriendDetail", passedPrinciple],
+    queryKey: ["getFriendDetail", passedPrincipal],
     queryFn: getFriendDetail,
   });
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const toast = useToast();
 
   useEffect(() => {
@@ -116,6 +116,9 @@ export default function SendMoneyDialog({ isOpen, onClose, passedPrinciple }) {
             isOpen={isOpenConfirmation}
             onClose={onCloseConfirmation}
             amount={amount}
+            setAmount={setAmount}
+            onCloseSendMoney={onClose}
+            refetch={refetch}
           />
         </>
       )}

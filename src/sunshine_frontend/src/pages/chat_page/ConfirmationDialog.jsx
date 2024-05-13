@@ -19,16 +19,22 @@ export default function ConfirmationDialog({
   user,
   friend,
   amount,
+  setAmount,
   isOpen,
   onClose,
+  onCloseSendMoney,
+  refetch,
 }) {
   const sendMoney = async () => {
     await sunshine_chat.sendMoney(
       user.ok.internet_identity,
       friend.ok.internet_identity,
-      amount
+      parseInt(amount)
     );
     onClose();
+    onCloseSendMoney();
+    setAmount("");
+    refetch();
     return true;
   };
 
