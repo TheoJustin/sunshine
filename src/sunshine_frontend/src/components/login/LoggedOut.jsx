@@ -9,7 +9,7 @@ function LoggedOut() {
   return (
     <ChakraTemplate>
       <div className="flex justify-center items-center">
-        <div className="relative flex flex-col top-[35vh] gap-3 text-center items-center bg-slate-50 w-fit p-7 rounded-xl">
+        <div className="relative flex flex-col top-[35vh] gap-3 text-center items-center bg-slate-50 w-fit p-7 rounded-xl bg-white/70 shadow-xl backdrop-blur-sm">
           <div className="text-orange-custom font-bold text-3xl">
             Hello Stranger!
           </div>
@@ -21,7 +21,7 @@ function LoggedOut() {
             size="md"
             variant="solid"
             onClick={login}
-            className="w-full bg-orange-custom hover:bg-darkorange-custom"
+            className="w-5/6 bg-orange-custom hover:bg-darkorange-custom"
             color="white"
           >
             Log in
