@@ -949,7 +949,7 @@ actor {
     };
 
     // joining game
-    public func joinGame(groupId : Text, user : Principal, gameId : Text) : async Result.Result<(), Text> {
+    public func joinGame( user : Principal, gameId : Text) : async Result.Result<(), Text> {
         let game = chats.get(gameId);
         switch (game) {
             case (?game) {

@@ -85,9 +85,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
   }
 
   async function fetchChats() {
-    // console.log(activeGroup);
-    // const chats = await sunshine_chat.getAllChatsAccordingToGroup(activeGroup);
-    // mapping buat chat
     const chatngame = await sunshine_chat.getAllChatsAndGamesAccordingToGroup(
       activeGroup
     );
@@ -136,8 +133,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
                         {message}
                       </div>
                     </div>
-                    {/* {name}: {message} at{" "}
-              {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
                   </div>
                 </>
               );
@@ -179,8 +174,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
                         </div>
                       </div>
                     </div>
-                    {/* {name}: {message} at{" "}
-              {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
                   </div>
                 </>
               );
@@ -202,24 +195,15 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
                         {new Date(Number(timestamp) / 1000000).toLocaleString()}
                       </div>
                       <div className="bg-cream-custom w-fit p-2 text-center rounded-2xl text-lg max-w-[30vw]">
-                        {/* <h2>{gameType}</h2>
-                        {participants.map((name) => {
-                          <p>{name}</p>
-                        })}
-                        <p>Press button below to join game!</p>
-                        <button>Join Game</button> */}
                         <GameBox
                           principal={principal}
                           gameId={id}
                           participants={participants}
                           score={scores}
                           gameType={gameType}
-                          activeGroup={activeGroup}
                         />
                       </div>
                     </div>
-                    {/* {name}: {message} at{" "}
-              {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
                   </div>
                 </>
               );
@@ -253,7 +237,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
                             participants={participants}
                             score={scores}
                             gameType={gameType}
-                            activeGroup={activeGroup}
                           />
                         </div>
                         <div className="text-sm">
@@ -264,8 +247,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
                         </div>
                       </div>
                     </div>
-                    {/* {name}: {message} at{" "}
-              {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
                   </div>
                 </>
               );

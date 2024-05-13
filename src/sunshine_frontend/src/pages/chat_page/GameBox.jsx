@@ -27,7 +27,6 @@ export default function GameBox({
   participants,
   score,
   gameType,
-  activeGroup,
 }) {
   const [isJoined, setIsJoined] = useState(false);
   const navigate = useNavigate();
@@ -36,26 +35,20 @@ export default function GameBox({
     mutationFn: joiningGame,
   });
   async function joiningGame() {
-    console.log(activeGroup, principal, gameId);
-    await sunshine_chat.joinGame(activeGroup, principal, gameId);
+    // console.log(activeGroup, principal, gameId);
+    await sunshine_chat.joinGame(principal, gameId);
     navigate(`/${gameType}`, { state: {gameId} });
     return true;
   }
-  const { isLoading: loadingFetchJoin, data } = useQuery({
-    queryKey: ["fetchJoinGame", principal, gameId],
-    queryFn: () => {
-      console.log(participants);
-      return checkJoined(principal, gameId);
-    },
+  const { status: checkJoinStatus, mutate: checkMutate } = useMutation({
+    mutationKey: ["fetchJoinGame"],
+    mutationFn: checkJoined,
   });
-  async function checkJoined(principal, gameId) {
+  async function checkJoined() {
     let isJoined = await sunshine_chat.isJoinedGame(principal, gameId);
-    console.log(isJoined);
-    console.log(participants);
-    console.log(isJoined.ok);
-    if (isJoined.ok != null) {
+    if (isJoined && isJoined.ok) {
       // if(isJoined.ok)
-      setIsJoined(isJoined. ok);
+      setIsJoined(isJoined.ok);
       return "true";
     } else {
       return "false";
@@ -63,10 +56,11 @@ export default function GameBox({
   }
   useEffect(() => {
     console.log(score, participants);
-  }, [])
+    checkMutate();
+  }, [principal, gameId])
   return (
-    <div className="m-5 flex flex-row">
-      {loadingFetchJoin == true  ? (
+    <div className="m-5 flex flex-row items-center">
+      {checkJoinStatus == 'pending'  ? (
         <>
           <ChakraProvider>
             <Spinner
@@ -95,7 +89,7 @@ export default function GameBox({
             {!isJoined ? (
               <>
                 <Button onClick={() => { joinMutate() }} 
-                isLoading={joiningStatus == 'pending' ? true : false} 
+                isLoading={joiningStatus == 'pending' || checkJoinStatus == 'pending' ? true : false} 
                 className="bg-green-custom hover:bg-darkgreen-custom font-productsans" color="white">
                   Play Game
                 </Button>
@@ -107,7 +101,7 @@ export default function GameBox({
             )}
           </div>
           {participants.length >= 1 ?
-            <div className="flex flex-col justify-around items-center m-5">
+            <div className="flex flex-col justify-around items-center m-5 w-80">
               <ChakraProvider>
                 <TableContainer className="mb-5">
                   <Table variant="simple">
@@ -120,7 +114,7 @@ export default function GameBox({
                     <Tbody>
                       {participants.map((name, index) => (
                         <>
-                          <Tr>
+                          <Tr className="text-sm">
                             <Td>{name}</Td>
                             <Td>{score[index].toString()}</Td>
                           </Tr>
