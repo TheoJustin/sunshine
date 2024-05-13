@@ -34,7 +34,6 @@ export default function SendMoneyDialog({ isOpen, onClose, passedPrincipal }) {
     return await sunshine_backend.getUserById(principal);
   };
   const getFriendDetail = async () => {
-    // console.log(passedPrinciple);
     if (passedPrincipal && passedPrincipal !== "") {
       return await sunshine_backend.getUserById(passedPrincipal);
     }

@@ -10,10 +10,7 @@ import {
     ModalOverlay,
   } from "@chakra-ui/react";
   import React, { useEffect, useState } from "react";
-//   import { useAuth } from "../../use-auth-client";
-//   import { sunshine_backend } from "../../../../declarations/sunshine_backend";
   import { useMutation, useQuery } from "@tanstack/react-query";
-//   import { sunshine_chat } from "../../../../declarations/sunshine_chat";
   import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
   export default function UnfriendConfirmDialog({
     user,
@@ -24,12 +21,8 @@ import {
     refetch
   }) {
     async function unfriend(){
-        console.log("unfriending...");
-        console.log(user, friend);
         if(user != null){
-            const aa = await sunshine_chat.unfriend(user, friend);
-            console.log(aa);
-
+            await sunshine_chat.unfriend(user, friend);
         }
         onClose();
         onCloseProfile();

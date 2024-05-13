@@ -32,9 +32,7 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
   const toast = useToast();
 
   async function joinGroup(groupId) {
-    // console.log(groupId);
     await sunshine_chat.addGroupMember(principal, groupId);
-    // console.log("successfully joined!");
     setSearchedGroupToJoinName("");
     setWannaJoin(false);
     onClose();
@@ -56,18 +54,12 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
   async function handleJoinClick(groupId) {
     setWannaJoin(true);
     joinMutate(groupId);
-    // console.log("success di handle join");
-    // console.log(joinStatus);
   }
 
   useEffect(() => {
     sunshine_chat
       .getAllUnjoinedGroups(searchedGroupToJoinName, principal)
       .then((groups) => {
-        // console.log(groups)
-        // console.log(searchedGroupName);
-        // mapping buat chat
-
         if (groups.ok) {
           if (groups.ok.length == 0) {
             setSearchedGroupsToJoin(
@@ -98,8 +90,6 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
               </>
             )
           );
-
-          //   Setting the state with the list of elements
           setSearchedGroupsToJoin(<ul className="space-y-3">{listItems}</ul>);
         } else {
           setSearchedGroupsToJoin(
@@ -140,12 +130,6 @@ export default function JoinGroupDialog({ isOpen, onClose }) {
               {searchedGroupsToJoin}
             </div>
           )}
-          {/* {searchedGroupToJoinName === "" &&
-          searchedGroupsToJoin.length === 0 ? (
-            <div>Please search for the group's name or description first</div>
-          ) : (
-            <></>
-          )}{" "} */}
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="red" onClick={onClose}>

@@ -45,7 +45,6 @@ function MentalMath() {
             return;
         }
         const { gameId } = location.state;
-        // console.log(idGame);
         setCurrGameId(gameId);
         if (timerOn) {
             const interval = setInterval(() => {

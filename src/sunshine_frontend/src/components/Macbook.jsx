@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-// import Image from "next/image";
 import {
   IconBrightnessDown,
   IconBrightnessUp,
@@ -28,7 +27,6 @@ const cn = (...classes) => {
     return classes.filter(Boolean).join(' ');
   };
   
-  // Define KBtn component
   const KBtn = ({
     className,
     children,

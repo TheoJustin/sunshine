@@ -23,9 +23,6 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
   const { status: createStatus, mutate: createMutate } = useMutation({
     mutationFn: createGroup,
     mutationKey: ["createGroup"],
-    // onSuccess: () => {
-    //   onClose();
-    // },
   });
   const { user, principal } = useAuth();
   const [groupName, setGroupName] = useState("");
@@ -39,7 +36,6 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
   }
 
   async function createGroup() {
-    console.log("created");
 
     if (!validateGroup()) {
       return;
@@ -51,8 +47,6 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
       groupDescription,
       groupImage
     );
-    console.log(groupImage);
-    // wannaCreate = false;
     setGroupName("");
     setGroupDescription("");
     setGroupImage("");
@@ -165,7 +159,6 @@ export default function CreateGroupDialog({ isOpen, onClose }) {
       } else {
         e.target.value = "";
       }
-      //   console.log(image);
     }
   };
 

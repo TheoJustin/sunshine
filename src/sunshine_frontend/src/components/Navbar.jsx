@@ -12,25 +12,6 @@ const activeStyle = ({ isActive }) => ({
 
 var isHover = false;
 
-
-
-// .navbar-shrink {
-//   height: 4vw; /* Adjust the height as needed */
-// }
-
-
-
-// nav ul div {
-//   width: 11vw;
-//   text-align: center;
-//   align-items: center;
-//   padding: 0vw 1.7vw;
-//   border-radius: 1vw;
-//   transition: all 0.3s;
-// }
-
-
-
 const activeSquareStyle = (pathname, isScrolled) => ({
   width: "11vw",
   opacity: (isScrolled && !isHover) ? '0%' : '100%',
@@ -96,15 +77,11 @@ function Navbar({isScrolled}) {
   const [chatIndicatorStyle, setChatIndicatorStyle] = useState(chatIndicatorTemplate(isScrolled));
 
   async function refreshStyles() {
-    console.log(location.pathname);
-    // console.log(isScrolled);
     setSquareStyle(activeSquareStyle(location.pathname, isScrolled));
     setNavStyle(navbarStyle(location.pathname));
-    console.log(navStyle);
     setNavUlStyle(navUlStyleTemplate(isScrolled));
     setNavDivStyle(navDivTemplate(isScrolled));
     setChatIndicatorStyle(chatIndicatorTemplate(isScrolled));
-    // console.log(navbarStyle(location.pathname));
   }
 
   useEffect(() => {

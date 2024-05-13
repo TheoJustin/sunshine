@@ -52,99 +52,9 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
   }
 
   async function fetchChats() {
-    // if (activeFriend === "") {
-    //   return;
-    // }
-    // const allChats = await sunshine_chat.getAllChatsFromFriend(
-    //   principal,
-    //   activeFriend
-    // );
-    // if (allChats.ok) {
-    //   let lastPrincipal = null;
-    //   const listItems = allChats.ok.map(
-    //     ([name, message, timestamp, principalMsg, pfp]) => {
-    //       const isSender = principal.toString() === principalMsg.toString();
-    //       const isTheSameSender =
-    //         lastPrincipal &&
-    //         lastPrincipal.toString() === principalMsg.toString();
-    //       lastPrincipal = principalMsg;
-    //       if (isSender) {
-    //         return (
-    //           <>
-    //             <div className="flex-col flex items-end mb-3">
-    //               {isTheSameSender ? (
-    //                 <></>
-    //               ) : (
-    //                 <div className="text-base">{name}</div>
-    //               )}
-
-    //               <div className="flex gap-3 items-end">
-    //                 <div className="text-sm">
-    //                   {" "}
-    //                   {new Date(Number(timestamp) / 1000000).toLocaleString()}
-    //                 </div>
-    //                 <div className="bg-cream-custom w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
-    //                   {message}
-    //                 </div>
-    //               </div>
-    //               {/* {name}: {message} at{" "}
-    //                 {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
-    //             </div>
-    //           </>
-    //         );
-    //       } else {
-    //         return (
-    //           <>
-    //             <div className="flex gap-5 items-center mb-3">
-    //               {isTheSameSender ? (
-    //                 <></>
-    //               ) : (
-    //                 <img
-    //                   className="w-10 h-10 object-cover m-0 align-end rounded-full cursor-pointer"
-    //                   src={pfp === "" ? placeholder : pfp}
-    //                   alt=""
-    //                   onClick={() => {
-    //                     setPassedPrincipal(principalMsg);
-    //                     onOpenProfile();
-    //                   }}
-    //                 />
-    //               )}
-    //               <div className="flex flex-col">
-    //                 {isTheSameSender ? (
-    //                   <></>
-    //                 ) : (
-    //                   <div className="text-base">{name}</div>
-    //                 )}
-    //                 <div
-    //                   className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
-    //                     }`}
-    //                 >
-    //                   <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
-    //                     {message}
-    //                   </div>
-    //                   <div className="text-sm">
-    //                     {" "}
-    //                     {new Date(Number(timestamp) / 1000000).toLocaleString()}
-    //                   </div>
-    //                 </div>
-    //               </div>
-    //               {/* {name}: {message} at{" "}
-    //                 {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
-    //             </div>
-    //           </>
-    //         );
-    //       }
-    //     }
-    //   );
-    //   setChats(<>{listItems}</>);
-    // }
-    // // console.log(allChats);
-    // return true;
     const chatngame = await sunshine_chat.getAllChatsAndGamesAccordingToFriend(
       principal, activeFriend
     );
-
-    console.log(chatngame.ok)
     if (chatngame.ok) {
       let lastPrincipal = null;
       const listItems = chatngame.ok.map(
@@ -159,7 +69,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
           participants,
           scores,
           name,
-          pfp,
+          pfp,  idx
         ]) => {
           const isSender = principal.toString() === principalMsg.toString();
           const isTheSameSender =
@@ -187,8 +97,6 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
                       {message}
                     </div>
                   </div>
-                  {/* {name}: {message} at{" "}
-                    {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
                 </div>
               </>
             );
@@ -235,7 +143,6 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
           }
           } else if (variant == "game") {
             if (isSender) {
-              // console.log(isSender, principal.toString(), principalMsg.toString());
               return (
                 <>
                   <div className="flex-col flex items-end mb-3">
@@ -310,9 +217,6 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
           }
         }
       );
-     
-      console.log("asd", listItems)
-      //   Setting the state with the list of elements
       setChats(<>{listItems}</>);
     }
 
@@ -359,19 +263,13 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
       activeFriend,
       message
     );
-    if (result.ok) {
-      console.log("delivered!");
-    }
     setMessage("");
-    // getChatsMutate(activeGroup);
     dataMutate();
-    // setShouldSendData(false);
     return true;
   }
 
   useEffect(() => {
     dataMutate();
-    // fetchDatas();
   }, [user, activeFriend]);
 
   return (

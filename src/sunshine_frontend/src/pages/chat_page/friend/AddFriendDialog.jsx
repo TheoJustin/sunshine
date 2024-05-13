@@ -35,11 +35,6 @@ export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
     });
   const toast = useToast();
 
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["getAllUnaddedFriends", searchedFriendName],
-  //   queryFn: getAllUnaddedFriends
-  // })
-
   async function fetchAllUnaddedFriends() {
     if (searchedFriendName === "") {
       setSearchedFriends(
@@ -82,7 +77,6 @@ export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
             </div>
           </>
         ));
-        // setSearchedFriends(listItems);
         setSearchedFriends(<ul className="space-y-3">{listItems}</ul>);
       }
     }
@@ -94,7 +88,7 @@ export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
     fetchFriends();
     onClose();
     toast({
-      duration: 5000,
+      duration: 2500,
       isClosable: true,
       position: "bottom-right",
       render: () => (
@@ -110,41 +104,6 @@ export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
   }
 
   useEffect(() => {
-    // if (searchedFriendName === "") {
-    //   setSearchedFriends("Search for your friend's name");
-    // }
-    // sunshine_chat
-    //   .getAllUnaddedFriends(searchedFriendName, principal)
-    //   .then((friends) => {
-    //     console.log(friends);
-    //     if (friends.ok) {
-    //       const listItems = friends.ok.map((friend, idx) => (
-    //         <>
-    //           <div
-    //             key={idx}
-    //             onClick={() => addFriendMutate(friend.internet_identity)}
-    //             className={`cursor-pointer text-left hover:bg-cream-custom rounded-xl ease-out transition-all duration-200 p-4 flex flex-col mb-5 box-border`}
-    //           >
-    //             <div className="flex gap-5">
-    //               <img
-    //                 className="m-0 w-20 h-20 rounded-3xl object-cover"
-    //                 src={
-    //                   friend.profileUrl === "" ? placeholder : friend.profileUrl
-    //                 }
-    //                 alt=""
-    //               />
-    //               <div>
-    //                 <div className="font-bold">{friend.name}</div>
-    //                 <div className="text-lg text-gray-600">{friend.email}</div>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </>
-    //       ));
-    //       setSearchedFriends(listItems);
-    //       setSearchedFriends(<ul className="space-y-3">{listItems}</ul>);
-    //     }
-    //   });
     fetchUnaddedMutate();
   }, [searchedFriendName]);
 
@@ -177,7 +136,6 @@ export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
                 {searchedFriends}
               </div>
             )}
-            {/* {searchedFriends} */}
           </div>
         </ModalBody>
         <ModalFooter>

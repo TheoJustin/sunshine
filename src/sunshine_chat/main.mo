@@ -13,7 +13,6 @@ import Debug "mo:base/Debug";
 import Nat "mo:base/Nat";
 import Iter "mo:base/Iter";
 import Vector "mo:vector/Class";
-// import Types "mo:fuzz/types";
 
 actor {
     type Chat = {
@@ -28,7 +27,6 @@ actor {
         scores : [Nat];
     };
     var dummyGenerated = false;
-    // type
     type Friend = {
         id : Text;
         user1 : Principal;
@@ -49,29 +47,7 @@ actor {
 
     let groups = TrieMap.TrieMap<Text, Group>(Text.equal, Text.hash);
     let chats = TrieMap.TrieMap<Text, Chat>(Text.equal, Text.hash);
-    // let friends = Vector.Vector<Friend>();
     let friends = TrieMap.TrieMap<Text, Friend>(Text.equal, Text.hash);
-    // var currGroup = "";
-
-    // changing currentGroup
-    // public shared func focusGroup(groupId: Text): async Result.Result<Text, Text> {
-    //     // let group = groups.get(groupId);
-    //     currGroup := groupId;
-    //     return #ok("Group Changed");
-    // };
-
-    // getting current group
-    // public shared func getCurrentGroup(): async Result.Result<Text, Text> {
-    //     let group = groups.get(currGroup);
-    //     switch(group){
-    //         case (?group){
-    //             return #ok(currGroup);
-    //         };
-    //         case (null){
-    //             return #err("Error fetching current group!");
-    //         };
-    //     };
-    // };
 
     // generate UUID
     public shared func generateUUID() : async Text {
@@ -100,7 +76,6 @@ actor {
                     messages = [];
                     imageUrl = imageUrl;
                 };
-                // newGroup.groupMembers.add(userCreator);
                 groups.put(newId, newGroup);
                 return #ok();
             };
@@ -117,7 +92,6 @@ actor {
 
         // get user
         let currUser = await User.getUserById(user);
-        // let currGroup = await getGroupById(groupId);
         switch (currUser) {
             case (#ok(currUser)) {
                 let group = await getGroupById(groupId);
@@ -150,8 +124,6 @@ actor {
                         return #err("Group error");
                     };
                 };
-                // chats.put(newId, chat);
-
             };
             case (#err(error)) {
                 return #err("not found!");
@@ -177,7 +149,6 @@ actor {
         return #ok("Deleted successfully");
     };
 
-    // generate dummy data for groups
     public shared func generateDummyGroup(userCreator: Principal) : async Result.Result<(), Text>{
 
         if (Principal.isAnonymous(userCreator)) {
@@ -205,8 +176,6 @@ actor {
             return #ok();
         };
         return #err("alr generated");
-        // createGroup("Erudition", userCreator);
-        // createGroup("Abundance", userCreator);
     };
 
     public shared query func getGroupById(groupId : Text) : async Result.Result<Group, Text> {
@@ -233,7 +202,6 @@ actor {
 
         // get user
         let currUser = await User.getUserById(user_id);
-        // let currGroup = await getGroupById(groupId);
         switch (currUser) {
             case (#ok(currUser)) {
                 let chat : Chat = {
@@ -280,16 +248,11 @@ actor {
     };
 
     public shared func addGroupMember(newUser : Principal, groupId : Text) : async Result.Result<Text, Text> {
-        // let newId = await generateUUID();
-        // let user_id = userId;
-
         if (Principal.isAnonymous(newUser)) {
             return #err("Unauthorized");
         };
 
-        // get user
         let currUser = await User.getUserById(newUser);
-        // let currGroup = await getGroupById(groupId);
         switch (currUser) {
             case (#ok(currUser)) {
                 let group = await getGroupById(groupId);
@@ -313,7 +276,6 @@ actor {
                         return #err("Group error");
                     };
                 };
-                // chats.put(newId, chat);
                 return #ok("Joined successfully");
 
             };
@@ -327,27 +289,6 @@ actor {
     public shared query (msg) func whoami() : async Principal {
         msg.caller;
     };
-
-    // buat ambil chat semua
-    // public shared func getAllChats() : async Result.Result<[(Text, Text, Int)], Text> {
-    //     var allChats = Vector.Vector<(Text, Text, Int)>();
-
-    //     for (chat in chats.vals()) {
-    //         let sender = await User.getUserById(chat.user);
-    //             var senderName = "";
-    //             switch(sender){
-    //                 case (#ok(sender)){
-    //                     senderName := sender.name;
-    //                 };
-    //                 case (#err(msg)){
-    //                     senderName := "Not found!";
-    //                 };
-    //             };
-    //         allChats.add(senderName, chat.message, chat.timestamp);
-    //     };
-
-    //     return #ok(Vector.toArray(allChats));
-    // };
 
     func getSender(chatId : Text) : Result.Result<Principal, Text> {
         let chat = chats.get(chatId);
@@ -381,13 +322,11 @@ actor {
         switch (group) {
             case (?group) {
                 for (chatId in group.messages.vals()) {
-                    // if (chat.groupId == groupId) {
                     let chat = getChat(chatId);
                     switch (chat) {
                         case (#ok(chat)) {
                             let sender = await User.getUserById(chat.user);
                             var senderName = "";
-                            // var senderPrinciple = chat.user;
                             var senderPfp = "";
                             switch (sender) {
                                 case (#ok(sender)) {
@@ -404,7 +343,6 @@ actor {
 
                         };
                     };
-                    // };
                 };
             };
             case (null) {
@@ -422,7 +360,6 @@ actor {
         switch (group) {
             case (?group) {
                 for (chatId in group.messages.vals()) {
-                    // if (chat.groupId == groupId) {
                     let chat = getChat(chatId);
                     switch (chat) {
                         case (#ok(chat)) {
@@ -430,7 +367,6 @@ actor {
                             let participantsName = await User.getParticipantsName(chat.participants);
                             let pfp = await User.getPfp(chat.user);
                             allChats.add(chat.id, chat.message, chat.user, chat.timestamp, chat.status, chat.variant, chat.gameType, participantsName, chat.scores, name, pfp);
-                            // };
                         };
                         case (#err(msg)) {
                             return #err(msg);
@@ -452,7 +388,6 @@ actor {
         switch (friendBox) {
             case (#ok(friendBox)) {
                 for (chatId in friendBox.messages.vals()) {
-                    // if (chat.groupId == groupId) {
                     let chat = getChat(chatId);
                     switch (chat) {
                         case (#ok(chat)) {
@@ -460,7 +395,6 @@ actor {
                             let participantsName = await User.getParticipantsName(chat.participants);
                             let pfp = await User.getPfp(chat.user);
                             allChats.add(chat.id, chat.message, chat.user, chat.timestamp, chat.status, chat.variant, chat.gameType, participantsName, chat.scores, name, pfp);
-                            // };
                         };
                         case (#err(msg)) {
                             return #err(msg);
@@ -492,7 +426,6 @@ actor {
     public shared func getAllGroups(groupName : Text, currUser : Principal) : async Result.Result<[(Text, Text, Text, Text)], Text> {
         var allGroups = Vector.Vector<(Text, Text, Text, Text)>();
         for (group in groups.vals()) {
-            // if (group.groupId == groupId) {
             let joined = isJoinedGroup(group, currUser);
             let contains = containsInsensitive(group.groupName, groupName);
             if (contains and joined) {
@@ -516,7 +449,6 @@ actor {
                     allGroups.add(group.groupName, msg, group.id, group.imageUrl);
                 };
             };
-            // };
         };
 
         return #ok(Vector.toArray(allGroups));

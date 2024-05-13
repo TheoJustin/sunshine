@@ -60,9 +60,7 @@ function LandingPage() {
 
   return (
     <>
-      {/* parallax of mountains and sun for landing page */}
-      <Parallax pages={2.29} style={{ backgroundColor: "#1b2f2e" }}>
-        {/* 1st part -> mountains and sun, some tagline?*/}
+      <Parallax pages={2.26} style={{ backgroundColor: "#1b2f2e" }}>
         <ParallaxLayer
           offset={0}
           speed={0.3}
@@ -236,7 +234,7 @@ function LandingPage() {
           className="z-50"
           style={{
             backgroundColor: "#9BDDCB",
-            marginTop: "-2rem",
+            marginTop: "-6rem",
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
@@ -244,25 +242,17 @@ function LandingPage() {
             minHeight: "100vh",
           }}
         >
-          <div className="flex justify-start items-center gap-8 align-top m-10 mt-20 mb-16">
+          <div className="flex justify-start items-center gap-8 align-top m-10 mt-20 ">
             <LandingCard />
             <CardComments />
           </div>
           <Footer />
         </ParallaxLayer>
-        {/* <ParallaxLayer offset={2.9} speed={0.9} factor={1} className='z-50' style={{
-          backgroundColor: '#B0DDD6',
-          marginTop: '-41rem'
-        }}>
-        
-      </ParallaxLayer> */}
       </Parallax>
     </>
   );
 }
 
 export default () => (
-  // <AuthProvider>
   <LandingPage />
-  // </AuthProvider>
 );

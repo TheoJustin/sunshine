@@ -38,7 +38,6 @@ export default function ProfileDialog({
     return await sunshine_backend.getUserById(passedPrincipal);
   };
   const checkIsFriend = async () => {
-    // console.log(passedPrincipal)
     let isBothFriend = await sunshine_chat.isFriends(
       principal,
       passedPrincipal
@@ -54,7 +53,6 @@ export default function ProfileDialog({
   const addFriend = async () => {
     await sunshine_chat.addFriend(principal, passedPrincipal);
     setIsBothUserFriend(await checkIsFriend(principal, passedPrincipal));
-    console.log("Added friend!");
     onClose();
     return true;
   };
@@ -115,7 +113,6 @@ export default function ProfileDialog({
               <Button width='40%'
                 className="bg-orange-custom hover:bg-darkorange-custom"
                 color="white"
-                // onClick={mutate}
                 onClick={() => {
                   onClose();
                   setPassedPrincipal(passedPrincipal);
@@ -127,8 +124,6 @@ export default function ProfileDialog({
               <Button width='40%'
                 colorScheme="red"
                 color="white"
-
-                // onClick={mutate}
                 onClick={() => {
                   setPassedPrincipal(passedPrincipal);
                   onOpenConfirm();
@@ -142,14 +137,11 @@ export default function ProfileDialog({
               className="bg-orange-custom hover:bg-darkorange-custom"
               color="white"
               onClick={mutate}
-            // onClick={() => {console.log(isFriend)}}
             >
               Add Friend
             </Button>
           )}
-          {/* <Button colorScheme="red" mr={3} onClick={onClose}>
-            Close
-          </Button> */}
+
         </ModalFooter>
       </ModalContent>
       <UnfriendConfirmDialog

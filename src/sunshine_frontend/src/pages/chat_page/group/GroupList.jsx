@@ -37,7 +37,6 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
 
   async function fetchGroups  () {
     const groups = await sunshine_chat.getAllGroups(searchedGroupName, principal);
-    // .then((groups) => {
       if (groups.ok) {
         const listItems = groups.ok.map(
           ([name, lastMessage, id, imageUrl], idx) => (
@@ -52,8 +51,6 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
             />
           )
         );
-
-        //   Setting the state with the list of elements
         setGroups(listItems);
       }
     ;
@@ -63,7 +60,6 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
   return (
     <>
       <div className="flex-row h-screen w-[25%] py-3 bg-gray-50 border-solid border-gray-500 border-r border-opacity-50 relative text-center font-productsans">
-        {/* group list */}
         <div className="flex gap-5 p-4">
           <Input
             focusBorderColor="orange.400"

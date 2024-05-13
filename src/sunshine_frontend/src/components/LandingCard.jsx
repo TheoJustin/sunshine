@@ -1,12 +1,10 @@
 import React from 'react';
 import { CardContainer, CardBody, CardItem } from './CardTilt';
 import Preview from '../../../../assets/preview.png';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import { useNavigate } from 'react-router-dom';  
 
 function LandingCard() {
-  const navigate = useNavigate();  // Initialize the navigate function
-
-  // Function to handle navigation
+  const navigate = useNavigate();  
   const handleNavigate = (path) => () => {
     navigate(path);
   };

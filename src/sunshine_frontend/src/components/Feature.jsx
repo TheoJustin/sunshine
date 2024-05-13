@@ -3,8 +3,8 @@ import { useInView } from 'react-intersection-observer';
 
 const Feature = ({ title, description, colorIndex }) => {
   const { ref, inView } = useInView({
-    triggerOnce: false, // To re-trigger animations on re-enter
-    threshold: 0.5      // At least half the element must be visible to trigger
+    triggerOnce: false, 
+    threshold: 0.5      
   });
 
   return (

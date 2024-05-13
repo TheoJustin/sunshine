@@ -105,9 +105,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
           name,
           pfp,
         ]) => {
-          // console.log(id, message, principalMsg, timestamp, status, variant, gameType, participants, scores, name, pfp);
-          // let pfp = await sunshine_backend.getPfp(principalMsg);
-          // let name = await sunshine_backend.getName(principalMsg);
           const isSender = principal.toString() === principalMsg.toString();
           const isTheSameSender =
             lastPrincipal &&
@@ -255,7 +252,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
         }
       );
 
-      //   Setting the state with the list of elements
       setChats(<>{listItems}</>);
     }
 
@@ -267,8 +263,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
   }
 
   useEffect(() => {
-    // getChatsMutate(activeGroup);
-    // fetchDatas();
     dataMutate();
   }, [user, activeGroup]);
 
@@ -281,7 +275,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
     if (result.ok) {
       setMessage("");
     }
-    // getChatsMutate(activeGroup);
     dataMutate();
     return true;
   }
@@ -289,23 +282,18 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
   return (
     <div className="flex flex-col h-full w-[69%] justify-between ">
       <div className="flex flex-col h-[87%] w-full justify-between ">
-      {statusFetchingData == 'pending' || loadingFetchData == true ? <MiniLoader /> : 
-            activeGroup ? (
-              <>
-                {groupHeader}
-                <div className="p-6 overflow-y-scroll h-5/6">
-                  {chats}
-                </div>
-              </>
-
-            ) : (
-              ""
-            )}
-          
-
-
-          </div>
-      
+        {statusFetchingData == 'pending' || loadingFetchData == true ? <MiniLoader /> :
+          activeGroup ? (
+            <>
+              {groupHeader}
+              <div className="p-6 overflow-y-scroll h-5/6">
+                {chats}
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+      </div>
       {activeGroup ? (
         <div className="justify-end h-[13%] p-6 bg-white">
           <div className="flex gap-1 items-center">
@@ -324,7 +312,7 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
                 boxShadow: "none",
               }}
             />
-            <GameOptions activeGroup={activeGroup} refetch={dataMutate} flag="group"/>
+            <GameOptions activeGroup={activeGroup} refetch={dataMutate} flag="group" />
             {sendStatus === "pending" ? (
               <Button
                 className="bg-orange-custom hover:bg-darkorange-custom"
@@ -359,7 +347,7 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
             passedPrincipal={passedPrincipal}
             setPassedPrincipal={setPassedPrincipal}
             onOpenSendMoney={onOpenSendMoney}
-            refetch={() => {dataMutate()}}
+            refetch={() => { dataMutate() }}
           />
           <SendMoneyDialog
             isOpen={isOpenSendMoney}

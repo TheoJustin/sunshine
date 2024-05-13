@@ -30,10 +30,8 @@ function TwentyFive() {
             return;
         }
         const { gameId } = location.state;
-        console.log(gameId);
         setCurrGameId(gameId);
         setShuffledNumbers(shuffleArray(Array.from({ length: 25 }, (_, index) => index + 1)));
-        // console.log(activeGroup, principal, gameId);
     }, []);
 
     const handleStart = () => {
@@ -57,7 +55,6 @@ function TwentyFive() {
                 clearInterval(intervalId);
                 setScore(time);
                 setStarted(false);
-                // updateMutate();
             }
         }
     };

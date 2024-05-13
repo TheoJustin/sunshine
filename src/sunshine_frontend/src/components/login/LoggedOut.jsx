@@ -14,9 +14,6 @@ function LoggedOut() {
             Hello Stranger!
           </div>
           <div className="mb-3">You are not authenticated</div>
-          {/* <button type="button" id="loginButton" onClick={login}>
-        Log in
-      </button> */}
           <Button
             size="md"
             variant="solid"

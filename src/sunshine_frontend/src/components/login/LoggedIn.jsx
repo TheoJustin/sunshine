@@ -41,9 +41,7 @@ function LoggedIn() {
 
   const handleRegister = () => {
     setIsUpdating(true);
-    // sunshine_backend.tryFuzz();
     async function tryRegister() {
-      console.log(principal);
       if (!validateUser()) {
         setIsUpdating(false);
         return;
@@ -57,7 +55,6 @@ function LoggedIn() {
           dob,
           image
         );
-        console.log(registerFlag);
         if (registerFlag == true) {
           setIsUpdating(false);
           setAlreadyRegistered(true);
@@ -280,7 +277,6 @@ function LoggedIn() {
       } else {
         e.target.value = "";
       }
-      console.log(image);
     }
   };
 

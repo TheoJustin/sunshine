@@ -17,7 +17,6 @@ import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 import MiniLoader from "../../../components/MiniLoader";
 import { center } from "@cloudinary/url-gen/qualifiers/textAlignment";
-// import { group } from "console";
 
 export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setActiveGroup }) {
     const [currGroup, setCurrGroup] = useState("");
@@ -32,18 +31,13 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
         mutationFn: fetchData
     })
     async function leaveGroup(activeGroup) {
-        // console.log(activeGroup);
         await sunshine_chat.leaveGroup(principal, activeGroup);
-        // console.log("successfully left!");
-        // setSearchedGroupToJoinName("");
         setActiveGroup("");
         onClose();
         return true;
     }
     async function fetchData() {
-        // console.log(fetchStatus);
         let group = await sunshine_chat.getGroupById(activeGroup);
-        // console.log(group);
         if (group.ok) {
             setCurrGroup(group.ok);
             const data = await sunshine_chat.getAllMembers(activeGroup);
@@ -53,8 +47,6 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
                     <h1 className="ml-3 text-lg">{userName}</h1>
                 </div>
             ));
-            //  (listItems);
-            //   Setting the state with the list of elements
             setMembers(<div className="bg-lightcream-custom p-5 rounded-xl text-center">
                 <h1 className="border-b-2 font-semibold text-xl border-orange-custom pb-3 ">Group Members</h1>
                 <div className="pt-3 overflow-y-scroll max-h-28 space-y-3">
@@ -67,8 +59,6 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
     }
     async function handleLeaveClick(activeGroup) {
         joinMutate(activeGroup);
-        // console.log("success di handle join");
-        // console.log(joinStatus);
     }
     useEffect(() => {
         fetchMutate();
@@ -87,16 +77,9 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
                                 <div className="text-base text-center">{currGroup.description}</div>
 
                                 <div>
-                                    {/* {fetchStatus == 'pending' ? "Loading..." : "Group Members"} */}
                                     {members}
                                 </div>
                             </div>
-                            {/* {searchedGroupToJoinName === "" &&
-            searchedGroupsToJoin.length === 0 ? (
-              <div>Please search for the group's name or description first</div>
-            ) : (
-              <></>
-            )}{" "} */}
                         </ModalBody>
                         <ModalFooter justifyContent='center' width='100%'>
                             <Button colorScheme="red" width='40%' mr={3} onClick={onClose}>
@@ -108,7 +91,6 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
                                 color="white"
                                 isLoading = {leaveStatus == 'pending' ? true : false}
                                 onClick={() => { leaveMutate(activeGroup) }}
-                            // onClick={mutate}
                             >
                                 Leave Group
                             </Button>

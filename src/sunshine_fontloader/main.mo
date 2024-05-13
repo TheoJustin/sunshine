@@ -1,6 +1,4 @@
-// with fontloading as a canister we allow the specific font version
-// that we choose, and we minimalize internet connection failure because
-// the fontloader is in a new canister
+
 import Blob "mo:base/Blob";
 import Buffer "mo:base/Buffer";
 import Iter "mo:base/Iter";

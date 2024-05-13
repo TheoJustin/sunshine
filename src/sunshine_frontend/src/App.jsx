@@ -85,14 +85,12 @@ function App() {
     }
   }
   useEffect(() => {
-
     window.addEventListener("scroll", handleScroll);
-
-    // Clean up event listener on unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [window]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>

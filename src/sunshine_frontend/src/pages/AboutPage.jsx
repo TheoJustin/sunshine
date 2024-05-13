@@ -25,7 +25,7 @@ function AboutPage({ setScrolled }) {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []); // empty dependency array to ensure this effect runs only once
+  }, []);
   return (
     <div className='bg-lightgreen-custom' onScrollCapture={handleScroll}>
       <WavyBackground
@@ -38,7 +38,7 @@ function AboutPage({ setScrolled }) {
         speed="fast"
         waveOpacity={0.6}
       >
-        <div  className="mt-8 container text-center mx-auto py-12 mb-5 bg-white/40 rounded-2xl shadow-xl backdrop-blur-sm">
+        <div className="mt-8 container text-center mx-auto py-12 mb-5 bg-white/40 rounded-2xl shadow-xl backdrop-blur-sm">
           <h1 className="text-3xl font-bold mb-6 text-orange-custom font-sans pl-4 pt-4"><span className='text-green-custom'>Our</span> Members</h1>
           <p className="text-lg text-darkgreen-custom mb-8 font-bold font-sans pl-4">Meet our team members who contributed to this project.</p>
 
@@ -70,15 +70,9 @@ function AboutPage({ setScrolled }) {
           </div>
         </div>
       </WavyBackground>
-
+      
       <CountingAnimation />
 
-      {/* <MacbookScroll
-          src={logo}
-          showGradient={true}
-          title="Made Using Internet Computer Web 3.0"
-          badge=""
-        /> */}
       <div className='mb-16 mt-44 font-productsans text-4xl font-bold flex flex-col items-center justify-center'>
         <h1 className='mb-10'>Made Using Internet Computer Web 3.0</h1>
         <EvervaultCard />

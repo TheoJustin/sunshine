@@ -8,7 +8,6 @@ import { sunshine_chat } from '../../../../declarations/sunshine_chat';
 export default function BackToChat({ score, gameId }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const navigate = useNavigate();
-    // const { activeGroup, gameId } = location.state;
     const {principal} = useAuth();
     const {status: updateScoreStatus, mutate: updateMutate} = useMutation({
         mutationKey: ["updateScore"],
@@ -16,10 +15,7 @@ export default function BackToChat({ score, gameId }) {
     });
 
     async function updateScore(){
-        console.log("updating...");
-        console.log(gameId, principal, score);
         let result = await sunshine_chat.updateScore(gameId, principal, score);
-        console.log(result);
         return true;
     };
     const handleBackToChat = () => {

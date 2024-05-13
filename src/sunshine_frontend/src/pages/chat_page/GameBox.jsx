@@ -35,7 +35,6 @@ export default function GameBox({
     mutationFn: joiningGame,
   });
   async function joiningGame() {
-    // console.log(activeGroup, principal, gameId);
     await sunshine_chat.joinGame(principal, gameId);
     navigate(`/${gameType}`, { state: {gameId} });
     return true;
@@ -47,7 +46,6 @@ export default function GameBox({
   async function checkJoined() {
     let isJoined = await sunshine_chat.isJoinedGame(principal, gameId);
     if (isJoined && isJoined.ok) {
-      // if(isJoined.ok)
       setIsJoined(isJoined.ok);
       return "true";
     } else {
@@ -55,7 +53,6 @@ export default function GameBox({
     }
   }
   useEffect(() => {
-    console.log(score, participants);
     checkMutate();
   }, [principal, gameId])
   return (
@@ -76,16 +73,12 @@ export default function GameBox({
       ) : (
         <>
           <div className="flex flex-col w-[12vw] text-base space-y-3 text-center items-center">
-            {/* <div className="flex flex-row">   */}
-            {/* <h2 className="font-sans font-medium">Game :</h2> */}
             <h2 className="font-sans font-semibold">{gameType}</h2>
-            {/* </div> */}
             <img
               className="rounded-xl max-w-20"
               src={gameType === "TwentyFive" ? firstLogo : gameType === "MentalMath" ? secondLogo : gameType === "ReactionTime" ? thirdLogo : ""}
               alt="game"
             />
-            {/* here */}
             {!isJoined ? (
               <>
                 <Button onClick={() => { joinMutate() }} 
