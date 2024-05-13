@@ -36,7 +36,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
   const { isLoading: isLoadingFetchChat } = useQuery({
     queryKey: ["checkFetch", user],
     queryFn: fetchDatas,
-    refetchInterval: 5000
+    refetchInterval: 5000,
   });
 
   const { status: statusFetchingData, mutate: dataMutate } = useMutation({
@@ -61,7 +61,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
     if (allChats.ok) {
       let lastPrincipal = null;
       const listItems = allChats.ok.map(
-        ([name, message, timestamp, principalMsg, pfp]) => {
+        ([name, message, timestamp, principalMsg, pfp], idx) => {
           const isSender = principal.toString() === principalMsg.toString();
           const isTheSameSender =
             lastPrincipal &&
@@ -70,7 +70,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
           if (isSender) {
             return (
               <>
-                <div className="flex-col flex items-end mb-3">
+                <div key={idx} className="flex-col flex items-end mb-3">
                   {isTheSameSender ? (
                     <></>
                   ) : (
@@ -115,8 +115,9 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
                       <div className="text-base">{name}</div>
                     )}
                     <div
-                      className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
-                        }`}
+                      className={`flex gap-3 items-end ${
+                        isTheSameSender ? "ml-[3.75rem]" : ""
+                      }`}
                     >
                       <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
                         {message}
@@ -196,12 +197,11 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
     // fetchDatas();
   }, [user, activeFriend]);
 
-
   return (
     <div className="flex flex-col h-full w-[69%] gap-5 justify-between">
       <div className="flex flex-col h-[87%] w-full justify-between">
         {activeFriend ? (
-          isLoadingFetchChat || statusFetchingData == 'pending' ? (
+          isLoadingFetchChat || statusFetchingData == "pending" ? (
             <>
               <MiniLoader />
             </>
@@ -233,7 +233,11 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
                 boxShadow: "none",
               }}
             />
-            <GameOptions activeFriend={activeFriend} refetch={dataMutate} flag="friend"/>
+            <GameOptions
+              activeFriend={activeFriend}
+              refetch={dataMutate}
+              flag="friend"
+            />
             {sendStatus === "pending" ? (
               <Button
                 className="bg-orange-custom hover:bg-darkorange-custom"
@@ -269,8 +273,8 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
             setPassedPrincipal={setPassedPrincipal}
             onOpenSendMoney={onOpenSendMoney}
             refetch={() => {
-              setActiveFriend("")
-              dataMutate()
+              setActiveFriend("");
+              dataMutate();
             }}
           />
           <SendMoneyDialog

@@ -81,8 +81,7 @@ function LandingPage() {
             }}
           >
             <h1 className="text-5xl">
-              Hello <span style={{ color: "#ff9f1c" }}>{data}</span>{" "}
-              &lt;3
+              Hello <span style={{ color: "#ff9f1c" }}>{data}</span> &lt;3
             </h1>
             <p className="mt-2">
               You are my
@@ -233,7 +232,12 @@ function LandingPage() {
           className="z-50"
           style={{
             backgroundColor: "#9BDDCB",
-            marginTop: "-6rem",
+            marginTop: "-2rem",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            width: "100%",
+            minHeight: "100vh",
           }}
         >
           <div className="flex justify-start items-center gap-8 align-top m-10 mt-20 mb-16">
@@ -246,8 +250,8 @@ function LandingPage() {
           backgroundColor: '#B0DDD6',
           marginTop: '-41rem'
         }}>
-          
-        </ParallaxLayer> */}
+        
+      </ParallaxLayer> */}
       </Parallax>
     </>
   );
