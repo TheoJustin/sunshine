@@ -44,7 +44,7 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
             setCurrGroup(group.ok);
             const data = await sunshine_chat.getAllMembers(activeGroup);
             const listItems = data.ok.map(([userId, userName, userProfile]) => (
-                <div key={userId} className="flex items-center" onClick={()=>{setPassedPrincipal(userId); onOpenProfile()}}>
+                <div key={userId} className="flex items-center cursor-pointer" onClick={() => { userId.toString() === principal.toString() ? null : (setPassedPrincipal(userId), onOpenProfile()) }}>
                     <img src={userProfile === "" ? placeholder : userProfile} className="m-0 w-14 h-14 rounded-full object-cover" alt="" />
                     <h1 className="ml-3 text-lg">{userName}</h1>
                 </div>
