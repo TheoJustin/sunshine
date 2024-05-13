@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/TheoJustin/sunshine/"><img src="https://ibb.co/h94n6bv" alt="Sunshine" width="200"></a>
+  <a href="https://github.com/TheoJustin/sunshine/"><img src="https://i.ibb.co/c3ZpB0d/Logo-Sunshine-removebg.png" alt="Sunshine" width="200"></a>
   <br>
   	Sunshine
   <br>
