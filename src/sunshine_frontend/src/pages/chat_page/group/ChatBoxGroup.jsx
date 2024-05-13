@@ -33,7 +33,7 @@ export default function ChatBox({ activeGroup }) {
     mutationFn: handleSend,
   });
 
-  const { isLoading: loadingFetchData } = useQuery({
+  const { isLoading: loadingFetchData, isFetching } = useQuery({
     queryKey: ["queryFetch", chats],
     queryFn: fetchDatas,
     refetchInterval: 5000
