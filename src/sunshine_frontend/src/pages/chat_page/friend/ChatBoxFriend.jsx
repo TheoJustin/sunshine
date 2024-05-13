@@ -137,7 +137,13 @@ export default function ChatBoxFriend({ activeFriend }) {
       const friendTitle = () => {
         return (
           <>
-            <div className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer">
+            <div
+              onClick={() => {
+                setPassedPrincipal(activeFriend);
+                onOpenProfile();
+              }}
+              className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer"
+            >
               <img
                 src={
                   friend.ok.profileUrl == "" ? placeholder : friend.ok.imageUrl
@@ -193,8 +199,8 @@ export default function ChatBoxFriend({ activeFriend }) {
           ""
         )}
       </div>
-      <div className="justify-end p-6">
-        {activeFriend ? (
+      {activeFriend ? (
+        <div className="justify-end p-6 bg-white">
           <div className="flex gap-1 items-center">
             <Input
               focusBorderColor="none"
@@ -233,10 +239,10 @@ export default function ChatBoxFriend({ activeFriend }) {
               </Button>
             )}
           </div>
-        ) : (
-          <></>
-        )}
-      </div>
+        </div>
+      ) : (
+        <></>
+      )}
       {passedPrincipal !== "" ? (
         <>
           <ProfileDialog
