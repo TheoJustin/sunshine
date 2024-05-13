@@ -11,7 +11,7 @@ export default function FriendPage() {
         activeFriend={activeFriend}
         setActiveFriend={setActiveFriend}
       />
-      <ChatBoxFriend activeFriend={activeFriend}/>
+      <ChatBoxFriend activeFriend={activeFriend} setActiveFriend={setActiveFriend}/>
     </ChatPageTemplate>
   );
 }

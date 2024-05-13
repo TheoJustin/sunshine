@@ -68,7 +68,7 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
       const groupTitle = () => {
         return (
           <>
-            <div className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer" onClick={() => {
+            <div className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer h-1/6" onClick={() => {
               onOpenGroup();
             }}>
               <img src={group.ok.imageUrl == "" ? placeholder : group.ok.imageUrl} className="rounded-full w-11 h-11 m-2 mr-5 object-cover" alt="" />
@@ -281,10 +281,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
     return true;
   }
 
-  async function getPfp(principal) {
-    return await sunshine_backend.getPfp(principal);
-  }
-
   function trySend() {
     sendMutate();
   }
@@ -310,14 +306,13 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
   }
 
   return (
-    <div className="flex flex-col h-full w-[69%] justify-items-stretch ">
-      {statusFetchingData == 'pending' || loadingFetchData == true ? <MiniLoader /> :
-        <>
-          <div className="flex flex-col h-full w-full justify-between ">
-            {activeGroup ? (
+    <div className="flex flex-col h-full w-[69%] justify-between ">
+      <div className="flex flex-col h-[87%] w-full justify-between ">
+      {statusFetchingData == 'pending' || loadingFetchData == true ? <MiniLoader /> : 
+            activeGroup ? (
               <>
                 {groupHeader}
-                <div className="p-6 overflow-y-scroll" style={{ height: 'inherit' }}>
+                <div className="p-6 overflow-y-scroll h-5/6">
                   {chats}
                 </div>
               </>
@@ -325,55 +320,56 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
             ) : (
               ""
             )}
-            {activeGroup ? (
-              <div className="justify-end p-6 bg-white">
-                <div className="flex gap-1 items-center">
-                  <Input
-                    focusBorderColor="none"
-                    variant="filled"
-                    placeholder="Message"
-                    size="md"
-                    onChange={(e) => {
-                      setMessage(e.target.value);
-                    }}
-                    value={message}
-                    _focus={{
-                      bg: "#eef2f6",
-                      borderColor: "transparent",
-                      boxShadow: "none",
-                    }}
-                  />
-                  <GameOptions activeGroup={activeGroup} />
-                  {sendStatus === "pending" ? (
-                    <Button
-                      className="bg-orange-custom hover:bg-darkorange-custom"
-                      size="sm"
-                      textColor="white"
-                      height={10}
-                      isLoading
-                    >
-                      <TbSend2 size={25} />
-                    </Button>
-                  ) : (
-                    <Button
-                      className="bg-orange-custom hover:bg-darkorange-custom"
-                      size="sm"
-                      textColor="white"
-                      onClick={trySend}
-                      height={10}
-                    >
-                      <TbSend2 size={25} />
-                    </Button>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
+          
+
 
           </div>
-        </>
-      }
+      
+      {activeGroup ? (
+        <div className="justify-end h-[13%] p-6 bg-white">
+          <div className="flex gap-1 items-center">
+            <Input
+              focusBorderColor="none"
+              variant="filled"
+              placeholder="Message"
+              size="md"
+              onChange={(e) => {
+                setMessage(e.target.value);
+              }}
+              value={message}
+              _focus={{
+                bg: "#eef2f6",
+                borderColor: "transparent",
+                boxShadow: "none",
+              }}
+            />
+            <GameOptions activeGroup={activeGroup} refetch={dataMutate} flag="group"/>
+            {sendStatus === "pending" ? (
+              <Button
+                className="bg-orange-custom hover:bg-darkorange-custom"
+                size="sm"
+                textColor="white"
+                height={10}
+                isLoading
+              >
+                <TbSend2 size={25} />
+              </Button>
+            ) : (
+              <Button
+                className="bg-orange-custom hover:bg-darkorange-custom"
+                size="sm"
+                textColor="white"
+                onClick={trySend}
+                height={10}
+              >
+                <TbSend2 size={25} />
+              </Button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
       {passedPrincipal !== "" ? (
         <>
           <ProfileDialog
@@ -382,6 +378,7 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
             passedPrincipal={passedPrincipal}
             setPassedPrincipal={setPassedPrincipal}
             onOpenSendMoney={onOpenSendMoney}
+            refetch={() => {dataMutate()}}
           />
           <SendMoneyDialog
             isOpen={isOpenSendMoney}
