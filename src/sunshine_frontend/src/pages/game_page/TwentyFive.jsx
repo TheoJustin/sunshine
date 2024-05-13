@@ -12,7 +12,6 @@ function shuffleArray(array) {
     }
     return array;
 }
-
 function TwentyFive() {
     const [visible, setVisible] = useState(Array.from({ length: 25 }, () => false));
     const [shuffledNumbers, setShuffledNumbers] = useState([]);
