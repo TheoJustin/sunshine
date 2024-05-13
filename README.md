@@ -8,7 +8,7 @@
 
 <h4 align="center">A gaming chat system with transactional cryptocurrency features built on top of <a href="https://internetcomputer.org/docs/current/motoko/tutorial" target="_blank">Internet Computer</a>.</h4>
 
-Sunshine is a project made by Internet Computer (With the use of Motoko Programming Language). Sunshine is a chat app that is made to have chats between users and integrating it with internet identity. Sunshine can also provide you to make bitcoin transactions. Not only that, the chat system allows you to play games with others and have fun!
+Sunshine is a chat application developed on the Internet Computer using the Motoko programming language. It enables user interactions through integrated Internet Identity verification and supports cryptocurrency transactions. Additionally, Sunshine offers interactive gaming features to enhance user engagement and fun.
 
 ## 🚩 Features
 - Scalable Real-Time Messaging : Implement a scalable real-time messaging system built on the Internet Computer, benefiting from its high throughput and low latency. This system can handle massive amounts of data and a high number of users without compromising speed or efficiency.
@@ -51,6 +51,7 @@ npm i -g ic-mops
 wsl
 mops install
 dfx start
+
 // make a new wsl terminal
 dfx deploy
 npm start
@@ -59,7 +60,7 @@ npm start
 
 ## 📧 Contact Information
 If any questions occured, or in the need of any discussion or details,
-please reach out at our about us page or contact at :
+please contact us :
 - Email : theojustinx@gmail.com
 - Telegram : https://t.me/theojustin
 - Discord : tj_7
