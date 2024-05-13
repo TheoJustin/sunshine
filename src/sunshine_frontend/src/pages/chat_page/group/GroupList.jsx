@@ -28,15 +28,16 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
 
   const { isLoading, error, isFetching } = useQuery({
     queryKey: ["fetchGroups", groups, searchedGroupName],
-    queryFn: () => fetchGroups(),
+    queryFn: fetchGroups,
   });
 
   useEffect(() => {
     fetchGroups();
   }, [groups, searchedGroupName]);
 
-  const fetchGroups = () => {
-    sunshine_chat.getAllGroups(searchedGroupName, principal).then((groups) => {
+  async function fetchGroups  () {
+    const groups = await sunshine_chat.getAllGroups(searchedGroupName, principal);
+    // .then((groups) => {
       if (groups.ok) {
         const listItems = groups.ok.map(
           ([name, lastMessage, id, imageUrl], idx) => (
@@ -55,7 +56,7 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
         //   Setting the state with the list of elements
         setGroups(listItems);
       }
-    });
+    ;
     return true;
   };
 

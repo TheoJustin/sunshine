@@ -250,7 +250,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
                         {" "}
                         {new Date(Number(timestamp) / 1000000).toLocaleString()}
                       </div>
-                      <div className="bg-cream-custom w-fit p-2 text-center rounded-2xl text-lg max-w-[30vw]">
+                      <div className="bg-cream-custom w-fit p-2 text-center rounded-2xl text-lg max-w-[33vw]">
                         <GameBox
                           principal={principal}
                           gameId={id}
@@ -286,7 +286,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
                         className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
                           }`}
                       >
-                        <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
+                        <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[33vw]">
                           <GameBox
                             principal={principal}
                             gameId={id}
@@ -375,7 +375,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
   }, [user, activeFriend]);
 
   return (
-    <div className="flex flex-col h-full w-[69%] gap-5 justify-between">
+    <div className="flex flex-col h-full w-[69%] justify-between">
       <div className="flex flex-col h-[87%] w-full justify-between">
         {activeFriend ? (
           isLoadingFetchChat || statusFetchingData == "pending" ? (
