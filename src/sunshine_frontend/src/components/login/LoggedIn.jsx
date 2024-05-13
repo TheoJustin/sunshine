@@ -12,7 +12,6 @@ import { IoMdAlert } from "react-icons/io";
 import { FaCircleCheck } from "react-icons/fa6";
 import { sunshine_chat } from "../../../../declarations/sunshine_chat";
 
-
 const imageContainerStyle = {
   width: "100px",
   height: "100px",
@@ -25,6 +24,7 @@ function LoggedIn() {
   const [result, setResult] = useState("");
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
+  const [money, setMoney] = useState("-");
   const { user, principal, logout, getUser } = useAuth();
   const [email, setEmail] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
@@ -291,6 +291,7 @@ function LoggedIn() {
         setEmail(data.ok.email);
         setDob(data.ok.birth_date);
         setImage(data.ok.profileUrl);
+        setMoney(data.ok.money.toString());
         setAlreadyRegistered(true);
       } else {
         setAlreadyRegistered(false);
@@ -368,7 +369,10 @@ function LoggedIn() {
               value={dob}
             />
           </div>
-          <div className="w-[80%] flex space-x-5 justify-items-stretch mt-3">
+          <div className="flex gap-5 text-lg container items-center justify-center">
+            <div className="min-w-14 font-bold">{`Balance: ${money}`}</div>
+          </div>
+          <div className="w-[80%] flex space-x-5 justify-items-stretch">
             {!isUpdating ? (
               <Button
                 size="md"
