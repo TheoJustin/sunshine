@@ -8,6 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import MiniLoader from "../../../components/MiniLoader";
 import { useAuth } from "../../../use-auth-client";
 import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
+import UnfriendConfirmDialog from "../friend/UnfriendDialog";
 
 export default function ProfileDialog({
   isOpen,
@@ -23,9 +25,15 @@ export default function ProfileDialog({
   setPassedPrincipal,
   passedPrincipal,
   onOpenSendMoney,
+  refetch
 }) {
   const { principal } = useAuth();
   const [isBothUserFriend, setIsBothUserFriend] = useState(false);
+  const {
+    isOpen: isOpenConfirm,
+    onOpen: onOpenConfirm,
+    onClose: onCloseConfirm,
+  } = useDisclosure();
   const getUserDetail = async () => {
     return await sunshine_backend.getUserById(passedPrincipal);
   };
@@ -66,6 +74,8 @@ export default function ProfileDialog({
     mutationFn: addFriend,
   });
 
+  
+
   if (isLoading) return <></>;
 
   return (
@@ -87,14 +97,14 @@ export default function ProfileDialog({
             )}
 
             <div className="text-2xl font-bold">{data && data.ok.name}</div>
-            <div className="text-base">{data && data.ok.email}</div>
-            <div className="text-base">{data && data.ok.birth_date}</div>
+            <div className="text-base text-left w-full">{data && data.ok.email}</div>
+            <div className="text-base text-left w-full">{data && data.ok.birth_date}</div>
           </div>
         </ModalBody>
-        <ModalFooter gap={5}>
+        <ModalFooter gap={5} justifyContent='center' width='100%'>
           {isFriendLoading || status === "pending" ? (
             <>
-              <Button
+              <Button width='40%'
                 className="bg-orange-custom hover:bg-darkorange-custom"
                 color="white"
                 isLoading
@@ -102,7 +112,7 @@ export default function ProfileDialog({
             </>
           ) : isBothUserFriend ? (
             <>
-              <Button
+              <Button width='40%'
                 className="bg-orange-custom hover:bg-darkorange-custom"
                 color="white"
                 // onClick={mutate}
@@ -114,22 +124,43 @@ export default function ProfileDialog({
               >
                 Send Money
               </Button>
+              <Button width='40%'
+                colorScheme="red"
+                color="white"
+
+                // onClick={mutate}
+                onClick={() => {
+                  setPassedPrincipal(passedPrincipal);
+                  onOpenConfirm();
+                }}
+              >
+                Unfriend
+              </Button>
             </>
           ) : (
-            <Button
+            <Button width='40%'
               className="bg-orange-custom hover:bg-darkorange-custom"
               color="white"
               onClick={mutate}
-              // onClick={() => {console.log(isFriend)}}
+            // onClick={() => {console.log(isFriend)}}
             >
               Add Friend
             </Button>
           )}
-          <Button colorScheme="red" mr={3} onClick={onClose}>
+          {/* <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
-          </Button>
+          </Button> */}
         </ModalFooter>
       </ModalContent>
+      <UnfriendConfirmDialog
+            user={principal}
+            friend={passedPrincipal}
+            isOpen={isOpenConfirm}
+            onClose={onCloseConfirm}
+            onCloseProfile={onClose}
+            refetch={refetch}
+          />
     </Modal>
+    
   );
 }

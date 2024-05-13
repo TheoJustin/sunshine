@@ -281,10 +281,6 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
     return true;
   }
 
-  async function getPfp(principal) {
-    return await sunshine_backend.getPfp(principal);
-  }
-
   function trySend() {
     sendMutate();
   }
@@ -325,55 +321,56 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
             ) : (
               ""
             )}
-            {activeGroup ? (
-              <div className="justify-end p-6 bg-white">
-                <div className="flex gap-1 items-center">
-                  <Input
-                    focusBorderColor="none"
-                    variant="filled"
-                    placeholder="Message"
-                    size="md"
-                    onChange={(e) => {
-                      setMessage(e.target.value);
-                    }}
-                    value={message}
-                    _focus={{
-                      bg: "#eef2f6",
-                      borderColor: "transparent",
-                      boxShadow: "none",
-                    }}
-                  />
-                  <GameOptions activeGroup={activeGroup} />
-                  {sendStatus === "pending" ? (
-                    <Button
-                      className="bg-orange-custom hover:bg-darkorange-custom"
-                      size="sm"
-                      textColor="white"
-                      height={10}
-                      isLoading
-                    >
-                      <TbSend2 size={25} />
-                    </Button>
-                  ) : (
-                    <Button
-                      className="bg-orange-custom hover:bg-darkorange-custom"
-                      size="sm"
-                      textColor="white"
-                      onClick={trySend}
-                      height={10}
-                    >
-                      <TbSend2 size={25} />
-                    </Button>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
+
 
           </div>
         </>
       }
+      {activeGroup ? (
+        <div className="justify-end p-6 bg-white">
+          <div className="flex gap-1 items-center">
+            <Input
+              focusBorderColor="none"
+              variant="filled"
+              placeholder="Message"
+              size="md"
+              onChange={(e) => {
+                setMessage(e.target.value);
+              }}
+              value={message}
+              _focus={{
+                bg: "#eef2f6",
+                borderColor: "transparent",
+                boxShadow: "none",
+              }}
+            />
+            <GameOptions activeGroup={activeGroup} />
+            {sendStatus === "pending" ? (
+              <Button
+                className="bg-orange-custom hover:bg-darkorange-custom"
+                size="sm"
+                textColor="white"
+                height={10}
+                isLoading
+              >
+                <TbSend2 size={25} />
+              </Button>
+            ) : (
+              <Button
+                className="bg-orange-custom hover:bg-darkorange-custom"
+                size="sm"
+                textColor="white"
+                onClick={trySend}
+                height={10}
+              >
+                <TbSend2 size={25} />
+              </Button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
       {passedPrincipal !== "" ? (
         <>
           <ProfileDialog
@@ -382,6 +379,7 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
             passedPrincipal={passedPrincipal}
             setPassedPrincipal={setPassedPrincipal}
             onOpenSendMoney={onOpenSendMoney}
+            refetch={() => {dataMutate()}}
           />
           <SendMoneyDialog
             isOpen={isOpenSendMoney}

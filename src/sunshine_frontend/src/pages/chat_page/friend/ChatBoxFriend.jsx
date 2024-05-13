@@ -10,7 +10,7 @@ import ProfileDialog from "../group/ProfileDialog";
 import SendMoneyDialog from "../SendMoneyDialog";
 import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 
-export default function ChatBoxFriend({ activeFriend }) {
+export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
   const [chats, setChats] = useState("");
   const [message, setMessage] = useState("");
   const [friendHeader, setFriendHeader] = useState();
@@ -31,10 +31,23 @@ export default function ChatBoxFriend({ activeFriend }) {
     mutationKey: ["checkSend"],
     mutationFn: handleSend,
   });
+
   const { isLoading: isLoadingFetchChat } = useQuery({
-    queryKey: ["checkFetch"],
-    queryFn: fetchChats,
+    queryKey: ["checkFetch", user],
+    queryFn: fetchDatas,
+    refetchInterval: 5000
   });
+
+  const { status: statusFetchingData, mutate: dataMutate } = useMutation({
+    mutationKey: ["checkFetch"],
+    mutationFn: fetchDatas,
+  });
+
+  async function fetchDatas() {
+    await fetchChats();
+    await fetchFriendHeader();
+    return true;
+  }
 
   async function fetchChats() {
     if (activeFriend === "") {
@@ -101,9 +114,8 @@ export default function ChatBoxFriend({ activeFriend }) {
                       <div className="text-base">{name}</div>
                     )}
                     <div
-                      className={`flex gap-3 items-end ${
-                        isTheSameSender ? "ml-[3.75rem]" : ""
-                      }`}
+                      className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
+                        }`}
                     >
                       <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
                         {message}
@@ -173,19 +185,22 @@ export default function ChatBoxFriend({ activeFriend }) {
     }
     setMessage("");
     // getChatsMutate(activeGroup);
+    dataMutate();
     // setShouldSendData(false);
     return true;
   }
 
   useEffect(() => {
-    fetchChats();
-    fetchFriendHeader();
-  }, [user, chats, activeFriend]);
+    dataMutate();
+    fetchDatas();
+  }, [user, activeFriend]);
+
+
   return (
     <div className="flex flex-col h-full w-[69%] gap-5 justify-between">
       <div className="overflow-y-scroll">
         {activeFriend ? (
-          isLoadingFetchChat ? (
+          isLoadingFetchChat || statusFetchingData == 'pending' ? (
             <>
               <MiniLoader />
             </>
@@ -251,6 +266,10 @@ export default function ChatBoxFriend({ activeFriend }) {
             passedPrincipal={passedPrincipal}
             setPassedPrincipal={setPassedPrincipal}
             onOpenSendMoney={onOpenSendMoney}
+            refetch={() => {
+              setActiveFriend("")
+              dataMutate()
+            }}
           />
           <SendMoneyDialog
             isOpen={isOpenSendMoney}

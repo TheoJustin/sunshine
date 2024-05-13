@@ -16,6 +16,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 import MiniLoader from "../../../components/MiniLoader";
+import { center } from "@cloudinary/url-gen/qualifiers/textAlignment";
 // import { group } from "console";
 
 export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setActiveGroup }) {
@@ -97,12 +98,13 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
               <></>
             )}{" "} */}
                         </ModalBody>
-                        <ModalFooter>
-                            <Button colorScheme="red" mr={3} onClick={onClose}>
+                        <ModalFooter justifyContent='center' width='100%'>
+                            <Button colorScheme="red" width='40%' mr={3} onClick={onClose}>
                                 Close
                             </Button>
                             <Button
-                                className="bg-cream-custom hover:bg-cream-custom-hover"
+                                width='40%'
+                                className="bg-orange-custom hover:bg-darkorange-custom"
                                 color="white"
                                 isLoading = {leaveStatus == 'pending' ? true : false}
                                 onClick={() => { leaveMutate(activeGroup) }}

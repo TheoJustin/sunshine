@@ -47,7 +47,7 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
 
   useEffect(() => {
     fetchFriends();
-  }, [searchFriendName]);
+  }, [friends, searchFriendName]);
 
   return (
     <div className="flex-row h-screen w-[25%] py-3 bg-gray-50 border-solid border-gray-500 border-r border-opacity-50">

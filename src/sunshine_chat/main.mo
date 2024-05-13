@@ -1202,10 +1202,14 @@ actor {
         };
     };
 
-    public func unFriend(user1 : Principal, user2 : Principal) : async Result.Result<Text, Text> {
+    public func unfriend(user1 : Principal, user2 : Principal) : async Result.Result<Text, Text> {
         let friendBox = await getFriendBox(user1, user2);
         switch (friendBox) {
             case (#ok(friendBox)) {
+                let messageIds = Vector.fromArray<Text>(friendBox.messages);
+                for (messageId in messageIds.vals()){
+                    ignore chats.remove(messageId);
+                };
                 friends.delete(friendBox.id);
                 return #ok("unfriended successfully");
                 // let newFriends = Vector.append<Friend>(Array.subArray<Friend>(oldFriends, 0, index), Array.subArray<Friend>(oldUsers, index +1, oldUsers.size() - index - 1));
