@@ -29,18 +29,18 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
   const { user, principal } = useAuth();
   const [groupHeader, setGroupHeader] = useState("");
   const { mutate: sendMutate, status: sendStatus } = useMutation({
-    mutationKey: ["checkSend", chats],
+    mutationKey: ["checkSend"],
     mutationFn: handleSend,
   });
 
   const { isLoading: loadingFetchData } = useQuery({
-    queryKey: ["queryFetch", chats],
+    queryKey: ["queryFetch"],
     queryFn: fetchDatas,
     refetchInterval: 5000
   });
 
   const { status: statusFetchingData, mutate: dataMutate } = useMutation({
-    mutationKey: ["checkFetch", chats, message],
+    mutationKey: ["checkFetch"],
     mutationFn: fetchDatas,
   });
   const {
@@ -54,21 +54,21 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
     onClose: onCloseSendMoney,
   } = useDisclosure();
   const [passedPrincipal, setPassedPrincipal] = useState();
-  const {isOpen: isOpenGroup, onOpen: onOpenGroup, onClose: onCloseGroup} = useDisclosure();
+  const { isOpen: isOpenGroup, onOpen: onOpenGroup, onClose: onCloseGroup } = useDisclosure();
 
-  async function fetchDatas(){
+  async function fetchDatas() {
     await fetchChats();
     await fetchGroupHeader();
     return true;
   }
 
-  async function fetchGroupHeader(){
+  async function fetchGroupHeader() {
     const group = await sunshine_chat.getGroupById(activeGroup);
-    if(group.ok){
+    if (group.ok) {
       const groupTitle = () => {
         return (
           <>
-            <div className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer" onClick={()=> {
+            <div className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer" onClick={() => {
               onOpenGroup();
             }}>
               <img src={group.ok.imageUrl == "" ? placeholder : group.ok.imageUrl} className="rounded-full w-11 h-11 m-2 mr-5 object-cover" alt="" />
@@ -165,9 +165,8 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
                         <div className="text-base">{name}</div>
                       )}
                       <div
-                        className={`flex gap-3 items-end ${
-                          isTheSameSender ? "ml-[3.75rem]" : ""
-                        }`}
+                        className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
+                          }`}
                       >
                         <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
                           {message}
@@ -202,7 +201,7 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
                         {" "}
                         {new Date(Number(timestamp) / 1000000).toLocaleString()}
                       </div>
-                      <div className="bg-cream-custom w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
+                      <div className="bg-cream-custom w-fit p-2 text-center rounded-2xl text-lg max-w-[30vw]">
                         {/* <h2>{gameType}</h2>
                         {participants.map((name) => {
                           <p>{name}</p>
@@ -244,9 +243,8 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
                         <div className="text-base">{name}</div>
                       )}
                       <div
-                        className={`flex gap-3 items-end ${
-                          isTheSameSender ? "ml-[3.75rem]" : ""
-                        }`}
+                        className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
+                          }`}
                       >
                         <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
                           <GameBox
@@ -293,8 +291,8 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
 
   useEffect(() => {
     // getChatsMutate(activeGroup);
-    fetchDatas();
-    // dataMutate();
+    // fetchDatas();
+    dataMutate();
   }, [user, activeGroup]);
 
   async function handleSend() {
@@ -312,70 +310,69 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
   }
 
   return (
-    <div className="flex flex-col h-full w-[69%] gap-5 justify-between ">
-      <div>
-        {activeGroup ? (
-          statusFetchingData == 'pending' || loadingFetchData == true ? (
-            <>
-              <MiniLoader />
-            </>
-          ) : (
-            <>
-              {groupHeader}
-              <div className="p-6">
-              {chats}
-              </div>
-            </>
-          )
-        ) : (
-          ""
-        )}
-      </div>
-      <div className="justify-end p-6 overflow-y-scroll">
-        {activeGroup ? (
-          <div className="flex gap-1 items-center">
-            <Input
-              focusBorderColor="none"
-              variant="filled"
-              placeholder="Message"
-              size="md"
-              onChange={(e) => {
-                setMessage(e.target.value);
-              }}
-              value={message}
-              _focus={{
-                bg: "#eef2f6",
-                borderColor: "transparent",
-                boxShadow: "none",
-              }}
-            />
-            <GameOptions activeGroup={activeGroup} />
-            {sendStatus === "pending" ? (
-              <Button
-                className="bg-orange-custom hover:bg-darkorange-custom"
-                size="sm"
-                textColor="white"
-                height={10}
-                isLoading
-              >
-                <TbSend2 size={25} />
-              </Button>
+    <div className="flex flex-col h-full w-[69%] justify-items-stretch ">
+      {statusFetchingData == 'pending' || loadingFetchData == true ? <MiniLoader /> :
+        <>
+          <div className="flex flex-col h-full w-full justify-between ">
+            {activeGroup ? (
+              <>
+                {groupHeader}
+                <div className="p-6 overflow-y-scroll" style={{height: 'inherit'}}>
+                  {chats}
+                </div>
+              </>
+
             ) : (
-              <Button
-                className="bg-orange-custom hover:bg-darkorange-custom"
-                size="sm"
-                textColor="white"
-                onClick={trySend}
-                height={10}
-              >
-                <TbSend2 size={25} />
-              </Button>
+              ""
             )}
+            <div className="justify-end p-6 bg-white">
+              {activeGroup ? (
+                <div className="flex gap-1 items-center">
+                  <Input
+                    focusBorderColor="none"
+                    variant="filled"
+                    placeholder="Message"
+                    size="md"
+                    onChange={(e) => {
+                      setMessage(e.target.value);
+                    }}
+                    value={message}
+                    _focus={{
+                      bg: "#eef2f6",
+                      borderColor: "transparent",
+                      boxShadow: "none",
+                    }}
+                  />
+                  <GameOptions activeGroup={activeGroup} />
+                  {sendStatus === "pending" ? (
+                    <Button
+                      className="bg-orange-custom hover:bg-darkorange-custom"
+                      size="sm"
+                      textColor="white"
+                      height={10}
+                      isLoading
+                    >
+                      <TbSend2 size={25} />
+                    </Button>
+                  ) : (
+                    <Button
+                      className="bg-orange-custom hover:bg-darkorange-custom"
+                      size="sm"
+                      textColor="white"
+                      onClick={trySend}
+                      height={10}
+                    >
+                      <TbSend2 size={25} />
+                    </Button>
+                  )}
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
-        ) : (
-          <></>
-        )}
-      </div>
+        </>
+      }
       {passedPrincipal !== "" ? (
         <>
           <ProfileDialog
@@ -394,7 +391,7 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
       ) : (
         <></>
       )}
-      <GroupDetailDialog isOpen={isOpenGroup} onClose={onCloseGroup} activeGroup={activeGroup} setActiveGroup={setActiveGroup}/>
+      <GroupDetailDialog isOpen={isOpenGroup} onClose={onCloseGroup} activeGroup={activeGroup} setActiveGroup={setActiveGroup} />
     </div>
   );
 }

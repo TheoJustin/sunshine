@@ -22,15 +22,16 @@ function TwentyFive() {
     const [started, setStarted] = useState(false);
     const [score, setScore] = useState(0);
     const location = useLocation();
-    const [gameId, setGameId] = useState(null); 
+    const [currGameId, setCurrGameId] = useState(null); 
     const navigate = useNavigate();
     useEffect(() => {
         if(location.state == null){
             navigate('/');
             return;
         }
-        const { idGame } = location.state;
-        setGameId(idGame);
+        const { gameId } = location.state;
+        console.log(gameId);
+        setCurrGameId(gameId);
         setShuffledNumbers(shuffleArray(Array.from({ length: 25 }, (_, index) => index + 1)));
         // console.log(activeGroup, principal, gameId);
     }, []);
@@ -56,7 +57,7 @@ function TwentyFive() {
                 clearInterval(intervalId);
                 setScore(time);
                 setStarted(false);
-                updateMutate();
+                // updateMutate();
             }
         }
     };
@@ -84,7 +85,7 @@ function TwentyFive() {
                         </div>
                     ))}
                 </div>
-                <BackToChat score={score} gameId={gameId}/>
+                <BackToChat score={score} gameId={currGameId}/>
             </div>
         </div>
     );

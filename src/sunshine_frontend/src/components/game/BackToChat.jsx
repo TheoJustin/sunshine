@@ -23,8 +23,8 @@ export default function BackToChat({ score, gameId }) {
         return true;
     };
     const handleBackToChat = () => {
-        onClose();
         updateMutate();
+        onClose();
         navigate('/chat');
     };
 

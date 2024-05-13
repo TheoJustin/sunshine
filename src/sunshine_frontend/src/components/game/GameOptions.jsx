@@ -57,6 +57,7 @@ function GameOptions({ activeGroup }) {
     if (selectedGame) {
       await sunshine_chat.createGame(activeGroup, principal, selectedGame);
       // toggleModal();
+      onClose();
       // navigate(`/${selectedGame}`);
     } else {
       alert("Please select a game first!");

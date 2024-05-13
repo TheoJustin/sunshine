@@ -7,15 +7,15 @@ function ReactionTest() {
     const [startTime, setStartTime] = useState(0);
     const [reactionTime, setReactionTime] = useState(null);
     const location = useLocation();
-    const [gameId, setGameId] = useState(null);     
+    const [currGameId, setCurrGameId] = useState(null);     
     const navigate = useNavigate();
     useEffect(() => {
         if(location.state == null){
             navigate('/');
             return;
         }
-        const { idGame } = location.state;
-        setGameId(idGame);
+        const { gameId } = location.state;
+        setCurrGameId(gameId);
         if (status === 'ready') {
             const timer = setTimeout(() => {
                 if (status === 'ready') {
@@ -79,7 +79,7 @@ function ReactionTest() {
                 {status === 'clicked' && reactionTime !== null && (
                     <>
                         <p className="text-2xl">Your reaction time: {reactionTime} milliseconds</p>
-                        <BackToChat score={reactionTime} gameId={gameId}/>
+                        <BackToChat score={reactionTime} gameId={currGameId}/>
                     </>
                 )}
                 {status === 'waiting' &&

@@ -37,15 +37,16 @@ function MentalMath() {
     const [userAnswer, setUserAnswer] = useState('');
     const [questionCount, setQuestionCount] = useState(0);
     const location = useLocation();
-    const [gameId, setGameId] = useState(null); 
+    const [currGameId, setCurrGameId] = useState(null); 
     const navigate = useNavigate();
     useEffect(() => {
         if(location.state == null){
             navigate('/');
             return;
         }
-        const { idGame } = location.state;
-        setGameId(idGame);
+        const { gameId } = location.state;
+        // console.log(idGame);
+        setCurrGameId(gameId);
         if (timerOn) {
             const interval = setInterval(() => {
                 setTime((prevTime) => prevTime + 10);
@@ -100,7 +101,7 @@ function MentalMath() {
                 )}
                 <h2 className='mt-4'>Timer: {formatTime(time)}</h2>
                 {!timerOn && questionCount >= 10 && <h1 className="text-xl font-semibold mt-4">Final Score (Time): {formatTime(score)}</h1>}
-            <BackToChat score={score} gameId={gameId}/>
+            <BackToChat score={score} gameId={currGameId}/>
             </div>
         </div>
     );
