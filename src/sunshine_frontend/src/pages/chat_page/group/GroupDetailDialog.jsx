@@ -47,13 +47,16 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
             const data = await sunshine_chat.getAllMembers(activeGroup);
             const listItems = data.ok.map(([userId, userName, userProfile]) => (
                 <div key={userId} className="flex">
-                    <img src={userProfile === "" ? placeholder : userProfile} alt="" />
+                    <img src={userProfile === "" ? placeholder : userProfile} className="m-0 w-20 h-20 rounded-3xl object-cover" alt="" />
                     <h1>{userName}</h1>
                 </div>
             ));
             console.log(listItems);
             //   Setting the state with the list of elements
-            setMembers(<ul className="pt-4">{listItems}</ul>);
+            setMembers(<div className="bg-cream-custom rounded-xl">
+                <h1>Group Members</h1>
+                {listItems}
+                </div>);
         }
         return true;
     }
@@ -78,7 +81,7 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
                                 <div className="text-base">{currGroup.description}</div>
 
                                 <div>
-                                    {fetchStatus == 'pending' ? "Loading..." : "Group Members"}
+                                    {/* {fetchStatus == 'pending' ? "Loading..." : "Group Members"} */}
                                     {members}
                                 </div>
                             </div>
