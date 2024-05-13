@@ -73,7 +73,7 @@ export default function FriendList({ activeFriend, setActiveFriend }) {
       <div className="overflow-y-scroll h-[93%] flex flex-col pl-4">
         {isLoading || isFetching ? <Skeleton /> : friends}
       </div>
-      <AddFriendDialog isOpen={isOpen} onClose={onClose} />
+      <AddFriendDialog isOpen={isOpen} onClose={onClose} fetchFriends={fetchFriends} />
     </div>
   );
 }
