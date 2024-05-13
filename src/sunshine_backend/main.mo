@@ -155,19 +155,19 @@ actor {
    };
 
    // inserting data into array
-   public shared (msg) func register(name : Text, email : Text, birth_date : Text, profileUrl : Text) : async Bool {
+   public shared func register(userId : Principal, name : Text, email : Text, birth_date : Text, profileUrl : Text) : async Bool {
 
-      let user_id = msg.caller;
+      let user_id = userId;
 
       if (users.get(user_id) != null) {
          return false;
       };
 
-      for (user in users.vals()) {
-         if (user.email == email) {
-            return false;
-         };
-      };
+      // for (user in users.vals()) {
+      //    if (user.email == email) {
+      //       return false;
+      //    };
+      // };
 
       let user : User = {
          internet_identity = user_id;

@@ -21,7 +21,7 @@ import ProfileDialog from "./ProfileDialog";
 import GroupDetailDialog from "./GroupDetailDialog";
 import SendMoneyDialog from "../SendMoneyDialog";
 
-export default function ChatBox({ activeGroup }) {
+export default function ChatBox({ activeGroup, setActiveGroup }) {
   //buat semua chat
   const [chats, setChats] = useState("");
   // buat input
@@ -312,10 +312,10 @@ export default function ChatBox({ activeGroup }) {
   }
 
   return (
-    <div className="flex flex-col h-full w-[69%] gap-5 justify-between">
+    <div className="flex flex-col h-full w-[69%] gap-5 justify-between ">
       <div>
         {activeGroup ? (
-          statusFetchingData == 'pending' || loadingFetchData ? (
+          statusFetchingData == 'pending' || loadingFetchData == true ? (
             <>
               <MiniLoader />
             </>
@@ -394,7 +394,7 @@ export default function ChatBox({ activeGroup }) {
       ) : (
         <></>
       )}
-      <GroupDetailDialog isOpen={isOpenGroup} onClose={onCloseGroup} activeGroup={activeGroup}/>
+      <GroupDetailDialog isOpen={isOpenGroup} onClose={onCloseGroup} activeGroup={activeGroup} setActiveGroup={setActiveGroup}/>
     </div>
   );
 }

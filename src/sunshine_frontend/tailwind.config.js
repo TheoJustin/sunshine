@@ -22,6 +22,7 @@ export default {
         'darkgreen-custom' : '#1b2f2e !important',
         'cyan-custom' : '#CBF3F0',
         'orange-custom' : '#FF9F1C !important',
+        'lightcream-custom' : '#FFF0D7 !important',
         'cream-custom' : '#FFBF69 !important',
         'cream-custom-hover' : '#E3A600 !important',
         border: "hsl(var(--border))",

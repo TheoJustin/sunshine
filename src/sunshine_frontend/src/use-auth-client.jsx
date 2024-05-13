@@ -95,7 +95,6 @@ export const useAuthClient = (options = defaultOptions) => {
 
     // get user
     const checkUser = await sunshine_backend.getUserById(principal);
-    console.log(checkUser);
 
     // console.log(authClient.isAuthenticated())
     if (!check || checkUser.err) {

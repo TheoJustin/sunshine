@@ -18,7 +18,7 @@ import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 import MiniLoader from "../../../components/MiniLoader";
 // import { group } from "console";
 
-export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
+export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setActiveGroup }) {
     const [currGroup, setCurrGroup] = useState("");
     const [members, setMembers] = useState("");
     const { user, principal } = useAuth();
@@ -35,6 +35,7 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
         await sunshine_chat.leaveGroup(principal, activeGroup);
         // console.log("successfully left!");
         // setSearchedGroupToJoinName("");
+        setActiveGroup("");
         onClose();
         return true;
     }
@@ -46,17 +47,20 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
             setCurrGroup(group.ok);
             const data = await sunshine_chat.getAllMembers(activeGroup);
             const listItems = data.ok.map(([userId, userName, userProfile]) => (
-                <div key={userId} className="flex">
-                    <img src={userProfile === "" ? placeholder : userProfile} className="m-0 w-20 h-20 rounded-3xl object-cover" alt="" />
-                    <h1>{userName}</h1>
+                <div key={userId} className="flex items-center">
+                    <img src={userProfile === "" ? placeholder : userProfile} className="m-0 w-14 h-14 rounded-full object-cover" alt="" />
+                    <h1 className="ml-3 text-lg">{userName}</h1>
                 </div>
             ));
-            // console.log(listItems);
+            //  (listItems);
             //   Setting the state with the list of elements
-            setMembers(<div className="bg-cream-custom rounded-xl">
-                <h1>Group Members</h1>
-                {listItems}
-                </div>);
+            setMembers(<div className="bg-lightcream-custom p-5 rounded-xl text-center">
+                <h1 className="border-b-2 font-semibold text-xl border-orange-custom pb-3 ">Group Members</h1>
+                <div className="pt-3 overflow-y-scroll max-h-28 space-y-3">
+                    {listItems}
+
+                </div>
+            </div>);
         }
         return true;
     }
@@ -78,7 +82,8 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
                         <ModalCloseButton />
                         <ModalBody>
                             <div className="flex flex-col gap-4">
-                                <div className="text-base">{currGroup.description}</div>
+                                <div><img className="rounded-full object-cover w-24 h-24" src={currGroup.imageUrl == "" ? placeholder : currGroup.imageUrl} alt="" /></div>
+                                <div className="text-base text-center">{currGroup.description}</div>
 
                                 <div>
                                     {/* {fetchStatus == 'pending' ? "Loading..." : "Group Members"} */}
@@ -93,13 +98,14 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup }) {
             )}{" "} */}
                         </ModalBody>
                         <ModalFooter>
-                            <Button colorScheme="red" onClick={onClose}>
+                            <Button colorScheme="red" mr={3} onClick={onClose}>
                                 Close
                             </Button>
                             <Button
                                 className="bg-cream-custom hover:bg-cream-custom-hover"
                                 color="white"
-                                onClick={()=> {leaveMutate(activeGroup)}}
+                                isLoading = {leaveStatus == 'pending' ? true : false}
+                                onClick={() => { leaveMutate(activeGroup) }}
                             // onClick={mutate}
                             >
                                 Leave Group

@@ -48,7 +48,7 @@ const activeSquareStyle = (pathname, isScrolled) => ({
 });
 
 const navbarStyle = (pathname) => ({
-  display: pathname == "/chat" || pathname == "/friend" || pathname == 'TwentyFive' || pathname == 'MentalMath' || pathname == 'ReactionTime' ? "none" : "flex",
+  display: pathname == "/chat" || pathname == "/friend" || pathname == '/TwentyFive' || pathname == '/MentalMath' || pathname == '/ReactionTime' ? "none" : "flex",
   position: 'fixed',
   left: '50%',
   top: '10%',
@@ -89,10 +89,11 @@ function Navbar({isScrolled}) {
   const [navDivStyle, setNavDivStyle] = useState(navDivTemplate(isScrolled));
 
   async function refreshStyles() {
-    // console.log(location.pathname);
+    console.log(location.pathname);
     // console.log(isScrolled);
     setSquareStyle(activeSquareStyle(location.pathname, isScrolled));
     setNavStyle(navbarStyle(location.pathname));
+    console.log(navStyle);
     setNavUlStyle(navUlStyleTemplate(isScrolled));
     setNavDivStyle(navDivTemplate(isScrolled));
     // console.log(navbarStyle(location.pathname));

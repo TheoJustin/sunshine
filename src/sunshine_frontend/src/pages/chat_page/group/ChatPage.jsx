@@ -8,7 +8,7 @@ export default function ChatPage() {
   return (
     <ChatPageTemplate>
       <GroupList activeGroup={activeGroup} setActiveGroup={setActiveGroup} />
-      <ChatBox activeGroup={activeGroup}  />
+      <ChatBox activeGroup={activeGroup} setActiveGroup={setActiveGroup} />
     </ChatPageTemplate>
   );
 }
