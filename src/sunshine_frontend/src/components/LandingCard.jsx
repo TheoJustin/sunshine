@@ -1,6 +1,6 @@
 import React from 'react';
 import { CardContainer, CardBody, CardItem } from './CardTilt';
-import Logo from '../../../../assets/motoko.jpg';
+import Preview from '../../../../assets/preview.png';
 import { useNavigate } from 'react-router-dom';  // Import useNavigate
 
 function LandingCard() {
@@ -14,19 +14,19 @@ function LandingCard() {
   return (
     <div className='flex-grow'>
       <CardContainer >
-        <CardBody className="p-8 h-max w-full bg-white/30 rounded-2xl shadow-xl backdrop-blur-sm border border-gray-300">
+        <CardBody className="p-8 h-max w-full bg-white/60 rounded-2xl shadow-xl backdrop-blur-sm border border-gray-300">
           <CardItem
             className="text-lg text-gray-800 w-full mb-4"
           >
-            <h1 className="text-3xl font-sans font-bold text-white mb-4">Welcome to <span className='text-orange-custom'>sunshine!</span></h1>
+            <h1 className="text-3xl font-sans font-bold text-green-custom mb-4">Welcome to <span className='text-orange-custom'>sunshine!</span></h1>
             <p className='font-sans text-base text-teal-custom font-semibold'>Discover the amazing features of our platform.</p>
           </CardItem>
           <CardItem
             className="w-full "
           >
             <img
-              src={Logo}
-              alt="Motoko Kusanagi"
+              src={Preview}
+              alt="App Preview"
               className="w-full rounded-xl"
             />
           </CardItem>

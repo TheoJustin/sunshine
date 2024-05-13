@@ -5,13 +5,8 @@ export default function CardComments() {
         <>
         <div className="flex flex-col align-top gap-4 w-full h-full">
             <h1 className='font-sans font-bold mb-3 text-white'>Our <span className='text-orange-custom'>Users</span></h1>
-            <figure className="flex flex-col  w-full items-start mb-3 px-8 py-5 text-center rounded-xl"
-                    style={{
-                        background: "rgba(255, 255, 255, 0.2)",
-                        backdropFilter: "blur(10px)",
-                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)"
-                    }}>
+            <figure className="flex flex-col  w-full items-start mb-3 px-8 py-5 text-center rounded-xl bg-white/60 shadow-xl backdrop-blur-sm"
+                    >
                 <figcaption className="flex items-center text-left  border-b border-black w-full pb-3">
                     <FaUserCircle className="rounded-full w-9 h-9 mr-2" alt="profile picture"/>
                     <div className="space-y-0.5 font-medium  text-left rtl:text-right ms-3">
@@ -24,13 +19,7 @@ export default function CardComments() {
                     <p className="my-2 font-sans text-xs font-semibold text-teal-custom">I could chat with my friends anytime and anywhere and it's super secure to use!</p>
                 </blockquote>
             </figure>
-            <figure className="flex flex-col w-full items-start px-8 py-5 text-center rounded-xl"
-                    style={{
-                        background: "rgba(255, 255, 255, 0.2)",
-                        backdropFilter: "blur(10px)",
-                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)"
-                    }}>
+            <figure className="flex flex-col w-full items-start px-8 py-5 text-center rounded-xl bg-white/60 rounded-2xl shadow-xl backdrop-blur-sm">
                 <figcaption className="flex items-center text-left  border-b border-black w-full pb-3">
                     <FaUserCircle className="rounded-full w-9 h-9 mr-2" alt="profile picture"/>
                     <div className="space-y-0.5 font-medium  text-left rtl:text-right ms-3">
