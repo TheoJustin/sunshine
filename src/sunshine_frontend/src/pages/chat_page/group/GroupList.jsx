@@ -26,7 +26,7 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
     onClose: onCloseJoinGroup,
   } = useDisclosure();
 
-  const { isLoading, error } = useQuery({
+  const { isLoading, error, isFetching } = useQuery({
     queryKey: ["fetchGroups", groups, searchedGroupName],
     queryFn: () => fetchGroups(),
   });
@@ -82,7 +82,7 @@ export default function GroupList({ activeGroup, setActiveGroup }) {
           </Button>
         </div>
         <div className="overflow-y-scroll h-[93%] flex flex-col pl-4">
-          {!isLoading ? groups : <></>}
+          {isLoading || isFetching ? <Skeleton /> : groups}
         </div>
         <div className="absolute top-[93%] left-[21vw] gap-4 flex">
           <Button

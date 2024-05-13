@@ -8,6 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../use-auth-client";
@@ -15,6 +16,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import MiniLoaderSmall from "../../../components/MiniLoaderSmall";
+import Snackbar from "../../../components/Snackbar";
+import { FaCircleCheck } from "react-icons/fa6";
 
 export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
   const [searchedFriendName, setSearchedFriendName] = useState("");
@@ -30,6 +33,7 @@ export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
       mutationKey: ["fetchFriends"],
       mutationFn: fetchAllUnaddedFriends,
     });
+  const toast = useToast();
 
   // const { data, isLoading } = useQuery({
   //   queryKey: ["getAllUnaddedFriends", searchedFriendName],
@@ -89,6 +93,19 @@ export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
     setSearchedFriendName("");
     fetchFriends();
     onClose();
+    toast({
+      duration: 5000,
+      isClosable: true,
+      position: "bottom-right",
+      render: () => (
+        <Snackbar
+          bgColor="bg-green-600"
+          icon={<FaCircleCheck color="white" />}
+          title="Success"
+          description="Friend added"
+        />
+      ),
+    });
     return true;
   }
 
@@ -150,7 +167,9 @@ export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
               }}
               value={searchedFriendName}
             />
-            <p className="text-base text-center ">Click on your friend to immediately add them  (´◡`)</p>
+            <p className="text-base text-center ">
+              Click on your friend to immediately add them (´◡`)
+            </p>
             {fetchUnaddedStatus == "pending" || addFriendStatus == "pending" ? (
               <MiniLoaderSmall />
             ) : (

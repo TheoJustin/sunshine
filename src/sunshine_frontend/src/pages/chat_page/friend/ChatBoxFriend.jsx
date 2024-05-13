@@ -37,7 +37,7 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
   const { isLoading: isLoadingFetchChat } = useQuery({
     queryKey: ["checkFetch", user],
     queryFn: fetchDatas,
-    refetchInterval: 5000
+    refetchInterval: 5000,
   });
 
   const { status: statusFetchingData, mutate: dataMutate } = useMutation({
@@ -168,70 +168,71 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
           lastPrincipal = principalMsg;
           
           if (variant == "chat") {
-            if (isSender) {
-              return (
-                <>
-                  <div className="flex-col flex items-end mb-3">
+          if (isSender) {
+            return (
+              <>
+                <div key={idx} className="flex-col flex items-end mb-3">
+                  {isTheSameSender ? (
+                    <></>
+                  ) : (
+                    <div className="text-base">{name}</div>
+                  )}
+
+                  <div className="flex gap-3 items-end">
+                    <div className="text-sm">
+                      {" "}
+                      {new Date(Number(timestamp) / 1000000).toLocaleString()}
+                    </div>
+                    <div className="bg-cream-custom w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
+                      {message}
+                    </div>
+                  </div>
+                  {/* {name}: {message} at{" "}
+                    {new Date(Number(timestamp) / 1000000).toLocaleString()} */}
+                </div>
+              </>
+            );
+          } else {
+            return (
+              <>
+                <div className="flex gap-5 items-center mb-3">
+                  {isTheSameSender ? (
+                    <></>
+                  ) : (
+                    <img
+                      className="w-10 h-10 object-cover m-0 align-end rounded-full cursor-pointer"
+                      src={pfp === "" ? placeholder : pfp}
+                      alt=""
+                      onClick={() => {
+                        setPassedPrincipal(principalMsg);
+                        onOpenProfile();
+                      }}
+                    />
+                  )}
+                  <div className="flex flex-col">
                     {isTheSameSender ? (
                       <></>
                     ) : (
                       <div className="text-base">{name}</div>
                     )}
-
-                    <div className="flex gap-3 items-end">
+                    <div
+                      className={`flex gap-3 items-end ${
+                        isTheSameSender ? "ml-[3.75rem]" : ""
+                      }`}
+                    >
+                      <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
+                        {message}
+                      </div>
                       <div className="text-sm">
                         {" "}
                         {new Date(Number(timestamp) / 1000000).toLocaleString()}
                       </div>
-                      <div className="bg-cream-custom w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
-                        {message}
                       </div>
                     </div>
                   </div>
                 </>
               );
-            } else {
-              return (
-                <>
-                  <div className="flex gap-5 items-center mb-3">
-                    {isTheSameSender ? (
-                      <></>
-                    ) : (
-                      <img
-                        className="w-10 h-10 object-cover m-0 align-end rounded-full cursor-pointer"
-                        src={pfp === "" ? placeholder : pfp}
-                        alt=""
-                        onClick={() => {
-                          setPassedPrincipal(principalMsg);
-                          onOpenProfile();
-                        }}
-                      />
-                    )}
-                    <div className="flex flex-col">
-                      {isTheSameSender ? (
-                        <></>
-                      ) : (
-                        <div className="text-base">{name}</div>
-                      )}
-                      <div
-                        className={`flex gap-3 items-end ${isTheSameSender ? "ml-[3.75rem]" : ""
-                          }`}
-                      >
-                        <div className="bg-gray-50 w-fit p-2 rounded-2xl text-lg max-w-[30vw]">
-                          {message}
-                        </div>
-                        <div className="text-sm">
-                          {" "}
-                          {new Date(
-                            Number(timestamp) / 1000000
-                          ).toLocaleString()}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              );
-            }
+          }
           } else if (variant == "game") {
             if (isSender) {
               // console.log(isSender, principal.toString(), principalMsg.toString());
@@ -373,12 +374,11 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
     // fetchDatas();
   }, [user, activeFriend]);
 
-
   return (
     <div className="flex flex-col h-full w-[69%] gap-5 justify-between">
       <div className="flex flex-col h-[87%] w-full justify-between">
         {activeFriend ? (
-          isLoadingFetchChat || statusFetchingData == 'pending' ? (
+          isLoadingFetchChat || statusFetchingData == "pending" ? (
             <>
               <MiniLoader />
             </>
@@ -410,7 +410,11 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
                 boxShadow: "none",
               }}
             />
-            <GameOptions activeFriend={activeFriend} refetch={dataMutate} flag="friend"/>
+            <GameOptions
+              activeFriend={activeFriend}
+              refetch={dataMutate}
+              flag="friend"
+            />
             {sendStatus === "pending" ? (
               <Button
                 className="bg-orange-custom hover:bg-darkorange-custom"
@@ -446,8 +450,8 @@ export default function ChatBoxFriend({ activeFriend, setActiveFriend }) {
             setPassedPrincipal={setPassedPrincipal}
             onOpenSendMoney={onOpenSendMoney}
             refetch={() => {
-              setActiveFriend("")
-              dataMutate()
+              setActiveFriend("");
+              dataMutate();
             }}
           />
           <SendMoneyDialog
