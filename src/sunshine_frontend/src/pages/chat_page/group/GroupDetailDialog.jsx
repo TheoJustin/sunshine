@@ -8,6 +8,7 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
@@ -17,8 +18,9 @@ import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 import MiniLoader from "../../../components/MiniLoader";
 import { center } from "@cloudinary/url-gen/qualifiers/textAlignment";
+import ProfileDialog from "./ProfileDialog";
 
-export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setActiveGroup }) {
+export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setActiveGroup, passedPrincipal, setPassedPrincipal, onOpenProfile }) {
     const [currGroup, setCurrGroup] = useState("");
     const [members, setMembers] = useState("");
     const { user, principal } = useAuth();
@@ -42,7 +44,7 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
             setCurrGroup(group.ok);
             const data = await sunshine_chat.getAllMembers(activeGroup);
             const listItems = data.ok.map(([userId, userName, userProfile]) => (
-                <div key={userId} className="flex items-center">
+                <div key={userId} className="flex items-center" onClick={()=>{setPassedPrincipal(userId); onOpenProfile()}}>
                     <img src={userProfile === "" ? placeholder : userProfile} className="m-0 w-14 h-14 rounded-full object-cover" alt="" />
                     <h1 className="ml-3 text-lg">{userName}</h1>
                 </div>
@@ -66,8 +68,10 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent>
-                {fetchStatus == 'pending' ? <MiniLoader /> :
+            <ModalContent minH='50vh'>
+                {fetchStatus != 'pending' ? <div className="flex justify-center items-center">
+                <MiniLoader />
+                </div>  :
                     <>
                         <ModalHeader fontSize="2xl" textAlign="center">{currGroup.groupName}</ModalHeader>
                         <ModalCloseButton />
@@ -89,7 +93,7 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
                                 width='40%'
                                 className="bg-orange-custom hover:bg-darkorange-custom"
                                 color="white"
-                                isLoading = {leaveStatus == 'pending' ? true : false}
+                                isLoading={leaveStatus == 'pending' ? true : false}
                                 onClick={() => { leaveMutate(activeGroup) }}
                             >
                                 Leave Group
@@ -99,6 +103,14 @@ export default function GroupDetailDialog({ isOpen, onClose, activeGroup, setAct
                 }
 
             </ModalContent>
+            {/* <ProfileDialog
+                isOpen={isOpenProfile}
+                onClose={onCloseProfile}
+                passedPrincipal={passedPrincipal}
+                setPassedPrincipal={setPassedPrincipal}
+                onOpenSendMoney={onOpenSendMoney}
+                refetch={() => { dataMutate() }}
+            /> */}
         </Modal>
     );
 }

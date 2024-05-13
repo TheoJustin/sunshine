@@ -9,12 +9,9 @@ import Vector "mo:vector/Class";
 import Fuzz "mo:fuzz";
 
 actor {
-   // lg mencoba bikin data user :(
    public query func greet(name : Text) : async Text {
       return "Hello, " # name # "!";
    };
-   // let fuzz = Fuzz.Fuzz();
-   // let generateAmount = fuzz.nat.randomRange(4, 11);
    type User = {
       internet_identity : Principal;
       name : Text;
@@ -25,20 +22,15 @@ actor {
       profileUrl : Text;
    };
 
-   
-
    let users = TrieMap.TrieMap<Principal, User>(Principal.equal, Principal.hash);
 
    public query func tryFuzz() : async () {
       let fuzz = Fuzz.Fuzz();
       let generateAmount = fuzz.nat.randomRange(4, 11);
-      Debug.print(debug_show (generateAmount));
-      // return "test";
    };
 
    // get current user's name
    public query func getName(userId: Principal) : async Text {
-      // Debug.print(debug_show (msg.caller));
       let user : ?User = users.get(userId);
       switch (user) {
          case (?user) {
@@ -53,7 +45,6 @@ actor {
 
    // getting user pfp
    public shared query func getPfp(userId: Principal) : async Text {
-      // Debug.print(debug_show (msg.caller));
       let user : ?User = users.get(userId);
       switch (user) {
          case (?user) {
@@ -162,13 +153,6 @@ actor {
       if (users.get(user_id) != null) {
          return false;
       };
-
-      // for (user in users.vals()) {
-      //    if (user.email == email) {
-      //       return false;
-      //    };
-      // };
-
       let user : User = {
          internet_identity = user_id;
          name = name;
@@ -195,31 +179,4 @@ actor {
 
       return #ok(Vector.toArray(allUsers));
    };
-   // public shared (msg) func register(name : Text, email : Text, birth_date : Text) : async Result.Result<User, Text> {
-
-   //    let user_id = msg.caller;
-
-   //    if (users.get(user_id) != null) {
-   //       return #err("User already exists");
-   //    };
-
-   //    for (user in users.vals()) {
-   //       if (user.email == email) {
-   //          return #err("Email already exists");
-   //       };
-   //    };
-
-   //    let user = {
-   //       internet_identity = user_id;
-   //       name = name;
-   //       email = email;
-   //       birth_date = birth_date;
-   //       selected_company_id = null;
-   //       timestamp = Time.now();
-   //    };
-
-   //    users.put(user.internet_identity, user);
-
-   //    return #ok(user);
-   // };
 };

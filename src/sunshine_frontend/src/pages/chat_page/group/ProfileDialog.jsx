@@ -95,8 +95,8 @@ export default function ProfileDialog({
             )}
 
             <div className="text-2xl font-bold">{data && data.ok.name}</div>
-            <div className="text-base text-left w-full">{data && data.ok.email}</div>
-            <div className="text-base text-left w-full">{data && data.ok.birth_date}</div>
+            <div className="text-base text-center w-full">{data && data.ok.email}</div>
+            <div className="text-base text-center w-full">{data && data.ok.birth_date}</div>
           </div>
         </ModalBody>
         <ModalFooter gap={5} justifyContent='center' width='100%'>

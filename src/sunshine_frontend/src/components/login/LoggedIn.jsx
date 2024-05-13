@@ -58,7 +58,7 @@ function LoggedIn() {
         if (registerFlag == true) {
           setIsUpdating(false);
           setAlreadyRegistered(true);
-          
+          window.location.reload();
           toast({
             duration: 5000,
             isClosable: true,
@@ -224,7 +224,7 @@ function LoggedIn() {
             bgColor="bg-red-600"
             icon={<IoMdAlert color="white" />}
             title="DOB error"
-            description="Date must be valid!"
+            description="You have to be at least 13 years old!"
           />
         ),
       });
@@ -293,7 +293,7 @@ function LoggedIn() {
         setAlreadyRegistered(false);
       }
     }
-  }, [data, isLoading]);
+  }, [data, isLoading, alreadyRegistered]);
 
   if (isLoading) return <div>loading</div>;
 

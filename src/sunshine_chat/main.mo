@@ -9,7 +9,6 @@ import Text "mo:base/Text";
 import Int "mo:base/Int";
 import Bool "mo:base/Bool";
 import Array "mo:base/Array";
-import Debug "mo:base/Debug";
 import Nat "mo:base/Nat";
 import Iter "mo:base/Iter";
 import Vector "mo:vector/Class";
@@ -149,26 +148,26 @@ actor {
         return #ok("Deleted successfully");
     };
 
-    public shared func generateDummyGroup(userCreator: Principal) : async Result.Result<(), Text>{
+    public shared func generateDummyGroup(userCreator : Principal) : async Result.Result<(), Text> {
 
         if (Principal.isAnonymous(userCreator)) {
             return #err("Unauthorized");
         };
 
-        if(dummyGenerated == false){
+        if (dummyGenerated == false) {
             var test = await createGroup("Nihility", userCreator, "Nihility Group", "https://res.cloudinary.com/dau03r7yn/image/upload/v1715586552/hltdoqe1psizoygjr5d6.png");
-            if (await checkResult(test)){
+            if (await checkResult(test)) {
                 test := await createGroup("Erudition", userCreator, "Erudition Group", "https://res.cloudinary.com/dau03r7yn/image/upload/v1715586524/rdnho1zgnhjquyvc0auf.png");
-                if(await checkResult(test)){
+                if (await checkResult(test)) {
                     test := await createGroup("Abundance", userCreator, "Abundance Group", "https://res.cloudinary.com/dau03r7yn/image/upload/v1715586539/k1uwn4hxewkwxovzq6c7.png");
-                    if(await checkResult(test)){
+                    if (await checkResult(test)) {
                         return #ok();
-                    } else{
+                    } else {
                         return #err("Error in generating");
-                    }
+                    };
                 } else {
                     return #err("Error in generating");
-                }
+                };
             } else {
                 return #err("Error in generating");
             };
@@ -466,21 +465,11 @@ actor {
             return #err("No group searched");
         };
         for (group in groups.vals()) {
-            // if (group.groupId == groupId) {
             let contains = containsInsensitive(group.groupName, groupSearched) or containsInsensitive(group.description, groupSearched);
             let joined = isJoinedGroup(group, currUser);
             if (contains and (not joined)) {
-                // let size = Array.size(group.messages);
-                // if(size != 0){
-                //     let msg = group.messages[size-1].message;
                 allGroups.add(group.groupName, group.description, group.id, group.imageUrl);
-                // }
-                // else{
-                //     let msg = "";
-                //     allGroups.add(group.groupName, msg, group.id);
-                // };
             };
-            // };
         };
 
         return #ok(Vector.toArray(allGroups));
@@ -491,8 +480,6 @@ actor {
         let allFriends = await getAllFriends(user1);
         switch (allFriends) {
             case (#ok(allFriends)) {
-                // for (user in allFriends.vals()) {
-                //     // user tidak ada di friendlist
                 let userTarget = await User.getUserById(user2);
                 switch (userTarget) {
                     case (#ok(userTarget)) {
@@ -506,7 +493,6 @@ actor {
                         return #err(msg);
                     };
                 };
-                // };
             };
             case (#err(msg)) {
                 return #err(msg);
@@ -532,7 +518,6 @@ actor {
                 switch (allFriends) {
                     case (#ok(allFriends)) {
                         for (user in allUsers.vals()) {
-                            // user tidak ada di friendlist
                             if (Vector.indexOf<User.User>(user, Vector.fromArray(allFriends), isSameUser) == null and user.internet_identity != currUser) {
                                 allNotFriend.add(user);
                             };
@@ -554,7 +539,6 @@ actor {
     public shared func getAllFriends(currUser : Principal) : async Result.Result<[User.User], Text> {
         let friendsList = Vector.Vector<User.User>();
         for (friend in friends.vals()) {
-            // var userFriend: ?User.User = null;
             if (friend.user1 == currUser) {
                 let userFriend = await User.getUserById(friend.user2);
                 switch (userFriend) {
@@ -598,11 +582,7 @@ actor {
                     case (#ok(userFriend)) {
                         let contains = containsInsensitive(userFriend.name, searchedFriend);
                         if (contains) {
-                            Debug.print("if 1");
-                            Debug.print(debug_show (currUser));
-                            Debug.print(debug_show (userFriend.internet_identity));
                             let friendBox = await getFriendBox(currUser, userFriend.internet_identity);
-                            Debug.print(debug_show (friendBox));
                             switch (friendBox) {
                                 case (#ok(friendBox)) {
                                     let size = Array.size(friendBox.messages);
@@ -615,7 +595,7 @@ actor {
                                                 friendsList.add(userFriend.name, userFriend.profileUrl, msgContent, userFriend.internet_identity);
                                             };
                                             case (#err(msg)) {
-                                                
+
                                             };
                                         };
                                     } else {
@@ -624,7 +604,7 @@ actor {
                                     };
                                 };
                                 case (#err(friendBox)) {
-                                    Debug.print(debug_show (friendBox));
+                                    return #err(friendBox);
                                 };
                             };
                         };
@@ -639,25 +619,20 @@ actor {
                     case (#ok(userFriend)) {
                         let contains = containsInsensitive(userFriend.name, searchedFriend);
                         if (contains) {
-                            Debug.print("if 2");
-                            Debug.print(debug_show (currUser));
-                            Debug.print(debug_show (userFriend.internet_identity));
                             let friendBox = await getFriendBox(currUser, userFriend.internet_identity);
-                            Debug.print(debug_show (friendBox));
                             switch (friendBox) {
                                 case (#ok(friendBox)) {
                                     let size = Array.size(friendBox.messages);
                                     if (size != 0) {
                                         let chatId = friendBox.messages[size - 1];
                                         let chat = getChat(chatId);
-                                        Debug.print(debug_show (friendBox));
                                         switch (chat) {
                                             case (#ok(chat)) {
                                                 let msgContent = chat.message;
                                                 friendsList.add(userFriend.name, userFriend.profileUrl, msgContent, userFriend.internet_identity);
                                             };
                                             case (#err(msg)) {
-                                                
+
                                             };
                                         };
                                     } else {
@@ -666,7 +641,7 @@ actor {
                                     };
                                 };
                                 case (#err(friendBox)) {
-                                    Debug.print(debug_show (friendBox));
+                                    return #err(friendBox);
                                 };
                             };
                         };
@@ -694,7 +669,6 @@ actor {
     };
 
     public shared func getAllChatsFromFriend(currUser : Principal, targetFriend : Principal) : async Result.Result<[(Text, Text, Int, Principal, Text)], Text> {
-        // nama, msgnya, waktu, principal, pfp
         var allFriendChats = Vector.Vector<(Text, Text, Int, Principal, Text)>();
         let friendBox = await getFriendBox(currUser, targetFriend);
 
@@ -702,7 +676,6 @@ actor {
             case (#ok(friendBox)) {
                 for (chatId in friendBox.messages.vals()) {
                     let chat = getChat(chatId);
-                    Debug.print(debug_show (chatId, chat));
                     switch (chat) {
                         case (#ok(chat)) {
                             let sender = await User.getUserById(chat.user);
@@ -762,25 +735,14 @@ actor {
                     user2 = friendBox.user2;
                     messages = newChat;
                 };
-                // let index = Vector.indexOf<Friend>(friendBox, friends, friendEqual);
                 chats.put(newId, chat);
-                // switch (index) {
-                //     case (null) {
-                //     return #err("Error in finding index");
-                // };
-                // case (?index) {
                 friends.put(friendBox.id, newFriendBox);
                 return #ok("Successfully added chat");
-                //     };
-                // };
-                // groups.put(groupId, newGroup);
             };
         };
-        // return #ok(chat);
     };
 
     public shared func addFriend(user1 : Principal, user2 : Principal) : async Result.Result<Text, Text> {
-        // groupMem.add(userCreator);
         let newId = await generateUUID();
         if (Principal.isAnonymous(user1) or Principal.isAnonymous(user2)) {
             return #err("Unauthorized!");
@@ -791,7 +753,6 @@ actor {
             user2 = user2;
             messages = [];
         };
-        // newGroup.groupMembers.add(userCreator);
         friends.put(newId, newFriendBox);
         return #ok("Successfully added");
     };
@@ -886,7 +847,7 @@ actor {
     };
 
     // joining game
-    public func joinGame( user : Principal, gameId : Text) : async Result.Result<(), Text> {
+    public func joinGame(user : Principal, gameId : Text) : async Result.Result<(), Text> {
         let game = chats.get(gameId);
         switch (game) {
             case (?game) {
@@ -906,36 +867,6 @@ actor {
                 };
                 chats.put(gameId, updatedGame);
                 return #ok();
-                // let group = await getGroupById(groupId);
-                // switch (group) {
-                //     case (#ok(group)) {
-                //         let chatsNew : Vector.Vector<Text> = Vector.fromArray(group.messages);
-                //         let oldChatIndex = Vector.indexOf<Text>(game.id, chatsNew, Text.equal);
-                //         switch (oldChatIndex) {
-                //             case (?oldChatIndex) {
-                //                 chatsNew.put(oldChatIndex, updatedGame);
-                //                 let newGroup : Group = {
-                //                     id = group.id;
-                //                     creatorUser = group.creatorUser;
-                //                     groupName = group.groupName;
-                //                     description = group.description;
-                //                     timestamp = group.timestamp;
-                //                     groupMembers = group.groupMembers;
-                //                     messages = Vector.toArray(chatsNew);
-                //                     imageUrl = group.imageUrl;
-                //                 };
-                //                 groups.put(groupId, newGroup);
-                //                 return #ok();
-                //             };
-                //             case (null) {
-                //                 return #err("Group error");
-                //             };
-                //         };
-                //     };
-                //     case (#err(msg)) {
-                //         return #err("Group error");
-                //     };
-                // };
             };
             case (null) {
                 return #err("error");
@@ -979,17 +910,9 @@ actor {
                             user2 = userFriend;
                             messages = newChat;
                         };
-                        // let oldIndex = Vector.indexOf<Friend>(friendBox, friends, isSameFriendBox);
-                        // switch (oldIndex) {
-                        //     case (?oldIndex) {
                         friends.put(friendBox.id, newFriendBox);
                         chats.put(newId, newGame);
                         return #ok();
-                        //     };
-                        //     case (null) {
-                        //         return #err("no index");
-                        //     };
-                        // };
                     };
                     case (#err(msg)) {
                         return #err("Group error");
@@ -1023,40 +946,6 @@ actor {
                 };
                 chats.put(gameId, updatedGame);
                 return #ok();
-                // let friendBox = await getFriendBox(userJoin, user2);
-                // switch (friendBox) {
-                //     case (#ok(friendBox)) {
-                //         let chatsNew : Vector.Vector<Chat> = Vector.fromArray(friendBox.messages);
-                //         let oldChatIndex = Vector.indexOf<Chat>(game, chatsNew, isSameChat);
-                //         switch (oldChatIndex) {
-                //             case (?oldChatIndex) {
-                //                 chatsNew.put(oldChatIndex, updatedGame);
-                //                 let newFriendBox : Friend = {
-                //                     user1 = userJoin;
-                //                     user2 = user2;
-                //                     messages = Vector.toArray(chatsNew);
-                //                 };
-                //                 // fr.put(groupId, newGroup);
-                //                 let oldIndex = Vector.indexOf<Friend>(friendBox, friends, isSameFriendBox);
-                //                 switch (oldIndex) {
-                //                     case (?oldIndex) {
-                //                         friends.put(oldIndex, newFriendBox);
-                //                         return #ok();
-                //                     };
-                //                     case (null) {
-                //                         return #err("no index");
-                //                     };
-                //                 };
-                //             };
-                //             case (null) {
-                //                 return #err("Group error");
-                //             };
-                //         };
-                //     };
-                //     case (#err(msg)) {
-                //         return #err("Group error");
-                //     };
-                // };
             };
             case (null) {
                 return #err("error");
@@ -1124,7 +1013,6 @@ actor {
         if (Principal.isAnonymous(user_id)) {
             return #err("Unauthorized");
         };
-        // Debug.print(debug_show(index, score));
         let currUser = await User.getUserById(user_id);
         switch (currUser) {
             case (#ok(currUser)) {
@@ -1135,8 +1023,6 @@ actor {
                         switch (index) {
                             case (?index) {
                                 let newScores : Vector.Vector<Nat> = Vector.fromArray(game.scores);
-                                Debug.print(debug_show (index, score));
-                                // let score = Nat.fromText(score);
                                 newScores.put(index, score);
 
                                 let newGame : Chat = {
@@ -1174,12 +1060,11 @@ actor {
         switch (friendBox) {
             case (#ok(friendBox)) {
                 let messageIds = Vector.fromArray<Text>(friendBox.messages);
-                for (messageId in messageIds.vals()){
+                for (messageId in messageIds.vals()) {
                     ignore chats.remove(messageId);
                 };
                 friends.delete(friendBox.id);
                 return #ok("unfriended successfully");
-                // let newFriends = Vector.append<Friend>(Array.subArray<Friend>(oldFriends, 0, index), Array.subArray<Friend>(oldUsers, index +1, oldUsers.size() - index - 1));
             };
             case (#err(msg)) {
                 return #err("error");

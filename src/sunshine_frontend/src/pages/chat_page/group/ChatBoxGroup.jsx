@@ -358,7 +358,9 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
       ) : (
         <></>
       )}
-      <GroupDetailDialog isOpen={isOpenGroup} onClose={onCloseGroup} activeGroup={activeGroup} setActiveGroup={setActiveGroup} />
+      <GroupDetailDialog isOpen={isOpenGroup} onClose={onCloseGroup} activeGroup={activeGroup} setActiveGroup={setActiveGroup} onOpenProfile={onOpenProfile}
+        passedPrincipal={passedPrincipal}
+        setPassedPrincipal={setPassedPrincipal} />
     </div>
   );
 }
