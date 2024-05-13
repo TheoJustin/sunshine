@@ -117,7 +117,7 @@ export default function ProfileDialog({
             </>
           ) : (
             <Button
-            className="bg-orange-custom hover:bg-darkorange-custom"
+              className="bg-orange-custom hover:bg-darkorange-custom"
               color="white"
               onClick={mutate}
               // onClick={() => {console.log(isFriend)}}

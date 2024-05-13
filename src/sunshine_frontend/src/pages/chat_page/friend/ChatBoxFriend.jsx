@@ -255,7 +255,7 @@ export default function ChatBoxFriend({ activeFriend }) {
           <SendMoneyDialog
             isOpen={isOpenSendMoney}
             onClose={onCloseSendMoney}
-            passedPrinciple={passedPrincipal}
+            passedPrincipal={passedPrincipal}
           />
         </>
       ) : (

@@ -386,7 +386,7 @@ export default function ChatBox({ activeGroup, setActiveGroup }) {
           <SendMoneyDialog
             isOpen={isOpenSendMoney}
             onClose={onCloseSendMoney}
-            passedPrinciple={passedPrincipal}
+            passedPrincipal={passedPrincipal}
           />
         </>
       ) : (
