@@ -8,10 +8,12 @@ import MiniLoader from "../../../components/MiniLoader";
 import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import ProfileDialog from "../group/ProfileDialog";
 import SendMoneyDialog from "../SendMoneyDialog";
+import { sunshine_backend } from "../../../../../declarations/sunshine_backend";
 
 export default function ChatBoxFriend({ activeFriend }) {
   const [chats, setChats] = useState("");
   const [message, setMessage] = useState("");
+  const [friendHeader, setFriendHeader] = useState();
   const { user, principal } = useAuth();
   const [passedPrincipal, setPassedPrincipal] = useState();
   const {
@@ -126,6 +128,34 @@ export default function ChatBoxFriend({ activeFriend }) {
     return true;
   }
 
+  async function fetchFriendHeader() {
+    if (activeFriend === "") {
+      return;
+    }
+    const friend = await sunshine_backend.getUserById(activeFriend);
+    if (friend.ok) {
+      const friendTitle = () => {
+        return (
+          <>
+            <div className="flex justify-start items-center text-left p-3 font-productsans mr-0 bg-white border-b-2 border-darkorange-custom cursor-pointer">
+              <img
+                src={
+                  friend.ok.profileUrl == "" ? placeholder : friend.ok.imageUrl
+                }
+                className="rounded-full w-11 h-11 m-2 mr-5 object-cover"
+                alt=""
+              />
+              <div>
+                <h1 className="font-semibold">{friend.ok.name}</h1>
+              </div>
+            </div>
+          </>
+        );
+      };
+      setFriendHeader(friendTitle);
+    }
+  }
+
   async function handleSend() {
     const result = await sunshine_chat.createFriendChat(
       principal,
@@ -143,9 +173,10 @@ export default function ChatBoxFriend({ activeFriend }) {
 
   useEffect(() => {
     fetchChats();
+    fetchFriendHeader();
   }, [user, chats, activeFriend]);
   return (
-    <div className="flex flex-col h-full w-[69%] gap-5 p-6 justify-between">
+    <div className="flex flex-col h-full w-[69%] gap-5 justify-between">
       <div className="overflow-y-scroll">
         {activeFriend ? (
           isLoadingFetchChat ? (
@@ -153,13 +184,16 @@ export default function ChatBoxFriend({ activeFriend }) {
               <MiniLoader />
             </>
           ) : (
-            chats
+            <>
+              {friendHeader}
+              <div className="p-6">{chats}</div>
+            </>
           )
         ) : (
           ""
         )}
       </div>
-      <div className="justify-end">
+      <div className="justify-end p-6">
         {activeFriend ? (
           <div className="flex gap-1 items-center">
             <Input

@@ -16,7 +16,7 @@ import { sunshine_chat } from "../../../../../declarations/sunshine_chat";
 import placeholder from "../../../../../../assets/profilePlaceholder.jpg";
 import MiniLoaderSmall from "../../../components/MiniLoaderSmall";
 
-export default function AddFriendDialog({ isOpen, onClose }) {
+export default function AddFriendDialog({ isOpen, onClose, fetchFriends }) {
   const [searchedFriendName, setSearchedFriendName] = useState("");
   const [searchedFriends, setSearchedFriends] = useState();
   const { user, principal } = useAuth();
@@ -25,10 +25,11 @@ export default function AddFriendDialog({ isOpen, onClose }) {
     mutationFn: addFriend,
   });
 
-  const { status: fetchUnaddedStatus, mutate: fetchUnaddedMutate } = useMutation({
-    mutationKey: ["fetchFriends"],
-    mutationFn: fetchAllUnaddedFriends,
-  });
+  const { status: fetchUnaddedStatus, mutate: fetchUnaddedMutate } =
+    useMutation({
+      mutationKey: ["fetchFriends"],
+      mutationFn: fetchAllUnaddedFriends,
+    });
 
   // const { data, isLoading } = useQuery({
   //   queryKey: ["getAllUnaddedFriends", searchedFriendName],
@@ -37,15 +38,21 @@ export default function AddFriendDialog({ isOpen, onClose }) {
 
   async function fetchAllUnaddedFriends() {
     if (searchedFriendName === "") {
-      setSearchedFriends(<div className="text-base text-center items-center text-gray-400">
-        Please search for the friend's name first
-      </div>);
-    }
-    else {
-      const friends = await sunshine_chat.getAllUnaddedFriends(searchedFriendName, principal)
+      setSearchedFriends(
+        <div className="text-base text-center items-center text-gray-400">
+          Please search for the friend's name first
+        </div>
+      );
+    } else {
+      const friends = await sunshine_chat.getAllUnaddedFriends(
+        searchedFriendName,
+        principal
+      );
       if (friends.ok) {
-        if(friends.ok.length == 0){
-          setSearchedFriends(<div className="text-base text-gray-400">No user found</div>);
+        if (friends.ok.length == 0) {
+          setSearchedFriends(
+            <div className="text-base text-gray-400">No user found</div>
+          );
           return;
         }
         const listItems = friends.ok.map((friend, idx) => (
@@ -74,17 +81,16 @@ export default function AddFriendDialog({ isOpen, onClose }) {
         // setSearchedFriends(listItems);
         setSearchedFriends(<ul className="space-y-3">{listItems}</ul>);
       }
-
     }
   }
 
   async function addFriend(friendPrinciple) {
-    await sunshine_chat.addFriend(principal, friendPrinciple)
+    await sunshine_chat.addFriend(principal, friendPrinciple);
     setSearchedFriendName("");
+    fetchFriends();
     onClose();
     return true;
   }
-
 
   useEffect(() => {
     // if (searchedFriendName === "") {
@@ -144,11 +150,13 @@ export default function AddFriendDialog({ isOpen, onClose }) {
               }}
               value={searchedFriendName}
             />
-            {fetchUnaddedStatus == 'pending' || addFriendStatus == 'pending' ? <MiniLoaderSmall /> :
+            {fetchUnaddedStatus == "pending" || addFriendStatus == "pending" ? (
+              <MiniLoaderSmall />
+            ) : (
               <div className="overflow-y-scroll max-h-48 p-3 mt-5 rounded-xl items-center text-center bg-gray-100">
                 {searchedFriends}
               </div>
-            }
+            )}
             {/* {searchedFriends} */}
           </div>
         </ModalBody>

@@ -4,7 +4,7 @@ import LoggedOut from "../components/login/LoggedOut";
 import bgImg from "../../../../assets/bg.png";
 
 export default function LoginPage() {
-  const { isAuthenticated, identity } = useAuth();
+  const { isAuthenticated, identity, principle } = useAuth();
   return (
     <>
       <img
